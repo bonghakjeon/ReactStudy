@@ -47,27 +47,28 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  // 데이터 바인딩이란?
+  // 변수(data, post)에 들어있는 데이터를 html 코드 안에 중괄호 {}를 열어서 변수명을 작성하여 변수에 존재하는 데이터를 꽂아넣는 작업이다. 
+  var data = 'red';
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        {/* <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p> */}
-        <p>
-          dsffsdfsdfsdf
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <div className='black-nav'>
+        <div>개발 blog</div>
+        <div className='{data}'>안녕하세요</div>
+        <div style={ {color:'blue', fontSize:'30px'} }> 글씨 </div>
+      </div>
     </div>
   );
+  // let post = '강남 우동 맛집';
+  // return (
+  //   <div className="App">
+  //     <div className="black-nav">
+  //       {/* <h4>블로그임</h4> */}
+  //       <div>블로그임</div>
+  //       <div>{ post }</div>
+  //     </div>
+  //   </div>
+  // );
 }
 
 export default App;
