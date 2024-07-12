@@ -8,6 +8,14 @@
 // 참고 URL - 
 // https://codingapple.com/unit/react1-install-create-react-app-npx/?id=2305
 
+// 3강 - 리액트에서 레이아웃 만들 때 쓰는 JSX 문법 3개
+// 참고 URL - 
+// https://codingapple.com/unit/react2-jsx-classname-html/?id=2305
+
+// 4강 - 중요한 데이터는 변수말고 state에 담습니다
+// 참고 URL - 
+// https://codingapple.com/unit/react-3-state-usestate-hook/?id=2305
+
 // react 프로젝트 blog를 웹페이지로 실행할 때, 터미널에서 사용하는 명령어 "npm start" 입력 및 엔터를 치면 된다.
 // App.js - 메인 페이지 역할 
 // 폴더 node_modules - react 프로젝트 구동에 필요한 라이브러리 코드 보관함. 
@@ -44,6 +52,7 @@
 // 참고 URL - https://taehi-dev.tistory.com/181
 
 import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';   // css 파일 "App.css" 쓰려면 상단에서 import 'css파일 경로' 작성
 
 function App() {
@@ -51,20 +60,66 @@ function App() {
   // 자바스크립트 파일(확장자 .js)에서 쓰는 html 대용품
 
   // 데이터 바인딩이란?
-  // 변수(data, post)에 들어있는 데이터를 html 코드 안에 중괄호 {}를 열어서 변수명을 작성하여 변수에 존재하는 데이터를 꽂아넣는 작업이다. 
-  let post = '강남 우동 맛집';
+  // 변수에 들어있는 데이터를 html 코드 안에 중괄호 {}를 열어서 변수명을 작성하여 변수에 존재하는 데이터를 꽂아넣는 작업이다. 
+  
+  // 변수 말고 state에 데이터 저장해서 쓰는 이유?
+  // state는 변동사항이 생기면 state쓰는 html도 자동으로 재렌더링 해준다.
+
+  // let [a,b] = useState('남자 코트 추천');  // a에는 '남자 코트 추천' 자료가 들어있고, b에는 state 변경을 도와주는 함수가 들어있다.
+  let [글제목, b] = useState('남자 코트 추천');   // 글제목에는 '남자 코트 추천' 자료가 들어있고, b에는 state 변경을 도와주는 함수가 들어있다.
+  let posts = '강남 우동 맛집';
 
   return (
     <div className="App">
-      <div className='black-nav'>
-        {/* <h4 id={post}>블로그임</h4> */}
-        {/* 글자 색상 'red', 글자 크기 16px 설정 */}
-        <h4 style={ {color: 'red', fontSize: '16px' } }>블로그임</h4>
+      <div className="black-nav">
+        <div>개발 blog</div>
       </div>
-      {/* <h4>강남 우동 맛집</h4> */}
-      <h4>{ post }</h4>
+      <div className="list">
+        <h4>{ 글제목 }</h4>
+        <p>2월 17일 발행</p>
+      </div>
     </div>
   );
+
+  // TODO : 아래 주석친 코드 필요시 참고 (2024.07.12 jbh)
+  // let postWear = '남자코트 추천';
+  // let postFood = '강남 우동 맛집';
+  // let postStudy = '파이썬 독학';
+  // let publishDate = '2월 17일 발행';
+
+  // return (
+  //   <div className='App'>
+  //     <div className='black-nav'> 
+  //       <div>ReactBlog</div>
+  //     </div>
+  //     <div className='list'>
+  //       <h4>{postWear}</h4>
+  //       <p>{publishDate}</p>
+  //     </div>
+  //     <div className='list'>
+  //       <h4>{postFood}</h4>
+  //       <p>{publishDate}</p>
+  //     </div>
+  //     <div className='list'>
+  //       <h4>{postStudy}</h4>
+  //       <p>{publishDate}</p>
+  //     </div>
+  //   </div>
+  // );
+
+  // let post = '강남 우동 맛집';
+
+  // return (
+  //   <div className="App">
+  //     <div className='black-nav'>
+  //       {/* <h4 id={post}>블로그임</h4> */}
+  //       {/* 글자 색상 'red', 글자 크기 16px 설정 */}
+  //       <h4 style={ {color: 'red', fontSize: '16px' } }>블로그임</h4>
+  //     </div>
+  //     {/* <h4>강남 우동 맛집</h4> */}
+  //     <h4>{ post }</h4>
+  //   </div>
+  // );
 
   // TODO : 아래 주석친 테스트 코드 필요시 참고 (2024.07.11 jbh)
   // var data = 'red';

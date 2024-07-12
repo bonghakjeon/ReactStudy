@@ -1,3 +1,7 @@
+div {
+  box-sizing : border-box
+}
+
 .App {
   text-align: center;
 }
@@ -34,6 +38,12 @@
   display: flex;
   color: white;
   padding: 20px;
+}
+
+.list {
+  text-align : left;
+  padding-left : 20px;
+  border-bottom : 1px solid grey;
 }
 
 @keyframes App-logo-spin {
