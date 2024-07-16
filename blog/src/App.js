@@ -61,25 +61,84 @@ function App() {
 
   // 데이터 바인딩이란?
   // 변수에 들어있는 데이터를 html 코드 안에 중괄호 {}를 열어서 변수명을 작성하여 변수에 존재하는 데이터를 꽂아넣는 작업이다. 
+
+  // 변수 선언 및 변수에 값 할당할 때 쓰는 키워드
+  // let, var, const
   
   // 변수 말고 state에 데이터 저장해서 쓰는 이유?
   // state는 변동사항이 생기면 state쓰는 html도 자동으로 재렌더링 해준다.
-
-  // let [a,b] = useState('남자 코트 추천');  // a에는 '남자 코트 추천' 자료가 들어있고, b에는 state 변경을 도와주는 함수가 들어있다.
-  let [글제목, b] = useState('남자 코트 추천');   // 글제목에는 '남자 코트 추천' 자료가 들어있고, b에는 state 변경을 도와주는 함수가 들어있다.
-  let posts = '강남 우동 맛집';
+  // 자주 변경될거 같은 html 부분(글제목, 상품명, 가격, 구매 날짜 등등...)은 state 문법 useState 사용해서 변수 let [a, b] 만들어서 변수에 값 할당하기 
+  
+  let logo = 'ReactBlog';
+  // useState 문법 사용하되 필요한 데이터를 array에 할당하는 방법 
+  let [글제목, b] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬 독학']);
+  let publishDate = '2월 17일 발행';
 
   return (
-    <div className="App">
-      <div className="black-nav">
-        <div>개발 blog</div>
+    <div className='App'>
+      <div className='black-nav'> 
+        <h4>{ logo }</h4>
       </div>
-      <div className="list">
-        <h4>{ 글제목 }</h4>
-        <p>2월 17일 발행</p>
+      <div className='list'>
+        <h4>{ 글제목[0] }</h4>
+        <p>{ publishDate }</p>
+      </div>
+      <div className='list'>
+        <h4>{ 글제목[1] }</h4>
+        <p>{ publishDate }</p>
+      </div>
+      <div className='list'>
+        <h4>{ 글제목[2] }</h4>
+        <p>{ publishDate }</p>
       </div>
     </div>
   );
+
+
+  // TODO : 아래 주석친 코드 필요시 참고 (2024.07.16 jbh)
+  // let post = '강남 우동 맛집';
+  // let [글제목, b] = useState('여자 코트 추천');  // 글제목에는 '남자 코트 추천' 자료가 들어있고, b에는 state 변경을 도와주는 함수가 들어있다.
+  // let [logo, setLogo] = useState('ReactBlog');  // 사이트 로고는 자주 상태가 변경되지 않으므로 굳이 state 문법을 쓸 필요가 없다.
+  // let logo = 'ReactBlog';
+
+  // destructuring 문법 - array 안에 존재하는 각각의 요소값들을 변수로 값할당 해주는 문법 
+  // let num = [1, 2];
+  // let [a, c] = [1, 2];
+
+  // 아래 주석친 코드는 위의 let [a, c] = [1, 2]; 내용과 같은 기능임.
+  // let a = num[0];
+  // let c = num[1];
+
+
+  // return (
+  //   <div className='App'>
+  //     <div className='black-nav'>
+  //       <h4>{ logo }</h4>
+  //     </div>
+  //     <div className='list'>
+  //       <h4>{ 글제목 }</h4>
+  //       <p>2월 17일 발행</p>
+  //     </div>
+  //     <h4></h4>
+  //   </div>
+  // );
+
+
+  // let [a,b] = useState('남자 코트 추천');  // a에는 '남자 코트 추천' 자료가 들어있고, b에는 state 변경을 도와주는 함수가 들어있다.
+  // let [글제목, b] = useState('남자 코트 추천');   // 글제목에는 '남자 코트 추천' 자료가 들어있고, b에는 state 변경을 도와주는 함수가 들어있다.
+  // let posts = '강남 우동 맛집';
+
+  // return (
+  //   <div className="App">
+  //     <div className="black-nav">
+  //       <div>개발 blog</div>
+  //     </div>
+  //     <div className="list">
+  //       <h4>{ 글제목 }</h4>
+  //       <p>2월 17일 발행</p>
+  //     </div>
+  //   </div>
+  // );
 
   // TODO : 아래 주석친 코드 필요시 참고 (2024.07.12 jbh)
   // let postWear = '남자코트 추천';
