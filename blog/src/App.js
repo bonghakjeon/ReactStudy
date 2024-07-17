@@ -16,6 +16,10 @@
 // 참고 URL - 
 // https://codingapple.com/unit/react-3-state-usestate-hook/?id=2305
 
+// 5강 - 버튼에 기능개발을 해보자 & 리액트 state변경하는 법
+// 참고 URL - 
+// https://codingapple.com/unit/react4-setstate-usestate-onclick-eventhandler/?id=2305
+
 // react 프로젝트 blog를 웹페이지로 실행할 때, 터미널에서 사용하는 명령어 "npm start" 입력 및 엔터를 치면 된다.
 // App.js - 메인 페이지 역할 
 // 폴더 node_modules - react 프로젝트 구동에 필요한 라이브러리 코드 보관함. 
@@ -51,6 +55,10 @@
 // TODO : 터미널에서 Command 명령어 "npm start" 입력 및 엔터키 치면 React 프로젝트가 구글 Chrome 으로 실행 되도록 기본 브라우저(default browser) 설정하기 (2024.07.08 jbh)
 // 참고 URL - https://taehi-dev.tistory.com/181
 
+// TODO : 아래 터미널 화면에서 노란색 WARNING(경고) 메시지 출력 안 되도록 아래 /*eslint-disable*/ 추가 (2024.07.17 jbh)
+// /* eslint-disable */ 란? - Lint(노란색 WARNING(경고) 메시지 출력 해주는 기능) 끄는 기능임
+// 참고 URL - https://codingapple.com/unit/react4-setstate-usestate-onclick-eventhandler/?id=2305
+/* eslint-disable */ 
 import logo from './logo.svg';
 import { useState } from 'react';
 import './App.css';   // css 파일 "App.css" 쓰려면 상단에서 import 'css파일 경로' 작성
@@ -70,27 +78,52 @@ function App() {
   // 자주 변경될거 같은 html 부분(글제목, 상품명, 가격, 구매 날짜 등등...)은 state 문법 useState 사용해서 변수 let [a, b] 만들어서 변수에 값 할당하기 
   
   let logo = 'ReactBlog';
+  // let logo = '개발 Blog';
   // useState 문법 사용하되 필요한 데이터를 array에 할당하는 방법 
   let [글제목, b] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬 독학']);
   let publishDate = '2월 17일 발행';
+  // let [따봉] = useState(0);
+  let [ 따봉, 따봉변경 ] = useState(0);
+  let [ 인사, 인사변경 ] = useState('안녕');
 
+  // TODO : 특정 인덱스의 데이터(또는 상태)를 변경하는 함수 구현 (2024.07.17 jbh)
+  // 참고 URL - https://chatgpt.com/c/0c03aa29-395f-4f41-9f35-193b78b8e3fd
+  // 참고 2 URL - https://ella951230.tistory.com/entry/React-useState-%EB%B0%B0%EC%97%B4-%EB%B3%80%EA%B2%BD%EB%B0%A9%EB%B2%95-spread-%EB%AC%B8%EB%B2%95
+  // 참고 3 URL - https://velog.io/@tai/React-useState-%EB%B0%B0%EC%97%B4%EC%9D%98-%EA%B0%9D%EC%B2%B4-%EC%88%98%EC%A0%95
+  function updateData(index, updateValue) {
+    글제목[index] = updateValue;
+    b([...글제목]);
+  }
+
+  // 테스트 함수 "함수임"
+  // function 함수임() {
+  //   console.log(1)
+  // }
+
+  // State 문법 useState(0); 사용한 변수 "따봉" 변경 하려면 
+  // State 변경용 함수 "따봉변경"를 아래처럼 따봉변경(따봉 + 1) 사용한다.
+  // 아래처럼 사용해야 html 재랜더링도 잘되서 변경된 값이 웹 화면에서도 바로바로 반영된다.
+  // <h4>{ 글제목[0] } <span onClick={ ()=>{ 따봉변경(따봉 + 1) } }>👍</span> { 따봉 }</h4>
   return (
     <div className='App'>
       <div className='black-nav'> 
         <h4>{ logo }</h4>
       </div>
       <div className='list'>
-        <h4>{ 글제목[0] }</h4>
+        <h4><span onClick={ updateData(0, '여자 코트 추천') }>🤟</span> { 글제목[0] }<span onClick={ ()=>{ 따봉변경(따봉 + 1) } }>👍</span> { 따봉 }</h4>
         <p>{ publishDate }</p>
       </div>
       <div className='list'>
-        <h4>{ 글제목[1] }</h4>
+        <h4>{ 글제목[1] } <span onClick={ ()=>{ 인사변경('반가워') } }>🖐</span> { 인사 } </h4>
         <p>{ publishDate }</p>
       </div>
       <div className='list'>
         <h4>{ 글제목[2] }</h4>
         <p>{ publishDate }</p>
       </div>
+      <div onClick={ 함수임 }> 안녕하세요 </div>
+      <div onClick={ function(){ console.log(1) } }> 안녕하세요2 </div>
+      <div onClick={ () => { console.log(1) }}></div>
     </div>
   );
 
