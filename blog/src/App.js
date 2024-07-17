@@ -96,21 +96,32 @@ function App() {
   }
 
   // 테스트 함수 "함수임"
-  // function 함수임() {
-  //   console.log(1)
-  // }
+  function 함수임() {
+    console.log(1)
+  }
 
   // State 문법 useState(0); 사용한 변수 "따봉" 변경 하려면 
   // State 변경용 함수 "따봉변경"를 아래처럼 따봉변경(따봉 + 1) 사용한다.
   // 아래처럼 사용해야 html 재랜더링도 잘되서 변경된 값이 웹 화면에서도 바로바로 반영된다.
   // <h4>{ 글제목[0] } <span onClick={ ()=>{ 따봉변경(따봉 + 1) } }>👍</span> { 따봉 }</h4>
+
+  // TODO : 오류 메시지 "ERROR Too many re-renders. React limits the number of renders to prevent an infinite loop." 해결하기 위해 
+  //        아래 state를 변화하는 함수(updateData)에 화살표 함수 코드 추가 (2024.07.18 jbh)
+  // <span onClick={ ()=>updateData(0, '여자 코트 추천') }>🤟</span>
+  // 오류 메시지 뜻 - 리렌더링이 너무 많습니다. React는 무한 루프를 방지하기 위해 렌더의 수를 제한합니다.
+  // 오류 발생 원인 - 렌더 과정에서 state를 변화하는 함수(updateData)가 있다면 반복해서 리렌더링 하게 됩니다.
+  //                 updateData는 콜백으로 다시 렌더링을 트리거하기 때문이다.
+  //                 그 과정 중에서 무한루프에 빠지게 되어 이런 오류가 발생한 것으로 확인 
+  // 오류 해결 방법 - updateData를 화살표 함수로 래핑함으로써 해당 코드는 사용자가 클릭할 때만 변할 수 있도록 함수 설정이 됩니다.
+  //                 그렇게 되면 무한루프 오류를 해결할 수 있다.
+  // 참고 URL - https://anerim.tistory.com/161
   return (
     <div className='App'>
       <div className='black-nav'> 
         <h4>{ logo }</h4>
       </div>
       <div className='list'>
-        <h4><span onClick={ updateData(0, '여자 코트 추천') }>🤟</span> { 글제목[0] }<span onClick={ ()=>{ 따봉변경(따봉 + 1) } }>👍</span> { 따봉 }</h4>
+        <h4><span onClick={ ()=>updateData(0, '여자 코트 추천') }>🤟</span> { 글제목[0] }<span onClick={ ()=>{ 따봉변경(따봉 + 1) } }>👍</span> { 따봉 }</h4>
         <p>{ publishDate }</p>
       </div>
       <div className='list'>
