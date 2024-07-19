@@ -20,6 +20,11 @@
 // 참고 URL - 
 // https://codingapple.com/unit/react4-setstate-usestate-onclick-eventhandler/?id=2305
 
+// 6강 - array, object state 변경하는 법
+// 참고 URL - 
+// https://codingapple.com/unit/react-5-setstate-homework-edit-button/?id=2305
+
+
 // react 프로젝트 blog를 웹페이지로 실행할 때, 터미널에서 사용하는 명령어 "npm start" 입력 및 엔터를 치면 된다.
 // App.js - 메인 페이지 역할 
 // 폴더 node_modules - react 프로젝트 구동에 필요한 라이브러리 코드 보관함. 
@@ -80,24 +85,84 @@ function App() {
   let logo = 'ReactBlog';
   // let logo = '개발 Blog';
   // useState 문법 사용하되 필요한 데이터를 array에 할당하는 방법 
-  let [글제목, b] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬 독학']);
+  // let [글제목, b] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬 독학']);
+  let [글제목, 글제목변경] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬 독학']);
   let publishDate = '2월 17일 발행';
   // let [따봉] = useState(0);
   let [ 따봉, 따봉변경 ] = useState(0);
   let [ 인사, 인사변경 ] = useState('안녕');
 
+  // TODO : 버튼 클릭하면 array 객체 "글제목"에 저장된 데이터를 가나다순으로 정렬하는 함수 구현 (2024.07.19 jbh)
+  // 참고 URL - https://velog.io/@jessiii/%EC%BD%94%EB%94%A9%EC%95%A0%ED%94%8C-JS-%EA%B8%B0%EC%B4%88-%EB%B0%B0%EC%97%B4-%EC%A0%95%EB%A0%AC-%ED%95%A8%EC%88%98-sort-map-filter-%ED%95%A8%EC%88%98
+  // 참고 2 URL - https://brunch.co.kr/@swimjiy/12
+  // 참고 3 URL - https://noirstar.tistory.com/359
+  /// <summary>
+  /// array 객체 글제목 데이터 가나다순 정렬 
+  /// </sumary>
+  function sortData() {
+      // array나 object 자료형 왼쪽에 붙일 수 있는
+      // spread operator 문법(...) 사용해서 
+      // 변수(글제목 - array 데이터(['남자 코트 추천', '강남 우동맛집', '파이썬 독학'])가 
+      // 저장된 메모리 주소값 할당)안에 들어있는 괄호([])를 벗겨주고 
+      // 다시 새로운 array 객체 copy 만들기 
+      // 새로운 array 객체 copy를 만들면 
+      // 메모리 주소값이 다른 완전 독립적인 array 복사본이 생성된다.
+      // 그리고 독립적인 사본을 shallow copy 아니면 deep copy 라고 한다.
+      // spread operator 문법(...) 사용해서 독립적인 array나 object 객체를 새로 만드는 이유?
+      // 원본 array나 object 객체에 저장된 데이터를 변경 없이 유지해서 
+      // 필요할 때 해당 원본 array나 object 객체에 저장된 데이터를 다시 불러와서 사용하기 위해서이다.
+      // let copy = [...글제목];   
+      let copy = [...글제목];
+      copy.sort();   // 함수 sort 호출해서 array 객체 copy에 저장된 데이터 가나다순 정렬 
+
+      // copy와 글제목이 서로 다른 array 객체여야(copy === 글제목 결과값 false)
+      // 새로운 array 객체 copy에 들어있는 값으로 기존 state를 갈아 치워줌.
+      글제목변경(copy);   
+  }
+
   // TODO : 특정 인덱스의 데이터(또는 상태)를 변경하는 함수 구현 (2024.07.17 jbh)
   // 참고 URL - https://chatgpt.com/c/0c03aa29-395f-4f41-9f35-193b78b8e3fd
   // 참고 2 URL - https://ella951230.tistory.com/entry/React-useState-%EB%B0%B0%EC%97%B4-%EB%B3%80%EA%B2%BD%EB%B0%A9%EB%B2%95-spread-%EB%AC%B8%EB%B2%95
   // 참고 3 URL - https://velog.io/@tai/React-useState-%EB%B0%B0%EC%97%B4%EC%9D%98-%EA%B0%9D%EC%B2%B4-%EC%88%98%EC%A0%95
+  
+  /// <summary>
+  /// array 객체 글제목 특정 인덱스에 할당된 데이터 수정  
+  /// </sumary>
   function updateData(index, updateValue) {
-    글제목[index] = updateValue;
-    b([...글제목]);
+      // 1. array 데이터 [1, 2, 3]을 임의의 메모리 공간에 저장
+      // 2. 변수 let arr에는 1번의 array 데이터가 저장된 메모리 주소값 할당
+      // let arr = [1, 2, 3];
+
+      // array나 object 자료형 왼쪽에 붙일 수 있는
+      // spread operator 문법(...) 사용해서 
+      // 변수(글제목 - array 데이터(['남자 코트 추천', '강남 우동맛집', '파이썬 독학'])가 
+      // 저장된 메모리 주소값 할당)안에 들어있는 괄호([])를 벗겨주고 
+      // 다시 새로운 array 객체 copy 만들기 
+      // 새로운 array 객체 copy를 만들면 
+      // 메모리 주소값이 다른 완전 독립적인 array 복사본이 생성된다.
+      // 그리고 독립적인 사본을 shallow copy 아니면 deep copy 라고 한다.
+      // spread operator 문법(...) 사용해서 독립적인 array나 object 객체를 새로 만드는 이유?
+      // 원본 array나 object 객체에 저장된 데이터를 변경 없이 유지해서 
+      // 필요할 때 해당 원본 array나 object 객체에 저장된 데이터를 다시 불러와서 사용하기 위해서이다.
+      // let copy = [...글제목];   
+      let copy = [...글제목];   
+      copy[index] = updateValue;
+      console.log(copy === 글제목);
+
+      // copy와 글제목이 서로 다른 array 객체여야(copy === 글제목 결과값 false)
+      // 새로운 array 객체 copy에 들어있는 값으로 기존 state를 갈아 치워줌.
+      글제목변경(copy);   
+
+      // 글제목[index] = updateValue;
+      // 글제목변경([...글제목]);
+      // let copy = 글제목;
+      // copy[index] = updateValue;
+      // 글제목변경(copy)
   }
 
   // 테스트 함수 "함수임"
   function 함수임() {
-    console.log(1)
+      console.log(1)
   }
 
   // State 문법 useState(0); 사용한 변수 "따봉" 변경 하려면 
@@ -120,8 +185,13 @@ function App() {
       <div className='black-nav'> 
         <h4>{ logo }</h4>
       </div>
-      <div className='list'>
-        <h4><span onClick={ ()=>updateData(0, '여자 코트 추천') }>🤟</span> { 글제목[0] }<span onClick={ ()=>{ 따봉변경(따봉 + 1) } }>👍</span> { 따봉 }</h4>
+
+      <button onClick={ ()=>sortData() }>가나다순정렬</button>
+
+      <button onClick={ ()=>updateData(0, '여자 코트 추천') }>글수정</button>
+
+      <div className='list'> 
+        <h4>{ 글제목[0] }<span onClick={ ()=>{ 따봉변경(따봉 + 1) } }>👍</span> { 따봉 }</h4>
         <p>{ publishDate }</p>
       </div>
       <div className='list'>
