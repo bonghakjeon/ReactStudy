@@ -1,28 +1,24 @@
 // [코딩애플] React 스터디 
 // Part 1 : 블로그 제작 & 기초 문법
 // 1강 - React 배우기 전에 쓰는 이유부터 알아야
-// 참고 URL - 
-// https://codingapple.com/unit/react-0-why-use-react/?id=2305
+// 참고 URL - https://codingapple.com/unit/react-0-why-use-react/?id=2305
 
 // 2강 - 리액트 React 설치와 개발환경 셋팅
-// 참고 URL - 
-// https://codingapple.com/unit/react1-install-create-react-app-npx/?id=2305
+// 참고 URL - https://codingapple.com/unit/react1-install-create-react-app-npx/?id=2305
 
 // 3강 - 리액트에서 레이아웃 만들 때 쓰는 JSX 문법 3개
-// 참고 URL - 
-// https://codingapple.com/unit/react2-jsx-classname-html/?id=2305
+// 참고 URL - https://codingapple.com/unit/react2-jsx-classname-html/?id=2305
 
 // 4강 - 중요한 데이터는 변수말고 state에 담습니다
-// 참고 URL - 
-// https://codingapple.com/unit/react-3-state-usestate-hook/?id=2305
+// 참고 URL - https://codingapple.com/unit/react-3-state-usestate-hook/?id=2305
 
 // 5강 - 버튼에 기능개발을 해보자 & 리액트 state변경하는 법
-// 참고 URL - 
-// https://codingapple.com/unit/react4-setstate-usestate-onclick-eventhandler/?id=2305
+// 참고 URL - https://codingapple.com/unit/react4-setstate-usestate-onclick-eventhandler/?id=2305
 
 // 6강 - array, object state 변경하는 법
-// 참고 URL - 
-// https://codingapple.com/unit/react-5-setstate-homework-edit-button/?id=2305
+// 참고 URL - https://codingapple.com/unit/react-5-setstate-homework-edit-button/?id=2305
+
+// 7강 - Component : 많은 div들을 한 단어로 줄이고 싶으면
 
 
 // react 프로젝트 blog를 웹페이지로 실행할 때, 터미널에서 사용하는 명령어 "npm start" 입력 및 엔터를 치면 된다.
@@ -68,6 +64,10 @@ import logo from './logo.svg';
 import { useState } from 'react';
 import './App.css';   // css 파일 "App.css" 쓰려면 상단에서 import 'css파일 경로' 작성
 
+
+// Component - 함수명 App
+// index.js 자바스크립트에 가면 App함수를 Component 식으로 
+// 호출해서 사용하는 것을 알 수 있다. <App></App>
 function App() {
   // JSX란?
   // 자바스크립트 파일(확장자 .js)에서 쓰는 html 대용품
@@ -86,7 +86,7 @@ function App() {
   // let logo = '개발 Blog';
   // useState 문법 사용하되 필요한 데이터를 array에 할당하는 방법 
   // let [글제목, b] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬 독학']);
-  let [글제목, 글제목변경] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬 독학']);
+  let [ 글제목, 글제목변경 ] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬 독학']);
   let publishDate = '2월 17일 발행';
   // let [따봉] = useState(0);
   let [ 따봉, 따봉변경 ] = useState(0);
@@ -202,11 +202,85 @@ function App() {
         <h4>{ 글제목[2] }</h4>
         <p>{ publishDate }</p>
       </div>
-      <div onClick={ 함수임 }> 안녕하세요 </div>
-      <div onClick={ function(){ console.log(1) } }> 안녕하세요2 </div>
-      <div onClick={ () => { console.log(1) }}></div>
+      
+      {/* Component <Modal> 태그 쓰는 방법 */}
+      {/* <Modal></Modal>
+          <Modal/> */}
+      
+      {/* 아래 html 코드 필요시 참고 (2024.07.24 jbh) */}
+      {/* <div onClick={ 함수임 }> 안녕하세요 </div>
+          <div onClick={ function(){ console.log(1) } }> 안녕하세요2 </div>
+          <div onClick={ () => { console.log(1) }}></div> */}
     </div>
   );
+
+  // Component 문법이란?
+  // 더럽고 긴 html 코드 덩어리를 한 단어의 함수명으로 깔끔하게 
+  // 축약하고 싶을 때 사용하는 문법이다.
+
+  // Component 문법 사용하는 경우 
+  // 1. 반복적으로 등장하는 html 코드 덩어리들을 축약할 때 사용
+  // 2. 큰 웹페이지에 속한 html 코드 덩어리들을 축약할 때 사용
+  // 3. 자주 변경되는 html UI 코드 덩어리들을 축약할 때 사용 
+
+  // Component 문법 단점 
+  // 1. HTML 깔끔하게 쓰려고 Component를 수백개 만들면 그것 만으로도 관리가 힘들다.
+  // 2. 한 function 안에 있는 변수를 다른 function에서 맘대로 쓸 수 없다.
+  // (예) function App 에 존재하는 글제목 state(글제목[0], 글제목[1], 글제목[2])를
+  //      다른 function Modal 안에서 맘대로 쓸 수 없다.
+
+  // fragment 문법이란?
+  // 의미 없는 <div> 태그를 사용하기 싫지만 
+  // 하위에 존재하는 다른 <div> 태그들을 하나로 묶을 때 사용하는 문법이며,
+  // 아래 (예)처럼 사용한다.
+  // (예) <div> ~~~ </div> -> <> ~~~ </>
+
+  // className='modal' <div>태그를 포함한 html 코드 덩어리를 Component라고 부르며, 
+  // 해당 Component를 사용하기 위해 함수 Modal로 구현  
+
+  // Component - 함수명 Modal
+  // Component를 사용하기 위해 
+  // 함수 Modal 구현 방법 1 
+  function Modal() {
+    return (
+      <div className='modal'>
+        <h4>제목</h4>
+        <p>날짜</p>
+        <p>상세내용</p>
+      </div>
+    );
+  }
+
+  // 함수 Modal 구현 방법 2 (Arrow Function)
+  // 변수(let Modal) 생성 후 
+  // Arrow Function 기능( () => { . . . }) 사용해서 함수 정의
+  // let Modal = () => {
+  //   return (
+  //     <div className='modal'>
+  //       <h4>제목</h4>
+  //       <p>날짜</p>
+  //       <p>상세내용</p>
+  //     </div>
+  //   )
+  // }
+
+  // 함수 Modal 구현 방법 3 (Arrow Function)
+  // 변수(const Modal)에 const 사용 이유?
+  // const는 상수를 정의할 때 사용하는 기능이며, 
+  // const로 정의한 변수(const Modal)에 개발자가 실수로 다른 값을 집어넣거나
+  // 수정을 하였을 때, 오류 메시지를 웹 브라우저 화면에서 출력 해준다.
+  // 따라서 이러한 실수를 방지 및 오류 확인을 용이하게 하기 위해서 사용한다.
+  // 변수(const Modal) 생성 후 
+  // Arrow Function 기능( () => { . . . }) 사용해서 함수 정의
+  // const Modal = () => {
+  //   return (
+  //     <div className='modal'>
+  //       <h4>제목</h4>
+  //       <p>날짜</p>
+  //       <p>상세내용</p>
+  //     </div>
+  //   )
+  // }
 
 
   // TODO : 아래 주석친 코드 필요시 참고 (2024.07.16 jbh)
