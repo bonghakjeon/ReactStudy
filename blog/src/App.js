@@ -20,6 +20,7 @@
 
 // 7강 - Component : 많은 div들을 한 단어로 줄이고 싶으면
 
+// 8강 - 리액트 환경에서 동적인 UI 만드는 법 (모달창만들기)
 
 // react 프로젝트 blog를 웹페이지로 실행할 때, 터미널에서 사용하는 명령어 "npm start" 입력 및 엔터를 치면 된다.
 // App.js - 메인 페이지 역할 
@@ -91,6 +92,14 @@ function App() {
   // let [따봉] = useState(0);
   let [ 따봉, 따봉변경 ] = useState(0);
   let [ 인사, 인사변경 ] = useState('안녕');
+
+  let [ modal, setModal ] = useState(false);     // false - 모달창 안 보임
+  // let [ modal, setModal ] = useState(true);   // true - 모달창 보임 
+  // let [ modal, setModal ] = useState('닫힘'); 
+  // let [ modal, setModal ] = useState('열림');
+  // let [ modal, setModal ] = useState(0);   // 0 - 닫힘 의미
+  // let [ modal, setModal ] = useState(1);   // 1 - 열림 의미
+
 
   // TODO : 버튼 클릭하면 array 객체 "글제목"에 저장된 데이터를 가나다순으로 정렬하는 함수 구현 (2024.07.19 jbh)
   // 참고 URL - https://velog.io/@jessiii/%EC%BD%94%EB%94%A9%EC%95%A0%ED%94%8C-JS-%EA%B8%B0%EC%B4%88-%EB%B0%B0%EC%97%B4-%EC%A0%95%EB%A0%AC-%ED%95%A8%EC%88%98-sort-map-filter-%ED%95%A8%EC%88%98
@@ -165,6 +174,12 @@ function App() {
       console.log(1)
   }
 
+  function displayModal(isModal) {
+    isModal = (true == isModal) ? false : true;
+
+    setModal(isModal)
+  }
+
   // State 문법 useState(0); 사용한 변수 "따봉" 변경 하려면 
   // State 변경용 함수 "따봉변경"를 아래처럼 따봉변경(따봉 + 1) 사용한다.
   // 아래처럼 사용해야 html 재랜더링도 잘되서 변경된 값이 웹 화면에서도 바로바로 반영된다.
@@ -195,19 +210,46 @@ function App() {
         <p>{ publishDate }</p>
       </div>
       <div className='list'>
-        <h4>{ 글제목[1] } <span onClick={ ()=>{ 인사변경('반가워') } }>🖐</span> { 인사 } </h4>
+        <h4>{ 글제목[1] }<span onClick={ ()=>{ 인사변경('반가워') } }>🖐</span> { 인사 } </h4>
         <p>{ publishDate }</p>
       </div>
       <div className='list'>
-        <h4>{ 글제목[2] }</h4>
+        {/* <h4><span onClick={ ()=>{ setModal(true) } }> { 글제목[2] } </span></h4> */}
+        <h4>
+          {/* 글제목 누르면 모달창 열리고 한번 더 누르면 모달창이 닫히는 기능 구현 */}
+          {/* 방법 1. */}
+          {/* <button onClick={ ()=>{ displayModal(modal) } }> { 글제목[2] } </button> */}
+
+          {/* 방법 2. */}
+          <button onClick={ ()=>{ setModal(!modal) } }> { 글제목[2] } </button>
+          {
+             /* 저 state가 true면 <Modal></Modal> false면 아무것도 보여주지마세요. */
+             //  modal == true ? <Modal></Modal> : null
+             // null은 텅빈 값 의미하고 비어있는 html용으로 자주 사용 
+             modal == true ? <Modal/> : null
+          }
+        </h4>
         <p>{ publishDate }</p>
       </div>
       
+      {/* 아래 html 코드 필요시 참고 (2024.07.25 jbh) */}
+      {/* [ 동적인 UI 만드는 step ] */}
+      {/* 1. html css로 미리 디자인 완성   */}
+      {/* 2. UI의 현재 상태를 state로 저장 */}
+      {/* 3. state에 따라 UI가 어떻게 보일지 작성 */}
+      {/* 저 state가 true면 <Modal></Modal>
+          false면 아무것도 보여주지마세요.  */}
+      {/* { modal == true ? <Modal></Modal> : null } */}
+
+      {/* 삼항 연산자 쓰는 방법 */}
+      {/* 
+        1 == 2 ? '맞음' : '아님'
+        */}
+
       {/* Component <Modal> 태그 쓰는 방법 */}
-      {/* <Modal></Modal>
+      {/* <Modal></Modal> 
           <Modal/> */}
       
-      {/* 아래 html 코드 필요시 참고 (2024.07.24 jbh) */}
       {/* <div onClick={ 함수임 }> 안녕하세요 </div>
           <div onClick={ function(){ console.log(1) } }> 안녕하세요2 </div>
           <div onClick={ () => { console.log(1) }}></div> */}
