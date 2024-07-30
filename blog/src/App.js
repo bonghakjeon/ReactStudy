@@ -22,6 +22,8 @@
 
 // 8강 - 리액트 환경에서 동적인 UI 만드는 법 (모달창만들기)
 
+// 9강 - map : 많은 div들을 반복문으로 줄이고 싶은 충동이 들 때
+
 // react 프로젝트 blog를 웹페이지로 실행할 때, 터미널에서 사용하는 명령어 "npm start" 입력 및 엔터를 치면 된다.
 // App.js - 메인 페이지 역할 
 // 폴더 node_modules - react 프로젝트 구동에 필요한 라이브러리 코드 보관함. 
@@ -90,7 +92,8 @@ function App() {
   let [ 글제목, 글제목변경 ] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬 독학']);
   let publishDate = '2월 17일 발행';
   // let [따봉] = useState(0);
-  let [ 따봉, 따봉변경 ] = useState(0);
+  // let [ 따봉, 따봉변경 ] = useState(0);
+  let [ 따봉, 따봉변경 ] = useState([0, 0, 0]);
   let [ 인사, 인사변경 ] = useState('안녕');
 
   let [ modal, setModal ] = useState(false);     // false - 모달창 안 보임
@@ -180,6 +183,15 @@ function App() {
     setModal(isModal)
   }
 
+  /// <summary>
+  /// array 객체 따봉 특정 인덱스에 할당된 데이터 수정  
+  /// </sumary>
+  function UpdateCount(index) {
+    let copy = [...따봉];
+    copy[index] += 1;
+    따봉변경(copy);
+  }
+
   // State 문법 useState(0); 사용한 변수 "따봉" 변경 하려면 
   // State 변경용 함수 "따봉변경"를 아래처럼 따봉변경(따봉 + 1) 사용한다.
   // 아래처럼 사용해야 html 재랜더링도 잘되서 변경된 값이 웹 화면에서도 바로바로 반영된다.
@@ -205,14 +217,18 @@ function App() {
 
       <button onClick={ ()=>updateData(0, '여자 코트 추천') }>글수정</button>
 
-      <div className='list'> 
-        <h4>{ 글제목[0] }<span onClick={ ()=>{ 따봉변경(따봉 + 1) } }>👍</span> { 따봉 }</h4>
+      {/* <div className='list'> 
+        <h4>{ 글제목[0] }<span onClick={ ()=>{ 따봉변경(따봉 + 1) } }>👍</span> { 따봉 } </h4>
         <p>{ publishDate }</p>
       </div>
       <div className='list'>
         <h4>{ 글제목[1] }<span onClick={ ()=>{ 인사변경('반가워') } }>🖐</span> { 인사 } </h4>
         <p>{ publishDate }</p>
       </div>
+      <div className='list'>
+        <h4 onClick={()=>{ setModal(!modal) }}>{ 글제목[2] }</h4>
+        <p>{ publishDate }</p>
+      </div> */}
       <div className='list'>
         {/* <h4><span onClick={ ()=>{ setModal(true) } }> { 글제목[2] } </span></h4> */}
         <h4>
@@ -224,7 +240,7 @@ function App() {
           <button onClick={ ()=>{ setModal(!modal) } }> { 글제목[2] } </button>
           {
              /* 저 state가 true면 <Modal></Modal> false면 아무것도 보여주지마세요. */
-             //  modal == true ? <Modal></Modal> : null
+             // modal == true ? <Modal></Modal> : null
              // null은 텅빈 값 의미하고 비어있는 html용으로 자주 사용 
              modal == true ? <Modal/> : null
           }
@@ -232,7 +248,180 @@ function App() {
         <p>{ publishDate }</p>
       </div>
       
+      {
+        글제목.map(function(title, index) {
+          return (
+            // map 함수 사용해서 반복문으로 html 생성 하려면 
+            // html 코드에 key={i} 작성 필수 
+            <div className='list' key={index}>
+              <h4>{ 글제목[index] } <span onClick={()=>{ UpdateCount(index) }}>👍</span> {따봉[index]} </h4>
+              <p>{ publishDate }</p>
+            </div>
+          )
+        })
+      }
+      
       {/* 아래 html 코드 필요시 참고 (2024.07.25 jbh) */}
+      {
+        // 글제목.map(function(a, i) {
+        //   return (
+        //     // map 함수 사용해서 반복문으로 html 생성 하려면 
+        //     // html 코드에 key={i} 작성 필수   
+        //     <div className='list' key={i}>
+        //       <h4>{ 글제목[i] } <span onClick={()=>{ 따봉변경(따봉+1) }}>👍</span> {따봉} </h4>
+        //       <p>{ publishDate }</p>
+        //     </div>
+        //   )
+        // })
+      }
+      {
+        // 글제목.map(function(a, i) {
+        //   return (
+        //     <div className='list'>
+        //       <h4 onClick={()=>{ setModal(true) }}>{ 글제목[i] }</h4>
+        //       <p>{ publishDate }</p>
+        //     </div>
+        //   )
+        // })
+      }
+      {
+        // 글제목.map(function(a, i) {
+        //   return (
+        //     <div className='list'>
+        //       <h4>{ 글제목[i] }</h4>
+        //       <p>{ publishDate }</p>
+        //     </div>
+        //   )
+        // })
+      }
+      {
+        // 글제목.map(function(a, i) {
+        //   return (
+        //     <div className='list'>
+        //       <h4>{ i }</h4>
+        //       <p>{ publishDate }</p>
+        //     </div>
+        //   )
+        // })
+      }
+      {
+        // 글제목.map(function(a, i){
+        //   return (
+        //     <div className='list'> 
+        //       <h4>{ a }</h4>
+        //       <p>{ publishDate }</p>
+        //     </div>
+        //   )
+        // })
+      }
+      {
+        // 글제목.map(function() {
+        //   return (
+        //     <div className='list'> 
+        //       <h4>{ 글제목[1] }</h4>
+        //       <p>{ publishDate }</p>
+        //     </div>)
+        // })
+      }
+      {
+        // [1, 2, 3, 4].map(function() {
+        //   return (<div className='list'> 
+        //     <h4>{ 글제목[1] }</h4>
+        //     <p>{ publishDate }</p>
+        //   </div>)
+        // })
+      }
+      {
+        // [1, 2, 3].map(function() {
+        //   return (<div>안녕</div>)
+        // })
+        // 아래 array는 위의 map 함수를 쓴 것과 같은 결과 의미 
+        // [<div>안녕</div>, <div>안녕</div>, <div>안녕</div>]
+      }
+      {
+        // [1, 2, 3].map(function() {
+        //   console.log(1);
+        // });
+
+        // [1, 2, 3].map(function(a) {
+        //   console.log(a);
+        // })
+
+        // [1, 2, 3].map(function(a) {
+        //   return '1233211';
+        // })
+
+        // var 어레이 = [];
+        // for (var i = 0; i < 3; i++) {
+        //   어레이.push(<div>안녕</div>)
+        // }
+
+        // var 어레이 = [2, 3, 4];
+        // 어레이.map(function() {
+        //   console.log(1);
+        // });
+
+        // 어레이.map(function(a) {
+        //   console.log(a);
+        // });
+
+        // var newArray = 어레이.map(function(a) {
+        //   return a * 10
+        // });
+
+        // console.log(newArray);
+      }
+      {
+        // 글제목.map(function(title, index) {
+        //   return (
+        //     <div className='list' key={index}>
+        //       {/* <h4 onClick={ () => { 따봉변경(따봉+1)} }>{ 글제목[index] }</h4> */}
+        //       <h4>{ 글제목[index] }<span onClick={ () => { 따봉변경(따봉+1) } }>👍</span> { 따봉 }</h4>
+        //       <p>publishDate</p>
+        //     </div>
+        //   )
+        // })
+      }
+      {/* <div> 
+        { 어레이 }
+      </div> */}
+      {/* {
+        글제목.map(function(title, index) {
+          return (
+            <div className='list'>
+              <h4>{ 글제목[index] }</h4>
+              <p>publishDate</p>
+            </div>
+          )
+        })
+      } */}
+      {/* {
+        글제목.map(function(title) {
+          return (
+            <div className='list'>
+              <h4>{ title }</h4>
+              <p>publishDate</p>
+            </div>
+          )
+        })
+      } */}
+      {/* {
+        글제목.map(function() {
+          return (
+            <div className='list'>
+              <h4>{ 글제목[0] }</h4>
+              <p>publishDate</p>
+            </div>
+          )
+        })
+      } */}
+      {/* <div>
+        {
+          [1, 2, 3].map(function() {
+            return (<div>안녕</div>)
+          })
+        }
+      </div> */}
       {/* [ 동적인 UI 만드는 step ] */}
       {/* 1. html css로 미리 디자인 완성   */}
       {/* 2. UI의 현재 상태를 state로 저장 */}
