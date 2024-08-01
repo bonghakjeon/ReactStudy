@@ -24,6 +24,8 @@
 
 // 9강 - map : 많은 div들을 반복문으로 줄이고 싶은 충동이 들 때
 
+// 10강 - 자식이 부모의 state 가져다쓰고 싶을 때는 props
+
 // react 프로젝트 blog를 웹페이지로 실행할 때, 터미널에서 사용하는 명령어 "npm start" 입력 및 엔터를 치면 된다.
 // App.js - 메인 페이지 역할 
 // 폴더 node_modules - react 프로젝트 구동에 필요한 라이브러리 코드 보관함. 
@@ -217,6 +219,31 @@ function App() {
 
       <button onClick={ ()=>updateData(0, '여자 코트 추천') }>글수정</button>
 
+      
+      
+      {
+        글제목.map(function(title, index) {
+          return (
+            // map 함수 사용해서 반복문으로 html 생성 하려면 
+            // html 코드에 key={i} 작성 필수 
+            <div className='list' key={index}>
+              <h4 onClick={()=>{ setModal(!modal) }}>{ 글제목[index] } <span onClick={()=>{ UpdateCount(index) }}>👍</span> {따봉[index]} </h4>
+              <p>{ publishDate }</p>
+            </div>
+          )
+        })
+      }
+
+      {
+        /* 저 state가 true면 <Modal></Modal> false면 아무것도 보여주지마세요. */
+        // modal == true ? <Modal></Modal> : null
+        // null은 텅빈 값 의미하고 비어있는 html용으로 자주 사용 
+        // modal == true ? <Modal color={'skyblue'} 글제목={글제목} /> : null
+        // modal == true ? <Modal color="orange" 글제목={글제목} /> : null
+        modal == true ? <Modal color={'yellow'} 글제목={글제목} updateData={updateData}/> : null
+      }
+      
+      {/* 아래 html 코드 필요시 참고 (2024.07.25 jbh) */}
       {/* <div className='list'> 
         <h4>{ 글제목[0] }<span onClick={ ()=>{ 따봉변경(따봉 + 1) } }>👍</span> { 따봉 } </h4>
         <p>{ publishDate }</p>
@@ -242,26 +269,12 @@ function App() {
              /* 저 state가 true면 <Modal></Modal> false면 아무것도 보여주지마세요. */
              // modal == true ? <Modal></Modal> : null
              // null은 텅빈 값 의미하고 비어있는 html용으로 자주 사용 
-             modal == true ? <Modal/> : null
+             // modal == true ? <Modal 글제목={글제목} color={'skyblue'}/> : null
+             // modal == true ? <Modal 글제목={글제목} color={'orange'}/> : null
           }
         </h4>
         <p>{ publishDate }</p>
       </div>
-      
-      {
-        글제목.map(function(title, index) {
-          return (
-            // map 함수 사용해서 반복문으로 html 생성 하려면 
-            // html 코드에 key={i} 작성 필수 
-            <div className='list' key={index}>
-              <h4>{ 글제목[index] } <span onClick={()=>{ UpdateCount(index) }}>👍</span> {따봉[index]} </h4>
-              <p>{ publishDate }</p>
-            </div>
-          )
-        })
-      }
-      
-      {/* 아래 html 코드 필요시 참고 (2024.07.25 jbh) */}
       {
         // 글제목.map(function(a, i) {
         //   return (
@@ -445,6 +458,12 @@ function App() {
     </div>
   );
 
+  function 함수() {
+    let a = 10;
+  }
+
+  
+
   // Component 문법이란?
   // 더럽고 긴 html 코드 덩어리를 한 단어의 함수명으로 깔끔하게 
   // 축약하고 싶을 때 사용하는 문법이다.
@@ -471,18 +490,45 @@ function App() {
 
   // Component - 함수명 Modal
   // Component를 사용하기 위해 
-  // 함수 Modal 구현 방법 1 
-  function Modal() {
+  // 함수 Modal 구현 방법 1 (자식이 부모의 state 가져다쓰고 싶을 때는 props 문법 사용)
+  // props 문법 사용해서 <div> 영역 속성 style의 background 색상 설정(props.color)
+  function Modal(props) {
     return (
-      <div className='modal'>
-        <h4>제목</h4>
+      <div className='modal' style={{ background : props.color }}>
+        <h4>{ props.글제목[0] }</h4>
         <p>날짜</p>
         <p>상세내용</p>
+        <button onClick={ ()=>props.updateData(0, '여자 코트 추천') }>글수정</button>
       </div>
-    );
+    )
   }
 
-  // 함수 Modal 구현 방법 2 (Arrow Function)
+  <button onClick={ ()=>updateData(0, '여자 코트 추천') }>글수정</button>
+
+  // 함수 Modal 구현 방법 2 (자식이 부모의 state 가져다쓰고 싶을 때는 props 문법 사용)
+  // function Modal(props) {
+  //   return (
+  //     <div className='modal'>
+  //       <h4>{ props.글제목[0] }</h4>
+  //       <p>날짜</p>
+  //       <p>상세내용</p>
+  //     </div>
+  //   ) 
+  // }
+
+
+  // 함수 Modal 구현 방법 3
+  // function Modal() {
+  //   return (
+  //     <div className='modal'>
+  //       <h4>제목</h4>
+  //       <p>날짜</p>
+  //       <p>상세내용</p>
+  //     </div>
+  //   );
+  // }
+
+  // 함수 Modal 구현 방법 4 (Arrow Function)
   // 변수(let Modal) 생성 후 
   // Arrow Function 기능( () => { . . . }) 사용해서 함수 정의
   // let Modal = () => {
