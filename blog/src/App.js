@@ -26,6 +26,8 @@
 
 // 10강 - 자식이 부모의 state 가져다쓰고 싶을 때는 props
 
+// 11강 - props를 응용한 상세페이지 만들기
+
 // react 프로젝트 blog를 웹페이지로 실행할 때, 터미널에서 사용하는 명령어 "npm start" 입력 및 엔터를 치면 된다.
 // App.js - 메인 페이지 역할 
 // 폴더 node_modules - react 프로젝트 구동에 필요한 라이브러리 코드 보관함. 
@@ -90,8 +92,8 @@ function App() {
   let logo = 'ReactBlog';
   // let logo = '개발 Blog';
   // useState 문법 사용하되 필요한 데이터를 array에 할당하는 방법 
-  // let [글제목, b] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬 독학']);
-  let [ 글제목, 글제목변경 ] = useState(['남자 코트 추천', '강남 우동맛집', '파이썬 독학']);
+  // let [글제목, b] = useState(['남자코트 추천', '강남 우동맛집', '파이썬 독학']);
+  let [ 글제목, 글제목변경 ] = useState(['남자코트 추천', '강남 우동맛집', '파이썬 독학']);
   let publishDate = '2월 17일 발행';
   // let [따봉] = useState(0);
   // let [ 따봉, 따봉변경 ] = useState(0);
@@ -104,6 +106,12 @@ function App() {
   // let [ modal, setModal ] = useState('열림');
   // let [ modal, setModal ] = useState(0);   // 0 - 닫힘 의미
   // let [ modal, setModal ] = useState(1);   // 1 - 열림 의미
+
+  // let [ type, setType ] = useState(0);
+  // 아래 state [ title, setTitle ]이 부모 컴포넌트 App과 자식 컴포넌트 Modal
+  // 둘 다 필요할 경우 부모 컴포넌트 App에 선언 해야함.
+  // state 만드는 곳은 state 사용하는 컴포넌트들 중 최상위 컴포넌트에 설정 해야함.
+  let [ title, setTitle ] = useState(0);   // 모달창 글제목 state
 
 
   // TODO : 버튼 클릭하면 array 객체 "글제목"에 저장된 데이터를 가나다순으로 정렬하는 함수 구현 (2024.07.19 jbh)
@@ -179,8 +187,10 @@ function App() {
       console.log(1)
   }
 
-  function displayModal(isModal) {
-    isModal = (true == isModal) ? false : true;
+  function displayModal(index, isModal) {
+    setTitle(index)
+
+    // isModal = (true == isModal) ? false : true;
 
     setModal(isModal)
   }
@@ -217,9 +227,7 @@ function App() {
 
       <button onClick={ ()=>sortData() }>가나다순정렬</button>
 
-      <button onClick={ ()=>updateData(0, '여자 코트 추천') }>글수정</button>
-
-      
+      <button onClick={ ()=>updateData(0, '여자코트 추천') }>글수정</button>
       
       {
         글제목.map(function(title, index) {
@@ -227,12 +235,16 @@ function App() {
             // map 함수 사용해서 반복문으로 html 생성 하려면 
             // html 코드에 key={i} 작성 필수 
             <div className='list' key={index}>
-              <h4 onClick={()=>{ setModal(!modal) }}>{ 글제목[index] } <span onClick={()=>{ UpdateCount(index) }}>👍</span> {따봉[index]} </h4>
+              {/* <h4 onClick={()=>{ setModal(!modal); }}>{ 글제목[index] } <span onClick={()=>{ UpdateCount(index) }}>👍</span> {따봉[index]} </h4> */}
+              {/* <h4 onClick={()=>{ displayModal(index, !modal); }}>{ 글제목[index] } <span onClick={()=>{ UpdateCount(index) }}>👍</span> {따봉[index]} </h4> */}
+              <h4 onClick={()=>{ setModal(!modal); setTitle(index); }}>{ 글제목[index] } <span onClick={()=>{ UpdateCount(index) }}>👍</span> {따봉[index]} </h4>
               <p>{ publishDate }</p>
             </div>
           )
         })
       }
+
+      
 
       {
         /* 저 state가 true면 <Modal></Modal> false면 아무것도 보여주지마세요. */
@@ -240,10 +252,14 @@ function App() {
         // null은 텅빈 값 의미하고 비어있는 html용으로 자주 사용 
         // modal == true ? <Modal color={'skyblue'} 글제목={글제목} /> : null
         // modal == true ? <Modal color="orange" 글제목={글제목} /> : null
-        modal == true ? <Modal color={'yellow'} 글제목={글제목} updateData={updateData}/> : null
+        // modal == true ? <Modal color={'yellow'} title={title} 글제목={글제목} updateData={updateData} /> : null
+        modal == true ? <Modal color={'yellow'} 글제목변경={글제목변경} title={title} 글제목={글제목} /> : null
       }
       
       {/* 아래 html 코드 필요시 참고 (2024.07.25 jbh) */}
+      {/* <button onClick={ ()=> { setTitle(0); }}>글제목0</button>
+      <button onClick={ ()=> { setTitle(1); }}>글제목1</button>
+      <button onClick={ ()=> { setTitle(2); }}>글제목2</button> */}
       {/* <div className='list'> 
         <h4>{ 글제목[0] }<span onClick={ ()=>{ 따봉변경(따봉 + 1) } }>👍</span> { 따봉 } </h4>
         <p>{ publishDate }</p>
@@ -493,12 +509,19 @@ function App() {
   // 함수 Modal 구현 방법 1 (자식이 부모의 state 가져다쓰고 싶을 때는 props 문법 사용)
   // props 문법 사용해서 <div> 영역 속성 style의 background 색상 설정(props.color)
   function Modal(props) {
+    // 아래 state [ title, setTitle ]이 부모 컴포넌트 App과 자식 컴포넌트 Modal
+    // 둘 다 필요할 경우 부모 컴포넌트 App에 선언 해야함.
+    // state 만드는 곳은 state 사용하는 컴포넌트들 중 최상위 컴포넌트에 설정 해야함.
+    // let [ title, setTitle ] = useState(0);   // 모달창 글제목 state
+
     return (
       <div className='modal' style={{ background : props.color }}>
-        <h4>{ props.글제목[0] }</h4>
+        <h4>{ props.글제목[props.title] }</h4>
         <p>날짜</p>
         <p>상세내용</p>
-        <button onClick={ ()=>props.updateData(0, '여자 코트 추천') }>글수정</button>
+        {/* <button onClick={ ()=>props.updateData(props.title, '여자 코트 추천') }>글수정</button> */}
+        {/* <button onClick={ ()=>props.글제목변경(['여자코트 추천', '강남 우동맛집', '파이썬 독학'])}>글수정</button> */}
+        <button>글수정</button>
       </div>
     )
   }
