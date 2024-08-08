@@ -28,6 +28,8 @@
 
 // 11강 - props를 응용한 상세페이지 만들기
 
+// 12강 - input 1 : 사용자가 입력한 글 다루기
+
 // react 프로젝트 blog를 웹페이지로 실행할 때, 터미널에서 사용하는 명령어 "npm start" 입력 및 엔터를 치면 된다.
 // App.js - 메인 페이지 역할 
 // 폴더 node_modules - react 프로젝트 구동에 필요한 라이브러리 코드 보관함. 
@@ -89,6 +91,19 @@ function App() {
   // state는 변동사항이 생기면 state쓰는 html도 자동으로 재렌더링 해준다.
   // 자주 변경될거 같은 html 부분(글제목, 상품명, 가격, 구매 날짜 등등...)은 state 문법 useState 사용해서 변수 let [a, b] 만들어서 변수에 값 할당하기 
   
+  // state 변경함수는 늦게 처리된다. (비동기 처리)
+  // (예) 글제목변경, 따봉변경, 인사변경, setModal, setType, setTitle, 입력값변경 등등...
+  // 자바스크립트에서는 state 변경함수와 같이 
+  // 늦게 처리되는 함수는 제쳐두고 
+  // 바로 다음 줄을 실행한다. (예) console.log(입력값)
+  // 그런 특성이 있어서 아래와 같은 <input> 태그에 문자 'a'를 입력해도
+  // state 변경함수가 늦게 처리되어 console 창에는 문자 'a'가 출력되지 않는다.
+  // 결과적으로 아래처럼 state 함수 입력값변경(e.target.value); 완료되기 전에 제쳐두고
+  // 바로 다음 줄인 console.log(입력값)을 먼저 실행해준다.
+  // <input onChange={(e)=>{ 입력값변경(e.target.value); console.log(입력값) }} />
+
+
+
   let logo = 'ReactBlog';
   // let logo = '개발 Blog';
   // useState 문법 사용하되 필요한 데이터를 array에 할당하는 방법 
@@ -112,6 +127,8 @@ function App() {
   // 둘 다 필요할 경우 부모 컴포넌트 App에 선언 해야함.
   // state 만드는 곳은 state 사용하는 컴포넌트들 중 최상위 컴포넌트에 설정 해야함.
   let [ title, setTitle ] = useState(0);   // 모달창 글제목 state
+
+  let [ 입력값, 입력값변경 ] = useState('');   // <input> 태그에 입력한 값 저장할 때 사용하는 state, useState에는 초기값으로 텅빈 문자(공백 - '') 지정
 
 
   // TODO : 버튼 클릭하면 array 객체 "글제목"에 저장된 데이터를 가나다순으로 정렬하는 함수 구현 (2024.07.19 jbh)
@@ -182,6 +199,41 @@ function App() {
       // 글제목변경(copy)
   }
 
+  {/* 1. 버튼 누르면 글 하나 추가되는 기능 만들기 */}
+  {/* 1번 힌트 */}
+  {/*[1] html 직접 하나 만들 필요없음. state(글제목변경) 조작하면 됩니다. 
+         (html은 반복문으로 자동 생성되기 때문) */}
+  {/* [2] array에 자료 추가하는 법은 구글로 검색해서 찾기 */}
+  {/* 참고 URL - https://scoring.tistory.com/entry/React-%EB%B0%B0%EC%97%B4%EC%97%90-%ED%95%AD%EB%AA%A9-%EC%B6%94%EA%B0%80-%EC%A0%9C%EA%B1%B0-%EC%88%98%EC%A0%95 */}
+  {/* 참고 2 URL - https://seo-tory.tistory.com/53 */}
+  /// <summary>
+  /// array 객체에 새로운 글제목 데이터 추가
+  /// </summary>
+  function addData(addValue) {
+    // let copy = [...글제목];
+    // let copy = [...글제목];
+
+    // Spread(전개 연산자) 사용한 방법 
+    // 글제목변경([...글제목, addValue]); // 새로운 글제목 데이터(addValue)를 맨 뒤로 추가하는 코드
+    글제목변경([addValue, ...글제목]);    // 새로운 글제목 데이터(addValue)를 맨 앞으로 추가하는 코드
+    
+    // concat함수를 이용해서 불변성 지키는 방법 
+    // 글제목변경(글제목.concat(addValue));   // 새로운 글제목 데이터(addValue)를 맨 뒤로 추가하는 코드
+  }
+
+  {/* 2. 글마다 삭제버튼 & 기능 만들기 */}
+  {/* [1] html 직접 하나 만들 필요없음. state(글제목변경) 조작하면 됩니다. 
+          (html은 반복문으로 자동 생성되기 때문) */}
+  {/* 참고 URL - https://scoring.tistory.com/entry/React-%EB%B0%B0%EC%97%B4%EC%97%90-%ED%95%AD%EB%AA%A9-%EC%B6%94%EA%B0%80-%EC%A0%9C%EA%B1%B0-%EC%88%98%EC%A0%95 */}
+  {/* 참고 2 URL - https://chatgpt.com/c/186b83e1-a306-496a-8434-bd354de72de7 */}
+  /// <summary>
+  /// array 객체 글제목 특정 인덱스에 할당된 데이터 삭제
+  /// </summary>
+  function deleteData(deleteIndex) {
+    // 메서드 filter 사용하여 함수 파라미터 deleteIndex와 일치하지 않는 원소만 추출해서 새로운 배열 만듬
+    글제목변경((글제목) => 글제목.filter((item, index) => index !== deleteIndex));
+  }
+
   // 테스트 함수 "함수임"
   function 함수임() {
       console.log(1)
@@ -227,7 +279,7 @@ function App() {
 
       <button onClick={ ()=>sortData() }>가나다순정렬</button>
 
-      <button onClick={ ()=>updateData(0, '여자코트 추천') }>글수정</button>
+      {/* <button onClick={ ()=>updateData(0, '여자코트 추천') }>글수정</button> */}
       
       {
         글제목.map(function(title, index) {
@@ -237,13 +289,31 @@ function App() {
             <div className='list' key={index}>
               {/* <h4 onClick={()=>{ setModal(!modal); }}>{ 글제목[index] } <span onClick={()=>{ UpdateCount(index) }}>👍</span> {따봉[index]} </h4> */}
               {/* <h4 onClick={()=>{ displayModal(index, !modal); }}>{ 글제목[index] } <span onClick={()=>{ UpdateCount(index) }}>👍</span> {따봉[index]} </h4> */}
-              <h4 onClick={()=>{ setModal(!modal); setTitle(index); }}>{ 글제목[index] } <span onClick={()=>{ UpdateCount(index) }}>👍</span> {따봉[index]} </h4>
+              <h4 onClick={()=>{  setModal(!modal); setTitle(index); }}>{ 글제목[index] } 
+                {/* <span> 태그에 있는 따봉 모양 👍 버튼 한 번 클릭하면 총 3번 중복 클릭한 이벤트 발생하며, 따봉 갯수가 올라가면서 모달창도 같이 출력된다.  
+                    (<span> 태그 클릭 + <h4> 태그 클릭 + <div> 태그 클릭) */}
+                {/* 이벤트 버블링이란? 아래 <span> 태그 따봉 모양 👍 버튼 클릭할 때, 클릭 이벤트가 중복 되며 상위 html 요소(<h4> 태그, <div> 태그)로 퍼지는 현상이다. */}
+                {/* <span onClick={()=>{ UpdateCount(index) }}>👍</span> {따봉[index]}  */}
+
+                {/* 클릭 이벤트가 중복 되며 상위 html 요소(<h4> 태그, <div> 태그)로 퍼지는
+                    이벤트 버블링 현상을 막으려면  아래처럼 파라미터로 이벤트 객체 e 작성 및 
+                    onClick 이벤트 메서드 실행되는 몸체 안에 e.stopPropagation(); 함수를 호출 해준다. */}
+                <span onClick={(e)=>{ e.stopPropagation(); UpdateCount(index); }}>👍</span> {따봉[index]} 
+              </h4>
               <p>{ publishDate }</p>
+              <button onClick={()=> deleteData(index) }>삭제</button>
             </div>
           )
         })
       }
+      
 
+      {
+        <div>
+          <input type='text' onChange={(e)=>{ 입력값변경(e.target.value); }}/>
+          <button onClick={()=>{ addData(입력값); }}>글 발행</button>
+        </div>
+      }
       
 
       {
@@ -280,7 +350,7 @@ function App() {
           {/* <button onClick={ ()=>{ displayModal(modal) } }> { 글제목[2] } </button> */}
 
           {/* 방법 2. */}
-          <button onClick={ ()=>{ setModal(!modal) } }> { 글제목[2] } </button>
+          {/* <button onClick={ ()=>{ setModal(!modal) } }> { 글제목[2] } </button> */}
           {
              /* 저 state가 true면 <Modal></Modal> false면 아무것도 보여주지마세요. */
              // modal == true ? <Modal></Modal> : null
@@ -289,8 +359,33 @@ function App() {
              // modal == true ? <Modal 글제목={글제목} color={'orange'}/> : null
           }
         </h4>
-        <p>{ publishDate }</p>
+        {/* <p>{ publishDate }</p> */}
       </div>
+      {
+        // <input onChange={(e)=>{ console.log(e.target.value) }} /> 
+        // <input onChange={(e)=>{ 입력값변경(e.target.value); console.log(입력값) }} /> 
+
+        // <input onChange={(e)=>{ console.log(e.target); }}/> 
+        // <input onMouseOver={()=>{}} onChange={()=>{ console.log(1) }} />
+        // <input onScroll={()=>{}} onChange={()=>{ console.log(1) }} />
+        // <input onInput={()=>{ }} />
+        // <input type="text"/>
+        // <input type="range"/>
+        // <input type="date"/>
+        // <input type="number"/>
+        // <textarea></textarea>
+        // <select></select>
+   
+        // <input onChange={() => { console.log(1) }}/>
+        // <input onInput={() => { console.log(2) }}/>
+        // <input onMouseOver={() => { console.log(3) }}/>
+        // <input onScroll={() => { console.log(4) }}/>
+        // <input onChange={(e) => { console.log(e.target.value) }}/>
+        // <input onChange={(e) => { e.preventDefault() }}/>
+        // <input onChange={(e) => { e.stopPropagation() }}/>
+  
+        // <input onChange={(e) => { 입력값변경(e.target.value); console.log(입력값); }}/>
+      }
       {
         // 글제목.map(function(a, i) {
         //   return (
