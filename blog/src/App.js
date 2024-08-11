@@ -30,6 +30,8 @@
 
 // 12강 - input 1 : 사용자가 입력한 글 다루기
 
+// 13강 - input 다루기 2 : 블로그 글발행 기능 만들기
+
 // react 프로젝트 blog를 웹페이지로 실행할 때, 터미널에서 사용하는 명령어 "npm start" 입력 및 엔터를 치면 된다.
 // App.js - 메인 페이지 역할 
 // 폴더 node_modules - react 프로젝트 구동에 필요한 라이브러리 코드 보관함. 
@@ -73,6 +75,11 @@ import logo from './logo.svg';
 import { useState } from 'react';
 import './App.css';   // css 파일 "App.css" 쓰려면 상단에서 import 'css파일 경로' 작성
 
+// TODO : React App Component(function App()) 실행 후 html 코드가 웹브라우저 Chrome에 랜더링 되기 직전
+//        현재 날짜 가져오기 메서드 GetToDay가 자동으로 호출되어 실행할 수 있도록 
+//        useEffect 훅(Hook) 사용하기 (2024.08.09 jbh)
+// 참고 URL - https://chatgpt.com/c/49030741-5eb1-4ae3-a55b-c2af3d63557a
+import React, { useEffect } from 'react';
 
 // Component - 함수명 App
 // index.js 자바스크립트에 가면 App함수를 Component 식으로 
@@ -130,6 +137,7 @@ function App() {
 
   let [ 입력값, 입력값변경 ] = useState('');   // <input> 태그에 입력한 값 저장할 때 사용하는 state, useState에는 초기값으로 텅빈 문자(공백 - '') 지정
 
+  let [ date, setDate ] = useState('');  // <p> 태그에 현재 날짜 출력 state
 
   // TODO : 버튼 클릭하면 array 객체 "글제목"에 저장된 데이터를 가나다순으로 정렬하는 함수 구현 (2024.07.19 jbh)
   // 참고 URL - https://velog.io/@jessiii/%EC%BD%94%EB%94%A9%EC%95%A0%ED%94%8C-JS-%EA%B8%B0%EC%B4%88-%EB%B0%B0%EC%97%B4-%EC%A0%95%EB%A0%AC-%ED%95%A8%EC%88%98-sort-map-filter-%ED%95%A8%EC%88%98
@@ -210,12 +218,33 @@ function App() {
   /// array 객체에 새로운 글제목 데이터 추가
   /// </summary>
   function addData(addValue) {
+    let copy = [...글제목];
+
+    // 버튼 "글발행" 옆 <input> 태그에 글제목에 추가할 문자열(입력값)을 1자이상 입력한 경우 
+    if(입력값.length >= 1) {
+      copy.unshift(입력값);
+      글제목변경(copy);
+
+      let copyCount = [...따봉];
+      copyCount.unshift(0);
+      따봉변경(copyCount);
+    }
+    // TODO : alert 사용하여 문자열(입력값)을 입력 안 한 경우 경고 메시지 출력하기 (2024.08.09 jbh)
+    // 참고 URL - https://velog.io/@jaehooo13/React-alert-%EC%B0%BD-%EB%9D%84%EC%9A%B0%EA%B8%B0
+    // 버튼 "글발행" 옆 <input> 태그에 글제목에 추가할 문자열(입력값)을 입력 안 한 경우 
+    else {
+      alert('글제목을 입력하세요.');
+      // return;
+    }
+
+    
+    // TODO : 아래 주석친 테스트 코드 필요시 참고 (2024.08.09 jbh)
     // let copy = [...글제목];
     // let copy = [...글제목];
 
     // Spread(전개 연산자) 사용한 방법 
     // 글제목변경([...글제목, addValue]); // 새로운 글제목 데이터(addValue)를 맨 뒤로 추가하는 코드
-    글제목변경([addValue, ...글제목]);    // 새로운 글제목 데이터(addValue)를 맨 앞으로 추가하는 코드
+    // 글제목변경([addValue, ...글제목]);    // 새로운 글제목 데이터(addValue)를 맨 앞으로 추가하는 코드
     
     // concat함수를 이용해서 불변성 지키는 방법 
     // 글제목변경(글제목.concat(addValue));   // 새로운 글제목 데이터(addValue)를 맨 뒤로 추가하는 코드
@@ -230,8 +259,17 @@ function App() {
   /// array 객체 글제목 특정 인덱스에 할당된 데이터 삭제
   /// </summary>
   function deleteData(deleteIndex) {
+    let copy = [...글제목];
+    copy.splice(deleteIndex, 1);
+    글제목변경(copy);
+
+    let copyCount = [...따봉];
+    copyCount.splice(deleteIndex, 1);
+    따봉변경(copyCount);
+
+    // TODO : 아래 주석친 테스트 코드 필요시 참고 (2024.08.09 jbh)
     // 메서드 filter 사용하여 함수 파라미터 deleteIndex와 일치하지 않는 원소만 추출해서 새로운 배열 만듬
-    글제목변경((글제목) => 글제목.filter((item, index) => index !== deleteIndex));
+    // 글제목변경((글제목) => 글제목.filter((item, index) => index !== deleteIndex));
   }
 
   // 테스트 함수 "함수임"
@@ -255,6 +293,34 @@ function App() {
     copy[index] += 1;
     따봉변경(copy);
   }
+
+  
+  /// <summary>
+  /// 현재 날짜 가져오기 
+  /// </summary>
+  function GetToDay() {
+    // TODO : 자바스크립트로 현재 날짜 구하기 (2024.08.09 jbh)
+    // 참고 URL - https://velog.io/@jaehooo13/React-%ED%98%84%EC%9E%AC-%EB%82%A0%EC%A7%9C-%EC%B6%9C%EB%A0%A5%ED%95%98%EA%B8%B0
+    
+    // 현재 날짜 가져오기 
+    const today = new Date();
+
+    // 원하는 형식으로 날짜 설정 
+    const formattedDate = `${today.getFullYear()}년 ${today.getMonth() + 1}월 ${today.getDate()}일`;
+
+    setDate(formattedDate);
+  }
+
+  // TODO : React App Component(function App()) 실행 후 html 코드가 웹브라우저 Chrome에 랜더링 되기 직전
+  //        현재 날짜 가져오기 메서드 GetToDay가 자동으로 호출되어 실행할 수 있도록 
+  //        useEffect 훅(Hook) 사용하기 (2024.08.09 jbh)
+  // 참고 URL - https://chatgpt.com/c/49030741-5eb1-4ae3-a55b-c2af3d63557a
+  useEffect(() => {
+    GetToDay(); // React App Component(function App())가 렌더링될 때 GetToDay 메서드 호출
+  }, []); // 빈 배열을 넣으면 React App Component(function App())가 마운트될 때 한 번만 실행됨
+
+
+
 
   // State 문법 useState(0); 사용한 변수 "따봉" 변경 하려면 
   // State 변경용 함수 "따봉변경"를 아래처럼 따봉변경(따봉 + 1) 사용한다.
@@ -301,20 +367,15 @@ function App() {
                 <span onClick={(e)=>{ e.stopPropagation(); UpdateCount(index); }}>👍</span> {따봉[index]} 
               </h4>
               <p>{ publishDate }</p>
+              <p>현재 날짜 : { date }</p>
               <button onClick={()=> deleteData(index) }>삭제</button>
             </div>
           )
         })
       }
       
-
-      {
-        <div>
-          <input type='text' onChange={(e)=>{ 입력값변경(e.target.value); }}/>
-          <button onClick={()=>{ addData(입력값); }}>글 발행</button>
-        </div>
-      }
-      
+      <input type='text' onChange={(e)=>{ 입력값변경(e.target.value); }}/> 
+      <button onClick={()=>{ addData(입력값); }}>글 발행</button>
 
       {
         /* 저 state가 true면 <Modal></Modal> false면 아무것도 보여주지마세요. */
