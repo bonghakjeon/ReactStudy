@@ -32,6 +32,8 @@
 
 // 13강 - input 다루기 2 : 블로그 글발행 기능 만들기
 
+// 14강 - class를 이용한 옛날 React 문법
+
 // react 프로젝트 blog를 웹페이지로 실행할 때, 터미널에서 사용하는 명령어 "npm start" 입력 및 엔터를 치면 된다.
 // App.js - 메인 페이지 역할 
 // 폴더 node_modules - react 프로젝트 구동에 필요한 라이브러리 코드 보관함. 
@@ -386,6 +388,7 @@ function App() {
         // modal == true ? <Modal color={'yellow'} title={title} 글제목={글제목} updateData={updateData} /> : null
         modal == true ? <Modal color={'yellow'} 글제목변경={글제목변경} title={title} 글제목={글제목} /> : null
       }
+
       
       {/* 아래 html 코드 필요시 참고 (2024.07.25 jbh) */}
       {/* <button onClick={ ()=> { setTitle(0); }}>글제목0</button>
@@ -634,7 +637,7 @@ function App() {
     let a = 10;
   }
 
-  
+
 
   // Component 문법이란?
   // 더럽고 긴 html 코드 덩어리를 한 단어의 함수명으로 깔끔하게 
@@ -737,6 +740,82 @@ function App() {
   //     </div>
   //   )
   // }
+
+
+  // class 문법으로 Component 만드는 법 1
+  // class Modal2 extends React.Component {
+  //   constructor() {
+  //     super();
+  //   }
+
+  //   render() {
+  //     return (
+  //       <div>안녕</div>
+  //     )
+  //   }
+  // }
+
+  // class 문법으로 Component 만드는 법 2
+  // class Modal2 extends React.Component {
+  //   constructor() {
+  //     super();
+  //     this.state = {
+  //       name: 'kim',
+  //       age: 20
+  //     }
+  //   }
+
+  //   render() {
+  //     return (
+  //       // <div>안녕 {this.state.name}</div>
+  //       <div>안녕 {this.state.age}</div>
+  //     )
+  //   }
+  // }
+
+  // class 문법으로 Component 만드는 법 3
+  // class Modal2 extends React.Component {
+  //   constructor() {
+  //     super();
+  //     this.state = {
+  //       name : 'kim',
+  //       age : 20
+  //     }
+  //   }
+
+  //   render() {
+  //     return (
+  //       <div>안녕 {this.state.age}
+  //         <button onClick={() => { 
+  //           this.setState({age : 21}) // 기존 state 전부(this.state) 갈아 치우는게 아니라 변경된 사항 (age : 21)만 state 변경 처리 해준다.
+  //         }}>버튼</button>
+  //       </div>
+  //     )
+  //   }
+  // }
+
+  // class 문법으로 Component 만드는 법 4
+  // class Modal2 extends React.Component {
+  //   constructor(props) {
+  //     super(props);
+  //     this.state = {
+  //       name : 'kim',
+  //       age : 20 
+  //     }
+  //   }
+
+  //   render() {
+  //     return(
+  //       // 부모 컴포넌트가 자식 컴포넌트(Modal2)로 보낸 props(this.props.App.입력값) 사용하기
+  //       <div>안녕 {this.props.App.입력값} 
+  //         <button onClick={()=> {
+  //           this.setState({age : 21})
+  //         }}>버튼</button>
+  //       </div>
+  //     )
+  //   }
+  // }
+
 
 
   // TODO : 아래 주석친 코드 필요시 참고 (2024.07.16 jbh)
