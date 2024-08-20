@@ -34,6 +34,15 @@
 
 // 14강 - class를 이용한 옛날 React 문법
 
+// 15강 - 만든 리액트 사이트 build & Github Pages로 배포해보기
+// package.json 파일안에 json 데이터 항목 "homepage"를 새로 추가하되 
+// 아래처럼 내가 새로 생성한 Repository "bonghakjeon.github.io"를 사용해서 
+// Git Pages URL 주소 "https://bonghakjeon.github.io/"도 같이 입력함.
+// "homepage": "https://bonghakjeon.github.io/",
+
+// * React JS를 Github Pages에 호스팅하기
+// 참고 URL - https://www.hohyeonmoon.com/blog/react-js-github-pages-deploy
+
 // react 프로젝트 blog를 웹페이지로 실행할 때, 터미널에서 사용하는 명령어 "npm start" 입력 및 엔터를 치면 된다.
 // App.js - 메인 페이지 역할 
 // 폴더 node_modules - react 프로젝트 구동에 필요한 라이브러리 코드 보관함. 
