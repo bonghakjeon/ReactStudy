@@ -23,6 +23,7 @@ function App() {
   return (
     <div className="App">
       <Navbar bg="dark" variant="dark">
+        {/* <Button variant="primary">Primary</Button> */}
         <Container>
         <Navbar.Brand href="#home">Navbar</Navbar.Brand>
         <Nav className="me-auto">
