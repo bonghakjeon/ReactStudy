@@ -18,6 +18,7 @@
 import {Button, Navbar, Container, Nav} from 'react-bootstrap'
 import logo from './logo.svg';
 import './App.css';
+import bg from './bg.png';
 
 function App() {
   return (
@@ -33,6 +34,50 @@ function App() {
         </Nav>
         </Container>
       </Navbar>
+      <div className='main-bg' />
+
+      {/* [권장하지 않음]   1. 폴더 "shop" -> 폴더 "public" 안에 들어 있는 이미지 파일 "/logo192.png" <img> 태그에 집어넣는 사용법 */}
+      {/* <img src="/logo192.png" />  */}
+      {/* [권장하는 사용법] 2. 폴더 "shop" -> 폴더 "public" 안에 들어 있는 이미지 파일 "/logo192.png" <img> 태그에 집어넣는 사용법 */}
+      <img src={process.env.PUBLIC_URL + '/logo192.png'} />
+
+      <div className="container">
+        <div className="row">
+          <div className="col-md-4">
+            <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="80%" />
+            <h4>상품명</h4>
+            <p>상품정보</p>
+          </div>
+          <div className="col-md-4">
+            <img src="https://codingapple1.github.io/shop/shoes2.jpg" width="80%" />
+            <h4>상품명</h4>
+            <p>상품정보</p>
+          </div>
+          <div className="col-md-4">
+            <img src="https://codingapple1.github.io/shop/shoes3.jpg" width="80%" />
+            <h4>상품명</h4>
+            <p>상품정보</p>
+          </div>
+        </div>
+      </div>
+
+
+      {/* <div className="container">
+        <div className="row">
+          <div className="col-md-4">안녕</div>
+          <div className="col-md-4">안녕</div>
+          <div className="col-md-4">안녕</div>
+        </div>
+      </div>  */}
+
+      {/* 1. App.css 에서 CSS 속성 'main-bg' 사용해서 이미지 파일 "bg.png" 가져오는 <div> 태그 사용법 */}
+      {/* <div className='main-bg'></div> */}
+
+      {/* 2. App.js 에서 아래 html 코드  <div className='main-bg'> 태그 안에서 이미지 파일 "bg.png" 집어넣는 사용법 */}
+      {/* <div className='main-bg' style={{ backgroundImage : 'url(' + bg + ')' }}></div> */}
+
+      {/* 3. App.js 에서 아래 html 코드 <img> 태그 사용해서 이미지 파일 "bg.png" 집어넣는 사용법  */}
+      {/* <img src={bg} /> */}
     </div>
   );
 }
