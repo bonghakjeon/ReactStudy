@@ -1,3 +1,15 @@
+.main-bg {
+  height : 300px;
+  /* 이미지 파일 경로 설정 */
+  /* src 폴더 하위에 있는 이미지 파일 경로 설정 방법 */
+  /* background-image : url('./bg.png'); */
+
+  /* src 폴더 -> img 폴더 하위에 있는 이미지 파일 경로 설정 방법 */
+  background-image : url('./img/bg.png');   
+  background-size : cover;             /* 사진이 클 경우 사이즈 조절해서 가운데 정렬 */
+  background-position : center;        /* 사진 기준점(왼쪽) -> 사진 확대/축소 하더라도 기준점(가운데) 정렬 */
+}
+
 .App {
   text-align: center;
 }
@@ -26,13 +38,6 @@
 
 .App-link {
   color: #61dafb;
-}
-
-.main-bg {
-  height : 300px;
-  background-image : url('./bg.png');
-  background-size : cover;
-  background-position : center;
 }
 
 @keyframes App-logo-spin {
