@@ -4,6 +4,8 @@
 
 // 17강 - 이미지 넣는 법 & public 폴더 이용하기
 
+// 18강 - 코드 길어지면 import export 하면 됩니다
+
 // Bootstrap 웹 사이트 
 // Getting Started -> introduction (태그 <link> 사용해서 css 버전 적용 방법 포함)
 // 참고 URL - https://react-bootstrap.netlify.app/docs/getting-started/introduction
@@ -17,12 +19,28 @@
 // TODO : React Bootstrap CSS 파일 사용하기 위해서 index.html 파일 -> <head> 태그 안에 <link> 태그 추가 (2024.08.22 jbh)  -->
 // 참고 URL - https://react-bootstrap.netlify.app/docs/getting-started/introduction  -->
 
-import {Button, Navbar, Container, Nav} from 'react-bootstrap'
+import { Button, Navbar, Container, Nav } from 'react-bootstrap'
+import { useState } from 'react';
+// import data from './data.js'; // data.js라는 파일에 존재하는 변수(data - json 데이터 형식 리스트)를 App.js 에서 가져와서 쓰고 싶을 때, 키워드 import data from './data.js'; 사용 
+// data.js라는 파일에 존재하는 변수 여러 개(data - json 데이터 형식 리스트 / name1 / name2)를 App.js 에서 가져와서 쓰고 싶을 때, 키워드 import { data, name1, name2 } from './data.js'; 사용 
+// import { data, name1, name2 } from './data.js';
+
+// import a from './data.js'; // data.js라는 파일에 존재하는 변수(a - 변수)를 App.js 에서 가져와서 쓰고 싶을 때, 키워드 import a from './data.js'; 사용 
+import a from './data.js';
+
+import Shoes from './Shoes';
 import logo from './logo.svg';
 import './App.css';
 import bg from './img/bg.png';   // 이미지 파일 "bg.png"를 "bg"로 가져오기(import)
 
 function App() {
+  // let [ 상품데이터, 상품데이터변경 ] = useState([{ id : 0, title : "White and Black", content : "Born in France", price : 120000 }, 
+  //                                              { id : 1, title : "Red Knit", content : "Born in Seoul", price : 110000 }, 
+  //                                              { id : 2, title : "Grey Yordan", content : "Born in the States", price : 130000}]);
+
+  // let [ shoes ] = useState(data);
+  
+
   return (
     <div className="App">
       {/* 상단 Navbar 예시 1 */}
@@ -51,7 +69,10 @@ function App() {
 
       
       <div className='main-bg' />
+      
+      <Shoes/>
 
+      {/* 아래 주석친 테스트 코드 필요시 참고 (2024.09.04 jbh) */}
       {/* public 폴더 기능 */}
       {/* shop 폴더 하단 -> public 폴더 하단에도 이미지 파일 보관 가능 */}
       {/* React 프로젝트에서 코드 다 짜서 개발 완료 후 해당 프로젝트(사이트)를 발행(publish) 처리 하는데 */}
@@ -70,34 +91,7 @@ function App() {
       {/* [권장하는 사용법] 2. 폴더 "shop" -> 폴더 "public" 안에 들어 있는 이미지 파일 "/logo192.png" <img> 태그에 집어넣는 사용법 */}
       <img src={process.env.PUBLIC_URL + '/logo192.png'} />
 
-      {/* 아래 <div className="col-md-4"> 태그는 React Bootstrap 이 아닌 원조 Bootstrap에서 가져온 html 코드이다. */}
-      {/* 아래 <div className="col-md-4"> 태그를 원조 Bootstrap에서 가져온 이유는 편의상 가져왔다.(React Bootstrap 보다 가독성이 상대적으로 좋다) */}
-      {/* 상품 목록 3가지(상품 이미지 파일, 상품명, 상품정보) 가로로 나열하기 위해 아래 <div className="col-md-4"> 태그 사용 */}
-      <div className="container">
-        <div className="row">
-          <div className="col-md-4">
-            {/* <img> 태그에 외부에 호스팅 된 이미지 파일을 가져오려면 아래처럼 이미지 절대 주소 URL을 속성 src에 넣기  */}
-            {/* <img> 태그에 width="80"%로 제한해서 이미지 예쁘게 출력되게 설정 */}
-            <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="80%" />
-            <h4>상품명</h4>
-            <p>상품정보</p>
-          </div>
-          <div className="col-md-4">
-            {/* <img> 태그에 외부에 호스팅 된 이미지 파일을 가져오려면 아래처럼 이미지 절대 주소 URL을 속성 src에 넣기  */}
-            {/* <img> 태그에 width="80"%로 제한해서 이미지 예쁘게 출력되게 설정 */}
-            <img src="https://codingapple1.github.io/shop/shoes2.jpg" width="80%" />
-            <h4>상품명</h4>
-            <p>상품정보</p>
-          </div>
-          <div className="col-md-4">
-            {/* <img> 태그에 외부에 호스팅 된 이미지 파일을 가져오려면 아래처럼 이미지 절대 주소 URL을 속성 src에 넣기  */}
-            {/* <img> 태그에 width="80"%로 제한해서 이미지 예쁘게 출력되게 설정 */}
-            <img src="https://codingapple1.github.io/shop/shoes3.jpg" width="80%" />
-            <h4>상품명</h4>
-            <p>상품정보</p>
-          </div>
-        </div>
-      </div>
+      
 
 
       {/* <div className="container">

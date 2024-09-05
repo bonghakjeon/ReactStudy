@@ -362,7 +362,7 @@ function App() {
         글제목.map(function(title, index) {
           return (
             // map 함수 사용해서 반복문으로 html 생성 하려면 
-            // html 코드에 key={i} 작성 필수 
+            // html 코드에 key={index} 작성 필수 
             <div className='list' key={index}>
               {/* <h4 onClick={()=>{ setModal(!modal); }}>{ 글제목[index] } <span onClick={()=>{ UpdateCount(index) }}>👍</span> {따봉[index]} </h4> */}
               {/* <h4 onClick={()=>{ displayModal(index, !modal); }}>{ 글제목[index] } <span onClick={()=>{ UpdateCount(index) }}>👍</span> {따봉[index]} </h4> */}
