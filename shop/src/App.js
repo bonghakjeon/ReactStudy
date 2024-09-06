@@ -23,7 +23,7 @@ import { Button, Navbar, Container, Nav } from 'react-bootstrap'
 import { useState } from 'react';
 // import data from './data.js'; // data.js라는 파일에 존재하는 변수(data - json 데이터 형식 리스트)를 App.js 에서 가져와서 쓰고 싶을 때, 키워드 import data from './data.js'; 사용 
 // data.js라는 파일에 존재하는 변수 여러 개(data - json 데이터 형식 리스트 / name1 / name2)를 App.js 에서 가져와서 쓰고 싶을 때, 키워드 import { data, name1, name2 } from './data.js'; 사용 
-// import { data, name1, name2 } from './data.js';
+import { data, name1, name2 } from './data.js';
 
 // import a from './data.js'; // data.js라는 파일에 존재하는 변수(a - 변수)를 App.js 에서 가져와서 쓰고 싶을 때, 키워드 import a from './data.js'; 사용 
 import a from './data.js';
@@ -38,7 +38,7 @@ function App() {
   //                                              { id : 1, title : "Red Knit", content : "Born in Seoul", price : 110000 }, 
   //                                              { id : 2, title : "Grey Yordan", content : "Born in the States", price : 130000}]);
 
-  // let [ shoes ] = useState(data);
+  let [ shoes ] = useState(data);
   
 
   return (
@@ -70,7 +70,14 @@ function App() {
       
       <div className='main-bg' />
       
+      {/* 컴포넌트 Shoes 구현 및 사용 예시 */}
       <Shoes/>
+
+      {/* 컴포넌트 Card 구현 및 사용 예시 */}
+      {/* 부모 컴포넌트 App -> 자식 컴포넌트 Card로 state "shoes"를 props 문법 사용해서 전송하기   */}
+      <Card shoes={shoes[0]} i={1} />
+      <Card shoes={shoes[1]} i={2} />
+      <Card shoes={shoes[2]} i={3} />
 
       {/* 아래 주석친 테스트 코드 필요시 참고 (2024.09.04 jbh) */}
       {/* public 폴더 기능 */}
@@ -113,6 +120,21 @@ function App() {
       {/* <img src={bg} /> */}
     </div>
   );
+}
+
+function Card(props) {
+  return (
+    <div className='col-md-4'>
+      <img src={'https://codingapple1.github.io/shop/shoes' + props.i + '.jpg'} width="80%" />
+      {/* <h4>상품명</h4> */}
+      {/* <p>상품정보</p> */}
+      {/* <h4>{ props.shoes[0].title }</h4> */}
+      {/* <p>{ props.shoes[0].price }</p> */}
+      <h4>{ props.shoes.title }</h4>
+      <p>{ props.shoes.content }</p>
+      <p>{ props.shoes.price }</p>
+    </div>
+  )
 }
 
 export default App;
