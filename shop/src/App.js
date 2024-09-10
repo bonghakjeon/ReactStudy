@@ -6,6 +6,8 @@
 
 // 18강 - 코드 길어지면 import export 하면 됩니다
 
+// 19강 - 저번시간 숙제 해설 (Card 컴포넌트 만들기)
+
 // Bootstrap 웹 사이트 
 // Getting Started -> introduction (태그 <link> 사용해서 css 버전 적용 방법 포함)
 // 참고 URL - https://react-bootstrap.netlify.app/docs/getting-started/introduction
@@ -69,17 +71,37 @@ function App() {
 
       
       <div className='main-bg' />
-      
+
+      <div className='container'>
+        <div className='row'>
+          {
+            // 함수 map 사용해서 List형 state "shoes"에 존재하는 요소 갯수만큼 반복문 진행 
+            // shoes.map(function(title, i) {
+            //   return(
+            //     <Card shoes={shoes[i]} i={i}></Card>
+            //   )
+            // })
+
+            // 함수 arrow 사용해서 List형 state "shoes"에 존재하는 요소 갯수만큼 반복문 진행 
+            shoes.map((title, i) => {
+              return(
+                <Card shoes={shoes[i]} i={i}></Card>
+              )
+            })
+          }
+        </div>
+      </div>
+
+      {/* 아래 주석친 테스트 코드 필요시 참고 (2024.09.04 jbh) */}
       {/* 컴포넌트 Shoes 구현 및 사용 예시 */}
-      <Shoes/>
+      {/* <Shoes/> */}
 
       {/* 컴포넌트 Card 구현 및 사용 예시 */}
       {/* 부모 컴포넌트 App -> 자식 컴포넌트 Card로 state "shoes"를 props 문법 사용해서 전송하기   */}
-      <Card shoes={shoes[0]} i={1} />
-      <Card shoes={shoes[1]} i={2} />
-      <Card shoes={shoes[2]} i={3} />
+      {/* <Card shoes={shoes[0]} i={1} /> */}
+      {/* <Card shoes={shoes[1]} i={2} /> */}
+      {/* <Card shoes={shoes[2]} i={3} /> */}
 
-      {/* 아래 주석친 테스트 코드 필요시 참고 (2024.09.04 jbh) */}
       {/* public 폴더 기능 */}
       {/* shop 폴더 하단 -> public 폴더 하단에도 이미지 파일 보관 가능 */}
       {/* React 프로젝트에서 코드 다 짜서 개발 완료 후 해당 프로젝트(사이트)를 발행(publish) 처리 하는데 */}
@@ -97,9 +119,6 @@ function App() {
       {/* <img src="/logo192.png" />  */}
       {/* [권장하는 사용법] 2. 폴더 "shop" -> 폴더 "public" 안에 들어 있는 이미지 파일 "/logo192.png" <img> 태그에 집어넣는 사용법 */}
       <img src={process.env.PUBLIC_URL + '/logo192.png'} />
-
-      
-
 
       {/* <div className="container">
         <div className="row">
@@ -125,16 +144,27 @@ function App() {
 function Card(props) {
   return (
     <div className='col-md-4'>
-      <img src={'https://codingapple1.github.io/shop/shoes' + props.i + '.jpg'} width="80%" />
-      {/* <h4>상품명</h4> */}
-      {/* <p>상품정보</p> */}
-      {/* <h4>{ props.shoes[0].title }</h4> */}
-      {/* <p>{ props.shoes[0].price }</p> */}
-      <h4>{ props.shoes.title }</h4>
-      <p>{ props.shoes.content }</p>
-      <p>{ props.shoes.price }</p>
+      <img src={'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'} width="80%" />
+      <h5>{props.shoes.title}</h5>
+      <p>{props.shoes.price}</p>
     </div>
   )
 }
+
+// TODO : 아래 주석친 테스트 코드 필요시 참고 (2024.09.10 jbh)
+// function Card(props) {
+//   return (
+//     <div className='col-md-4'>
+//       <img src={'https://codingapple1.github.io/shop/shoes' + (props.i) + '.jpg'} width="80%" />
+//       {/* <h4>상품명</h4> */}
+//       {/* <p>상품정보</p> */}
+//       {/* <h4>{ props.shoes[0].title }</h4> */}
+//       {/* <p>{ props.shoes[0].price }</p> */}
+//       <h4>{ props.shoes.title }</h4>
+//       <p>{ props.shoes.content }</p>
+//       <p>{ props.shoes.price }</p>
+//     </div>
+//   )
+// }
 
 export default App;
