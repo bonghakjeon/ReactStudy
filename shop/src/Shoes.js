@@ -14,7 +14,9 @@ import { data, name1, name2 } from './data.js';
 //   그대로 가져와야 한다. (import {a, b} from './data.js';)
 import {a, b} from './data.js';
 
-
+/// <summary>
+/// 상품목록 컴포넌트 
+/// </summary>
 function Shoes() {
     let [ shoes, setShoes ] = useState(data);
 
@@ -122,7 +124,7 @@ function Product(props) {
     )
 }
 
-export default Shoes;   // 키워드 export default Shoes; 사용하면 변수 컴포넌트 Shoes 단 하나만 data.js 파일 뿐만 아니라 다른 소스 파일 (예) App.js 에서도 사용 할 수 있도록 내보내기 가능
+export default Shoes;   // 키워드 export default Shoes; 사용하면 변수 컴포넌트 Shoes 단 하나만 Shoes.js 파일 뿐만 아니라 다른 소스 파일 (예) App.js 에서도 사용 할 수 있도록 내보내기 가능
 
 // TODO : 아래 주석친 코드 필요시 참고 (2024.09.04 jbh)
-// export { data, name1, name2 } // 키워드 export { data, name1, name2 } 사용하면 변수 여러 개(data, name1, name2)를  data.js 파일 뿐만 아니라 다른 소스 파일 (예) App.js 에서도 사용 할 수 있도록 모두 내보내기 가능 
+// export { data, name1, name2 } // 키워드 export { data, name1, name2 } 사용하면 변수 여러 개(data, name1, name2)를  Shoes.js 파일 뿐만 아니라 다른 소스 파일 (예) App.js 에서도 사용 할 수 있도록 모두 내보내기 가능 

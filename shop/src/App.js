@@ -35,6 +35,9 @@ import logo from './logo.svg';
 import './App.css';
 import bg from './img/bg.png';   // 이미지 파일 "bg.png"를 "bg"로 가져오기(import)
 
+import { Routes, Route, Link } from 'react-router-dom'
+import Detail from './Detail.js';   // Detail.js라는 파일에 존재하는 상세페이지 컴포넌트 "Detail"을 "Detail"로 가져오기(import)
+
 function App() {
   // let [ 상품데이터, 상품데이터변경 ] = useState([{ id : 0, title : "White and Black", content : "Born in France", price : 120000 }, 
   //                                              { id : 1, title : "Red Knit", content : "Born in Seoul", price : 110000 }, 
@@ -69,10 +72,54 @@ function App() {
         </Container>
       </Navbar>
 
-      
-      <div className='main-bg' />
+      {/* 오늘의 숙제 :
+          /detail로 접속하면 보여줄 상세페이지를 컴포넌트를 이용해서 만들어오십시오. 
+          코드 너무 기니까 다른 파일에 작성해봅시다. */}
 
-      <div className='container'>
+      {/* 'react-router-dom' - <Link> 사용한 페이지 이동 버튼 */}
+      <Link to="/">홈(메인페이지)</Link>
+      <Link to="/detail">상세페이지</Link>
+      <Link to="/about">어바웃페이지</Link>
+
+      {/* 'react-router-dom' - <Routes>, <Route> 사용하여 페이지 나누기 */}
+      <Routes>
+        {/* 홈(메인페이지) path="/"  */}
+        <Route path="/" element={ <>
+                                    <div className='main-bg' />
+                                    <div className='container'>
+                                      <div className='row'>
+                                      {
+                                        // 함수 map 사용해서 List형 state "shoes"에 존재하는 요소 갯수만큼 반복문 진행 
+                                        // shoes.map(function(title, i) {
+                                        //   return (
+                                        //     <Card shoes={shoes[i]} i={i}></Card>
+                                        //   )
+                                        // })
+
+                                        // 함수 arrow 사용해서 List형 state "shoes"에 존재하는 요소 갯수만큼 반복문 진행 
+                                        shoes.map((title, i) => {
+                                          return (
+                                            <Card shoes={shoes[i]} i={i}></Card>
+                                          )
+                                        })
+                                      }
+                                      </div>
+                                    </div> 
+                                  </>
+                                } />
+        {/* 상세페이지 path="/detail"  */}                   
+        <Route path="/detail" element={ <div>
+                                          <Detail/>
+                                        </div> } />
+        {/* 어바웃페이지 path="/about"  */}
+        <Route path="/about" element={ <div>어바웃페이지임</div> } />
+      </Routes>
+
+      
+
+      {/* 아래 주석친 테스트 코드 필요시 참고 (2024.09.04 jbh) */}
+      {/* <div className='main-bg' /> */}
+      {/* <div className='container'>
         <div className='row'>
           {
             // 함수 map 사용해서 List형 state "shoes"에 존재하는 요소 갯수만큼 반복문 진행 
@@ -90,9 +137,7 @@ function App() {
             })
           }
         </div>
-      </div>
-
-      {/* 아래 주석친 테스트 코드 필요시 참고 (2024.09.04 jbh) */}
+      </div> */}
       {/* 컴포넌트 Shoes 구현 및 사용 예시 */}
       {/* <Shoes/> */}
 
