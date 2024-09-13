@@ -22,21 +22,29 @@
 // 참고 URL - https://react-bootstrap.netlify.app/docs/getting-started/introduction  -->
 
 import { Button, Navbar, Container, Nav } from 'react-bootstrap'
-import { useState } from 'react';
+import { useState } from 'react'
 // import data from './data.js'; // data.js라는 파일에 존재하는 변수(data - json 데이터 형식 리스트)를 App.js 에서 가져와서 쓰고 싶을 때, 키워드 import data from './data.js'; 사용 
 // data.js라는 파일에 존재하는 변수 여러 개(data - json 데이터 형식 리스트 / name1 / name2)를 App.js 에서 가져와서 쓰고 싶을 때, 키워드 import { data, name1, name2 } from './data.js'; 사용 
-import { data, name1, name2 } from './data.js';
+import { data, name1, name2 } from './data.js'
 
 // import a from './data.js'; // data.js라는 파일에 존재하는 변수(a - 변수)를 App.js 에서 가져와서 쓰고 싶을 때, 키워드 import a from './data.js'; 사용 
-import a from './data.js';
+import a from './data.js'
 
-import Shoes from './Shoes';
-import logo from './logo.svg';
-import './App.css';
-import bg from './img/bg.png';   // 이미지 파일 "bg.png"를 "bg"로 가져오기(import)
+import Shoes from './Shoes'
+import logo from './logo.svg'
+import './App.css'
+import bg from './img/bg.png'   // 이미지 파일 "bg.png"를 "bg"로 가져오기(import)
 
-import { Routes, Route, Link } from 'react-router-dom'
-import Detail from './Detail.js';   // Detail.js라는 파일에 존재하는 상세페이지 컴포넌트 "Detail"을 "Detail"로 가져오기(import)
+// 외부 라이브러리 'react-router-dom' 사용하기 위해서 터미널 열어서 명령어 "npm install react-router-dom@6" 입력 및 엔터 
+// 명령어 "npm install react-router-dom@6"에서 숫자 6이 의미하는 것은 
+// 'react-router-dom' 버전 6을 의미한다.
+// 외부 라이브러리 'react-router-dom' import 처리 및 컴포넌트 "Routes", "Route", "Link" 가져오기
+// import { Routes, Route, Link } from 'react-router-dom'
+
+// 외부 라이브러리 'react-router-dom' import 처리 및 컴포넌트 "Routes", "Route", "Link", "useNavigate", "Outlet" 가져오기
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
+
+import Detail from './routes/Detail.js'   // Detail.js라는 파일에 존재하는 상세페이지 컴포넌트 "Detail"을 "Detail"로 가져오기(import)
 
 function App() {
   // let [ 상품데이터, 상품데이터변경 ] = useState([{ id : 0, title : "White and Black", content : "Born in France", price : 120000 }, 
@@ -44,7 +52,22 @@ function App() {
   //                                              { id : 2, title : "Grey Yordan", content : "Born in the States", price : 130000}]);
 
   let [ shoes ] = useState(data);
-  
+
+  // 페이지 이동 기능(버튼) 만들기 위해 컴포넌트 useNavigate() 사용 
+  let navigate = useNavigate()
+  let eventOne = useNavigate()
+  let eventTwo = useNavigate()
+
+  // 페이지 이동 기능(뒤로 1번 가기 버튼) 만들기 위해 컴포넌트 useNavigate() 사용
+  let navigate1 = useNavigate(1)
+  let eventOne1 = useNavigate(1)
+  let eventTwo1 = useNavigate(1)
+
+  // 페이지 이동 기능(앞으로 2번 가기 버튼) 만들기 위해 컴포넌트 useNavigate() 사용
+  let navigate2 = useNavigate(2)
+  let eventOne2 = useNavigate(2)
+  let eventTwo2 = useNavigate(2)
+
 
   return (
     <div className="App">
@@ -72,18 +95,35 @@ function App() {
         </Container>
       </Navbar>
 
-      {/* 오늘의 숙제 :
-          /detail로 접속하면 보여줄 상세페이지를 컴포넌트를 이용해서 만들어오십시오. 
-          코드 너무 기니까 다른 파일에 작성해봅시다. */}
+      <Button onClick={()=>{ navigate('/detail') }}>상세페이지-이동버튼</Button>
+      <Button onClick={()=>{ navigate1('/detail') }}>상세페이지-뒤로 이동버튼</Button>
+      <Button onClick={()=>{ navigate2('/detail') }}>상세페이지-앞으로 이동버튼</Button>
 
-      {/* 'react-router-dom' - <Link> 사용한 페이지 이동 버튼 */}
+      <Button onClick={()=> { eventOne('/event/one') }}>오늘의이벤트페이지(첫주문서비스)-이동버튼</Button>
+      <Button onClick={()=> { eventOne1('/event/one') }}>오늘의이벤트페이지(첫주문서비스)-뒤로 이동버튼</Button>
+      <Button onClick={()=> { eventOne2('/event/one') }}>오늘의이벤트페이지(첫주문서비스)-앞으로 이동버튼</Button>
+      <Button onClick={()=> { eventTwo('/event/two') }}>오늘의이벤트페이지(생일기념)-이동버튼</Button>
+      <Button onClick={()=> { eventTwo1('/event/two') }}>오늘의이벤트페이지(생일기념)-뒤로 이동버튼</Button>
+      <Button onClick={()=> { eventTwo2('/event/two') }}>오늘의이벤트페이지(생일기념)-앞으로 이동버튼</Button>
+
+
+      {/* (예시) 'react-router-dom' - <Link> 사용한 페이지 이동 버튼 */}
       <Link to="/">홈(메인페이지)</Link>
       <Link to="/detail">상세페이지</Link>
       <Link to="/about">어바웃페이지</Link>
+      <Link to="/about/member">어바웃페이지-회사멤버 소개 페이지</Link>
+      <Link to="/about/location">어바웃페이지-회사위치 소개 페이지</Link>
+      <Link to="/event/one">오늘의이벤트페이지-첫주문서비스 페이지</Link>
+      <Link to="/event/two">오늘의이벤트페이지-생일기념 페이지</Link>
+      <Link to="*">없는페이지(404 Not Found)</Link>
 
       {/* 'react-router-dom' - <Routes>, <Route> 사용하여 페이지 나누기 */}
+      {/* <Route> - 하나의 페이지 의미 */}
+      {/* <Route> 속성 path - 페이지 URL 경로 */}
       <Routes>
         {/* 홈(메인페이지) path="/"  */}
+        {/* 상품 목록 컴포넌트 Card는 홈(메인페이지)에서만 출력 되도록 
+            fragment 문법(<>, </>) 사용하여 아래처럼 구현 */}
         <Route path="/" element={ <>
                                     <div className='main-bg' />
                                     <div className='container'>
@@ -98,26 +138,61 @@ function App() {
 
                                         // 함수 arrow 사용해서 List형 state "shoes"에 존재하는 요소 갯수만큼 반복문 진행 
                                         shoes.map((title, i) => {
-                                          return (
-                                            <Card shoes={shoes[i]} i={i}></Card>
-                                          )
+                                          // return (
+                                          //   <Card shoes={shoes[i]} i={i}></Card>
+                                          // )
+                                          return <Card shoes={shoes[i]} i={i}></Card>                                        
                                         })
                                       }
                                       </div>
                                     </div> 
                                   </>
                                 } />
-        {/* 상세페이지 path="/detail"  */}                   
-        <Route path="/detail" element={ <div>
-                                          <Detail/>
-                                        </div> } />
+        {/* 상세페이지 path="/detail"  */}       
+        {/* 사용자가 상세페이지 접속시 상품 목록 컴포넌트 Card는 출력 안됨. */}            
+        <Route path="/detail" element={ <Detail/> } />
+
+        {/* Nested routes 사용해서 어바웃페이지 서브경로 회사멤버 소개하는 페이지, 회사위치 소개하는 페이지 만들기 */}
+        <Route path="/about" elemment={ <About/> }>
+          {/* 어바웃페이지 하위 회사멤버 소개하는 페이지 path="/about/member" */}
+          <Route path="member" element={ <div>멤버들</div> } />
+          {/* 어바웃페이지 하위 회사위치 소개하는 페이지 path="/about/location" */}
+          <Route path="location" element={ <div>회사위치</div> } />
+        </Route>
+
+        {/* Nested routes 사용해서 오늘의이벤트페이지 서브경로 첫주문서비스 페이지, 생일기념 페이지 만들기 */}
+        <Route path="/event" element={ <EventPage/> }>
+          {/* 오늘의이벤트페이지 하위 첫주문서비스 페이지 path="/event/one" */}
+          <Route path="one" element= { <p>첫 주문시 양배추즙 서비스</p> } />
+          {/* 오늘의이벤트페이지 하위 생일기념 페이지 path="/event/two" */}
+          <Route path="two" element= { <p>생일기념 쿠폰받기</p> } />
+        </Route>
+
+        {/* 없는페이지(404 Not Found) path="*" */}
+        <Route path="*" element={ <div>없는페이지임(404 Not Found)</div> }/>
+
+
         {/* 어바웃페이지 path="/about"  */}
-        <Route path="/about" element={ <div>어바웃페이지임</div> } />
+        {/* 사용자가 어바웃페이지 접속시 상품 목록 컴포넌트 Card는 출력 안됨. */}    
+        {/* <Route path="/about" element={ <div>어바웃페이지임</div> } /> */}
+
+        {/* 어바웃페이지 하위 회사멤버 소개하는 페이지 path="/about/member" */}
+        {/* <Route path="/about/member" element={ <div>멤버들</div> } /> */}
+
+        {/* 어바웃페이지 하위 회사위치 소개하는 페이지 path="/about/location" */}
+        {/* <Route path="about/location" element={ <div>회사위치</div> } /> */}
+
+        
       </Routes>
 
       
 
       {/* 아래 주석친 테스트 코드 필요시 참고 (2024.09.04 jbh) */}
+      {/* (예시) 'react-router-dom' - <Link> 사용한 페이지 이동 버튼 */}
+      {/* <Link to="/">홈(메인페이지)</Link> */}
+      {/* <Link to="/detail">상세페이지</Link> */}
+      {/* <Link to="/about">어바웃페이지</Link> */}
+
       {/* <div className='main-bg' /> */}
       {/* <div className='container'>
         <div className='row'>
@@ -186,6 +261,9 @@ function App() {
   );
 }
 
+/// <summary>
+/// 상품목록 컴포넌트
+/// </summary>
 function Card(props) {
   return (
     <div className='col-md-4'>
@@ -195,6 +273,37 @@ function Card(props) {
     </div>
   )
 }
+
+/// <summary>
+/// 어바웃페이지 컴포넌트
+/// </summary>
+function About() {
+  return (
+    <div>
+      <h4>about페이지임</h4>
+      {/* 컴포넌트 <Outlet> 사용해서 */}
+      {/* Nested routes안의 element들을 "<div>멤버들</div>}", "<div>회사위치</div>" */}
+      {/* <h4>about페이지임</h4> 아래에 서브페이지 형식으로 출력할 수 있도록 구현  */}
+      <Outlet></Outlet>
+    </div>
+  )  
+}
+
+/// <summary>
+/// 오늘의이벤트 컴포넌트
+/// </summary>
+function EventPage() {
+  return (
+    <div>
+      <h4>오늘의 이벤트</h4>
+      {/* 컴포넌트 <Outlet> 사용해서 */}
+      {/* Nested routes안의 element들을 "<div>첫 주문시 양배추즙 서비스</div>}", "<div>생일기념 쿠폰받기</div>" */}
+      {/* <h2>오늘의 이벤트</h2> 아래에 서브페이지 형식으로 출력할 수 있도록 구현  */}
+      <Outlet></Outlet>
+    </div>
+  )
+}
+
 
 // TODO : 아래 주석친 테스트 코드 필요시 참고 (2024.09.10 jbh)
 // function Card(props) {

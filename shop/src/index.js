@@ -1,11 +1,22 @@
+// import 처리시 내가 만든 js 파일들은 ./ 부터 작성 해야함.
+// (예) './index.css'; './App'; ./reportWebVitals';
+
+// import 처리시 설치한 라이브러리들은 ./ 작성 안함.
+// (예) 'react'; 'react-dom/client'; 'react-router-dom';
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+// 외부 라이브러리 'react-router-dom' 사용하기 위해서 터미널 열어서 명령어 "npm install react-router-dom@6" 입력 및 엔터 
+// 명령어 "npm install react-router-dom@6"에서 숫자 6이 의미하는 것은 
+// 'react-router-dom' 버전 6을 의미한다.
 import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+// 컴포넌트 <BrowserRouter> 사용해서 컴포넌트 <App /> 감싸기
 root.render(
   <React.StrictMode>
       <BrowserRouter>
