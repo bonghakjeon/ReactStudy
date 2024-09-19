@@ -8,6 +8,10 @@
 
 // 19강 - 저번시간 숙제 해설 (Card 컴포넌트 만들기)
 
+// 20강 - 리액트 라우터 1 : 셋팅이랑 기본 라우팅
+
+// 21강 - 리액트 라우터 2 : navigate, nested routes, outlet
+
 // Bootstrap 웹 사이트 
 // Getting Started -> introduction (태그 <link> 사용해서 css 버전 적용 방법 포함)
 // 참고 URL - https://react-bootstrap.netlify.app/docs/getting-started/introduction
@@ -53,17 +57,20 @@ function App() {
 
   let [ shoes ] = useState(data);
 
-  // 페이지 이동 기능(버튼) 만들기 위해 컴포넌트 useNavigate() 사용 
+  // 페이지 이동 기능(버튼) 만들기 위해 컴포넌트 훅(Hook) useNavigate() 사용 
+  // 컴포넌트 훅(Hook) useNavigate()의 리턴값은 페이지 이동 도와주는 함수이다.
   let navigate = useNavigate()
   let eventOne = useNavigate()
   let eventTwo = useNavigate()
 
-  // 페이지 이동 기능(뒤로 1번 가기 버튼) 만들기 위해 컴포넌트 useNavigate() 사용
+  // 페이지 이동 기능(뒤로 1번 가기 버튼) 만들기 위해 컴포넌트 훅(Hook) useNavigate() 사용
+  // 컴포넌트 훅(Hook) useNavigate()의 리턴값은 페이지 이동 도와주는 함수이다.
   let navigate1 = useNavigate(1)
   let eventOne1 = useNavigate(1)
   let eventTwo1 = useNavigate(1)
 
-  // 페이지 이동 기능(앞으로 2번 가기 버튼) 만들기 위해 컴포넌트 useNavigate() 사용
+  // 페이지 이동 기능(앞으로 2번 가기 버튼) 만들기 위해 컴포넌트 훅(Hook) useNavigate() 사용
+  // 컴포넌트 훅(Hook) useNavigate()의 리턴값은 페이지 이동 도와주는 함수이다.
   let navigate2 = useNavigate(2)
   let eventOne2 = useNavigate(2)
   let eventTwo2 = useNavigate(2)
@@ -89,8 +96,23 @@ function App() {
         <Container>
           <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
+            {/* 함수 navigate(1) 사용시 앞으로 가기 버튼 기능 */}
+            <Nav.Link onClick={() => { navigate(1) }}>앞으로 한페이지 이동</Nav.Link>
+
+            {/* 함수 navigate(-1) 사용시 뒤로가기 버튼 기능 */}
+            <Nav.Link onClick={() => { navigate(-1) }}>뒤로 한페이지 이동</Nav.Link>
+
+            {/* 함수 navigate(-2) 사용시 2번 뒤로가기 버튼 기능 */}
+            <Nav.Link onClick={() => { navigate(-2) }}>뒤로 두페이지 이동</Nav.Link>
+            <Nav.Link onClick={() => { navigate('/') }}>Home</Nav.Link>
             <Nav.Link href="#features">Cart</Nav.Link>
+
+            {/* <NavBar> 컴포넌트에 속한 버튼 "Detail" 클릭시 함수 navigate('/detail') 실행되어 상세페이지 이동 */}
+            <Nav.Link onClick={()=>{ navigate('/detail') }}>Detail</Nav.Link>
+
+            {/* TODO : 아래 주석친 테스트 코드 필요시 참고 (2024.09.19 jbh) */}
+            {/* <Nav.Link href="#home">Home</Nav.Link> */}
+            {/* <Nav.Link href="#features">Cart</Nav.Link> */}
           </Nav>
         </Container>
       </Navbar>
@@ -120,6 +142,9 @@ function App() {
       {/* 'react-router-dom' - <Routes>, <Route> 사용하여 페이지 나누기 */}
       {/* <Route> - 하나의 페이지 의미 */}
       {/* <Route> 속성 path - 페이지 URL 경로 */}
+      {/* 컴포넌트 <Route> 사용시 장점? */}
+      {/* 1. 앞으로가기(->) 또는 뒤로가기(<-) 버튼 이용 가능  */}
+      {/* 2. 페이지 이동이 쉬움 (UI 스위치 조작 쉬움) */}
       <Routes>
         {/* 홈(메인페이지) path="/"  */}
         {/* 상품 목록 컴포넌트 Card는 홈(메인페이지)에서만 출력 되도록 
@@ -152,7 +177,11 @@ function App() {
         {/* 사용자가 상세페이지 접속시 상품 목록 컴포넌트 Card는 출력 안됨. */}            
         <Route path="/detail" element={ <Detail/> } />
 
+        {/* Nested routes 사용하는 경우? 1. 여러 페이지가 필요할 때 2. 여러 유사한 페이지 필요할 때  */}
         {/* Nested routes 사용해서 어바웃페이지 서브경로 회사멤버 소개하는 페이지, 회사위치 소개하는 페이지 만들기 */}
+        {/* Nested routes란? 상위 <Route> 컴포넌트 안에 하위 <Route> 컴포넌트가 포함된 구조를 의미한다. */}
+        {/* Nested routes에 속성 path에 적힌 URL 주소로 접속시 상위 <Route> 컴포넌트(<About/>)에 하위 <Route> 컴포넌트에서 작성한 element(<div>멤버들</div>, <div>회사위치</div>)를 <Outlet>방식으로 넣어서 
+            웹브라우저 화면상 한 페이지에 2가지 상위 <Route> 컴포넌트와 하위 <Route> 컴포넌트 모두 출력된다.  */}
         <Route path="/about" elemment={ <About/> }>
           {/* 어바웃페이지 하위 회사멤버 소개하는 페이지 path="/about/member" */}
           <Route path="member" element={ <div>멤버들</div> } />
@@ -161,6 +190,8 @@ function App() {
         </Route>
 
         {/* Nested routes 사용해서 오늘의이벤트페이지 서브경로 첫주문서비스 페이지, 생일기념 페이지 만들기 */}
+        {/* Nested routes란? 상위 <Route> 컴포넌트 안에 하위 <Route> 컴포넌트가 포함된 구조를 의미한다. */}
+        {/* Nested routes에 속성 path에 적힌 URL 주소로 접속시 웹브라우저 화면상 한 페이지에 상위 <Route> 컴포넌트 + 하위 <Route> 컴포넌트에서 작성한 element 2개 모두 출력된다.  */}
         <Route path="/event" element={ <EventPage/> }>
           {/* 오늘의이벤트페이지 하위 첫주문서비스 페이지 path="/event/one" */}
           <Route path="one" element= { <p>첫 주문시 양배추즙 서비스</p> } />
@@ -169,7 +200,8 @@ function App() {
         </Route>
 
         {/* 없는페이지(404 Not Found) path="*" */}
-        <Route path="*" element={ <div>없는페이지임(404 Not Found)</div> }/>
+        {/* path="*"에서 "*"은 위의 <Route> 컴포넌트에서 작성한 path 이외 모든 것을 의미함. */}
+        <Route path="*" element={ <div>없는페이지요(404 Not Found)</div> }/>
 
 
         {/* 어바웃페이지 path="/about"  */}
