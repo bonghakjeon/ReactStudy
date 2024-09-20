@@ -55,7 +55,7 @@ function App() {
   //                                              { id : 1, title : "Red Knit", content : "Born in Seoul", price : 110000 }, 
   //                                              { id : 2, title : "Grey Yordan", content : "Born in the States", price : 130000}]);
 
-  let [ shoes ] = useState(data);
+  let [ shoes, setShoes ] = useState(data);
 
   // 페이지 이동 기능(버튼) 만들기 위해 컴포넌트 훅(Hook) useNavigate() 사용 
   // 컴포넌트 훅(Hook) useNavigate()의 리턴값은 페이지 이동 도와주는 함수이다.
@@ -74,6 +74,36 @@ function App() {
   let navigate2 = useNavigate(2)
   let eventOne2 = useNavigate(2)
   let eventTwo2 = useNavigate(2)
+
+  // TODO : 버튼 클릭하면 array 객체 "글제목"에 저장된 데이터를 가나다순으로 정렬하는 함수 구현 (2024.07.19 jbh)
+  // 참고 URL - https://velog.io/@jessiii/%EC%BD%94%EB%94%A9%EC%95%A0%ED%94%8C-JS-%EA%B8%B0%EC%B4%88-%EB%B0%B0%EC%97%B4-%EC%A0%95%EB%A0%AC-%ED%95%A8%EC%88%98-sort-map-filter-%ED%95%A8%EC%88%98
+  // 참고 2 URL - https://brunch.co.kr/@swimjiy/12
+  // 참고 3 URL - https://noirstar.tistory.com/359
+  /// <summary>
+  /// 상품목록 state shoes title 순서대로 정렬 
+  /// <summary>
+  function sortShoes() {
+    // array나 object 자료형 왼쪽에 붙일 수 있는
+    // spread operator 문법(...) 사용해서 
+    // 변수가 저장된 메모리 주소값 할당)안에 들어있는 괄호([])를 벗겨주고 
+    // 다시 새로운 array 객체 copy 만들기 
+    // 새로운 array 객체 copy를 만들면 
+    // 메모리 주소값이 다른 완전 독립적인 array 복사본이 생성된다.
+    // 그리고 독립적인 사본을 shallow copy 아니면 deep copy 라고 한다.
+    // spread operator 문법(...) 사용해서 독립적인 array나 object 객체를 새로 만드는 이유?
+    // 원본 array나 object 객체에 저장된 데이터를 변경 없이 유지해서 
+    // 필요할 때 해당 원본 array나 object 객체에 저장된 데이터를 다시 불러와서 사용하기 위해서이다.
+    let copy = [...shoes];
+
+    // TODO : 자바스크립트 함수 sort 사용하여 title 순서대로 오름차순 정렬 (2024.09.20 jbh)
+    // 참고 URL - https://codingeverybody.kr/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EB%B0%B0%EC%97%B4-sort-%ED%95%A8%EC%88%98/
+    // 참고 2 URL - https://yooneeee.tistory.com/17
+    copy.sort(copyObj => copyObj.title);
+
+    // copy와 shoes가 서로 다른 array 객체여야(copy === shoes 결과값 false)
+    // 새로운 array 객체 copy에 들어있는 값으로 기존 state를 갈아 치워줌.
+    setShoes(copy);
+  }
 
 
   return (
@@ -154,6 +184,7 @@ function App() {
                                     <div className='container'>
                                       <div className='row'>
                                       {
+                                    
                                         // 함수 map 사용해서 List형 state "shoes"에 존재하는 요소 갯수만큼 반복문 진행 
                                         // shoes.map(function(title, i) {
                                         //   return (
@@ -175,7 +206,26 @@ function App() {
                                 } />
         {/* 상세페이지 path="/detail"  */}       
         {/* 사용자가 상세페이지 접속시 상품 목록 컴포넌트 Card는 출력 안됨. */}            
-        <Route path="/detail" element={ <Detail/> } />
+        <Route path="/detail" element={ <Detail shoes={ shoes } /> }   />
+
+        {/* 상세페이지 URL 파라미터 문법(path="/detail/:id") 사용  */}
+        {/* path 작명할 때 /:어쩌구 이렇게 사용하면 "아무 문자"를 뜻함. */}
+        {/* 아래처럼 <Route> 컴포넌트 구현시 사용자가 주소창에 URL 주소로 /detail/아무거나 입력 및 접속하더라도 */}
+        {/* <Detail> 컴포넌트가 화면상에 잘 출력된다. */}
+        {/* 예를들어 사용자가 주소창에 URL 주소로 */}
+        {/* /detail/0 */}
+        {/* /detail/1 */}
+        {/* /detail/2 */}
+        {/* 이렇게 입력 및 접속해도 <Detail> 컴포넌트가 화면상에 잘 출력된다. */}
+        {/* (참고) */}
+        {/* 아래처럼 <Route> 컴포넌트에 path 작명시 url 파라미터는 몇번이고 사용가능 */}
+        {/* (예) detail/:어쩌구/:저쩌구 이런식으로 사용가능 */}
+        <Route path="/detail/:id" element={ <Detail shoes={shoes}/> }/>
+
+        {/* <Route path="/detail/0" element= { <Detail shoes={ shoes }/> } /> */}
+        {/* <Route path="/detail/1" element= { <Detail shoes={ shoes }/> } /> */}
+        {/* <Route path="/detail/2" element= { <Detail shoes={ shoes }/> } /> */}
+
 
         {/* Nested routes 사용하는 경우? 1. 여러 페이지가 필요할 때 2. 여러 유사한 페이지 필요할 때  */}
         {/* Nested routes 사용해서 어바웃페이지 서브경로 회사멤버 소개하는 페이지, 회사위치 소개하는 페이지 만들기 */}
@@ -271,6 +321,8 @@ function App() {
       {/* <img src="/logo192.png" />  */}
       {/* [권장하는 사용법] 2. 폴더 "shop" -> 폴더 "public" 안에 들어 있는 이미지 파일 "/logo192.png" <img> 태그에 집어넣는 사용법 */}
       <img src={process.env.PUBLIC_URL + '/logo192.png'} />
+
+      <Button onClick={()=>{ sortShoes() }}>상품목록 순서 변경</Button>
 
       {/* <div className="container">
         <div className="row">
