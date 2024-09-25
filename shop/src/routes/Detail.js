@@ -4,14 +4,18 @@ import { useParams, userParams } from 'react-router-dom'
 /// 상세페이지 컴포넌트
 /// </summary>
 function Detail(props) {
-  // 아래처럼 함수 useParams 사용하면 
+  // 아래처럼 함수(또는 Hook이라고 부름) useParams 사용하면 
   // 사용자가 입력 및 접속한 상세페이지 URL 주소 (URL 파라미터 문법(path="/detail/:id") 사용한 경우) 
   // 중 URL 파라미터 자리 (:id) 값을 가져올 수 있다.
   // URL 파라미터 자리 (:id) 값을 아래처럼 변수 id에 저장해서 사용가능하다. 
   // 예를 들어 사용자가 상세페이지 URL 주소
   // /detail/1로 입력 및 접속하면 id라는 변수에 1이 들어옴.
   // /detail/2로 입력 및 접속하면 id라는 변수에 2가 들어옴
-  let {id} = useParams(); 
+  let {id} = useParams();  // 현재 URL 주소에 존재하는 URL 파라미터 값이 변수 let {id}에 할당됨.
+  console.log(id);
+
+  // TODO : IF 조건문 사용하여 URL 파라미터 값에 잘못된 값이 들어간 경우 
+  // 상품 없다는 UI 출력 하도록 구현하기 (2024.09.25 jbh) 
 
   // 함수 find안에 구현한 콜백함수 function에 파라미터 shoesObj는
   // <App> 컴포넌트로 부터 props 문법을 사용해 전달 받은 
@@ -51,7 +55,7 @@ function Detail(props) {
   // let shoesFilterObj = props.shoes.filter(obj => obj.id === Number(id))[0];   // 첫번째 요소로 가져오기 위해 인덱스 [0] 사용
   // let shoesFilterId = Number(shoesFilterObj.id); 
 
-  console.log(id)
+  // console.log(id)
 
   return (
     <div className="container">

@@ -12,6 +12,8 @@
 
 // 21강 - 리액트 라우터 2 : navigate, nested routes, outlet
 
+// 22강 - 리액트 라우터 3 : URL 파라미터로 상세페이지 100개 만들기
+
 // Bootstrap 웹 사이트 
 // Getting Started -> introduction (태그 <link> 사용해서 css 버전 적용 방법 포함)
 // 참고 URL - https://react-bootstrap.netlify.app/docs/getting-started/introduction
@@ -206,7 +208,7 @@ function App() {
                                 } />
         {/* 상세페이지 path="/detail"  */}       
         {/* 사용자가 상세페이지 접속시 상품 목록 컴포넌트 Card는 출력 안됨. */}            
-        <Route path="/detail" element={ <Detail shoes={ shoes } /> }   />
+        {/* <Route path="/detail" element={ <Detail shoes={ shoes } /> }   /> */}
 
         {/* 상세페이지 URL 파라미터 문법(path="/detail/:id") 사용  */}
         {/* path 작명할 때 /:어쩌구 이렇게 사용하면 "아무 문자"를 뜻함. */}
@@ -217,10 +219,14 @@ function App() {
         {/* /detail/1 */}
         {/* /detail/2 */}
         {/* 이렇게 입력 및 접속해도 <Detail> 컴포넌트가 화면상에 잘 출력된다. */}
+        <Route path="/detail/:id" element={ <Detail shoes={shoes}/> }/>
+
         {/* (참고) */}
         {/* 아래처럼 <Route> 컴포넌트에 path 작명시 url 파라미터는 몇번이고 사용가능 */}
         {/* (예) detail/:어쩌구/:저쩌구 이런식으로 사용가능 */}
-        <Route path="/detail/:id" element={ <Detail shoes={shoes}/> }/>
+        {/* <Route path="/detail/:id/:sdlk" element={ <Detail shoes={shoes} />}/> */}
+        {/* <Route path="/detail/:id/:sdfsd/:sdfsd" element={ <Detail shoes={shoes} />}/> */}
+        {/* <Route path="/detail/:id/:sdfsd/:aasd" element={ <Detail shoes={shoes} />}/> */}
 
         {/* <Route path="/detail/0" element= { <Detail shoes={ shoes }/> } /> */}
         {/* <Route path="/detail/1" element= { <Detail shoes={ shoes }/> } /> */}
