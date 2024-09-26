@@ -1,4 +1,33 @@
 import { useParams, userParams } from 'react-router-dom'
+import styled from 'styled-components'
+
+let Box = styled.div`
+  padding : 20px;
+  color : grey
+`;
+// let YellowBtn = styled.button`
+//   background : yellow;
+//   color : black;
+//   padding : 10px;
+// `;
+
+// let YellowBtn = styled.button`
+//   background : ${ props => props.bg };
+//   color : black;
+//   padding : 10px;
+// `;
+
+// props 문법 사용하여  
+// props.bg에 들어있는 값을 속성 background에 할당 
+// 자바스크립트 삼항 연산자 사용하여
+// 글자 색상(color) 속성에는 
+// props.bg에 들어있는 값이 'blue'일 경우 글자 색상(color) 속성값을 'white'로 넣고 
+// props.bg에 들어있는 값이 'blue'가 아닐 경우 글자 색상(color) 속성값을 'black'로 넣는다.
+let YellowBtn = styled.button` 
+  background : ${ props => props.bg }; 
+  color : ${ props => props.bg == 'blue' ? 'white' : 'black' };
+  padding : 10px; 
+`; 
 
 /// <summary>
 /// 상세페이지 컴포넌트
@@ -60,6 +89,17 @@ function Detail(props) {
   return (
     <div className="container">
       <div className="row">
+        <div>
+          <Box>
+            <YellowBtn>버튼임</YellowBtn>
+            <YellowBtn bg="orange">오렌지색 버튼임</YellowBtn>
+            <YellowBtn bg="blue">파란색 버튼임</YellowBtn>
+          </Box>
+        </div>
+        <div>
+          <YellowBtn bg="orange">오렌지색 버튼임</YellowBtn>
+          <YellowBtn bg="blue">파란색 버튼임</YellowBtn>
+        </div>
         <div className="col-md-6">
           <img src={'https://codingapple1.github.io/shop/shoes' + (찾은상품아이디 + 1) + '.jpg'} width="100%" />
         </div>
