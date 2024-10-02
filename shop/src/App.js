@@ -14,6 +14,8 @@
 
 // 22강 - 리액트 라우터 3 : URL 파라미터로 상세페이지 100개 만들기
 
+// 23강 - styled-components 쓰면 CSS 파일 없어도 되는데
+
 // Bootstrap 웹 사이트 
 // Getting Started -> introduction (태그 <link> 사용해서 css 버전 적용 방법 포함)
 // 참고 URL - https://react-bootstrap.netlify.app/docs/getting-started/introduction
