@@ -1,5 +1,7 @@
 import { useParams, userParams } from 'react-router-dom'
 import styled from 'styled-components'  // Detail.js 자바스크립트 파일(Detail 컴포넌트)안에서만 CSS 적용할 수 있도록 'styled-components' 라이브러리에서 styled 가져오기
+import { useState, useEffect } from 'react';
+import { isVisible } from '@testing-library/user-event/dist/utils';
 
 // styled-components 
 // 특장점
@@ -53,6 +55,12 @@ let Box = styled.div`
   padding : 20px;
   color : grey
 `;
+
+let YellowBox = styled.div`
+  padding : 20px;
+  background : yellow;
+`;
+
 // let YellowBtn = styled.button`
 //   background : yellow;
 //   color : black;
@@ -94,6 +102,30 @@ let YellowBtn = styled.button`
 /// 상세페이지 컴포넌트
 /// </summary>
 function Detail(props) {
+  // 콜백함수 useEffect 구현
+  // 컴포넌트 Detail가 mount & update시 
+  // 아래 콜백함수 useEffect에서 구현한 코드 실행
+  // 콜백함수 useEffect 안에 적은 코드는 return 문 안에 존재하는 
+  // html 코드를 렌더링 이후에 동작함
+  // 콜백함수 useEffect 용어 정리
+  // 함수안에 이것저것 코드짤 때 함수의 핵심기능 외에 쓸데없는 기능들을 
+  // 프로그래밍 용어로 side effect라고 부른다.
+  // 그래서 콜백함수 useEffect도 거기서 따온건데
+  // 컴포넌트의 핵심 기능은 html 렌더링이라 
+  // 그거 외의 쓸데없는 기능들은 useEffect 안에 적으라는 소리입니다. 
+  // 오래걸리는 반복연산, 서버에서 데이터가져오는 작업, 타이머다는거 
+  // 이런건 useEffect 안에 많이 적습니다.
+  useEffect(()=>{
+    // 여기적은 코드는 컴포넌트 로드(전문용어로 mount) & 업데이트 (전문용어로 update) 마다 실행됨
+    // console.log('안녕') 실행시 웹브라우저 콘솔창에서 '안녕' 2번 출력되는 이유?
+    // index.js -> <React.StrictMode>라는 태그가 있으면 '안녕' 2번 출력됨.
+    // 디버깅용으로 편하라고 2번 출력해주는데 싫으면 <React.StrictMode>라는 태그 제거(또는 주석)하면 됨.
+    console.log('안녕')
+  });
+
+  let [count, setCount] = useState(0)
+
+
   // 아래처럼 함수(또는 Hook이라고 부름) useParams 사용하면 
   // 사용자가 입력 및 접속한 상세페이지 URL 주소 (URL 파라미터 문법(path="/detail/:id") 사용한 경우) 
   // 중 URL 파라미터 자리 (:id) 값을 가져올 수 있다.
@@ -149,8 +181,15 @@ function Detail(props) {
 
   return (
     <div className="container">
-        <YellowBtn bg='blue'>버튼</YellowBtn>
-        <YellowBtn bg='orange'>버튼</YellowBtn>
+        {/* 오늘의 숙제 : */}
+        {/* Detail 페이지 안에 노란 박스 하나 만들고 */}
+        {/* Detail 페이지 방문 후 2초 후에 박스가 사라지게 해보십시오. */}
+        {/* (팁) 동적인 UI 어떻게 만든다고 했습니까  */}
+        {/* 참고 URL - https://velog.io/@jaewoneee/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%97%90%EC%84%9C-setTimeout-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0 */}
+        <YellowBox />
+        <button onClick={()=>{ setCount(count+1) }}>useEffect 버튼</button>
+        {/* <YellowBtn bg='blue'>버튼</YellowBtn> */}
+        {/* <YellowBtn bg='orange'>버튼</YellowBtn> */}
       <div className="row">
         <div>
           <Box>
