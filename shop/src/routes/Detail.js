@@ -56,10 +56,6 @@ let Box = styled.div`
   color : grey
 `;
 
-let YellowBox = styled.div`
-  padding : 20px;
-  background : yellow;
-`;
 
 // let YellowBtn = styled.button`
 //   background : yellow;
@@ -274,5 +270,30 @@ function Detail(props) {
     </div> 
   )
 }
+
+{/* 오늘의 숙제 : */}
+{/* Detail 페이지 안에 노란 박스 하나 만들고 */}
+{/* Detail 페이지 방문 후 2초 후에 박스가 사라지게 해보십시오. */}
+{/* (팁) 동적인 UI 어떻게 만든다고 했습니까  */}
+{/* 참고 URL - https://velog.io/@jaewoneee/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%97%90%EC%84%9C-setTimeout-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0 */}
+
+/// <summary>
+/// 노란 박스 컴포넌트
+/// </summary>
+function YellowBox() {
+
+  useEffect(()=>{
+    // 여기적은 코드는 컴포넌트 로드(전문용어로 mount) & 업데이트 (전문용어로 update) 마다 실행됨
+    // TODO : Detail 페이지 방문 후 2초 후에 노란 박스 컴포넌트가 사라지게 할 수 있도록 
+    //        자바스크립트 함수 setTimeout 및 remove() 함수를 콜백함수 useEffect 호출 하도록 구현 (2024.10.08 jbh)
+    // 참고 URL - https://hianna.tistory.com/484
+    setTimeout(()=>{ document.getElementById('yellowBox').remove() }, 2000);
+  });
+
+  return (
+    <div id='yellowBox' style={{background : 'yellow' }}>노란 박스</div>
+  )
+} 
+
 
 export default Detail;   // 키워드 export default Detail; 사용하면 변수 컴포넌트 Detail 단 하나만 Detail.js 파일 뿐만 아니라 다른 소스 파일 (예) App.js 에서도 사용 할 수 있도록 내보내기 가능

@@ -18,8 +18,8 @@ import { BrowserRouter } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // 컴포넌트 <BrowserRouter> 사용해서 컴포넌트 <App /> 감싸기
 root.render(
-  // 상세페이지 컴포넌트 Detail -> 콜백함수 useEffect 실행시
-  // console.log('안녕') 실행될 때, 웹브라우저 콘솔창에서 '안녕' 2번 출력 되지 않고
+  // 상세페이지 컴포넌트 Detail -> 콜백함수 useEffect 실행 ->
+  // -> console.log('안녕') 실행될 때, 웹브라우저 콘솔창에서 '안녕' 2번 출력 되지 않고
   // 1번만 '안녕' 출력되게 하려면 아래처럼 <React.StrictMode>라는 태그 제거(또는 주석)하면 됨.
   // <React.StrictMode>
       <BrowserRouter>
