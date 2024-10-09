@@ -121,7 +121,6 @@ function Detail(props) {
 
   let [count, setCount] = useState(0)
 
-
   // 아래처럼 함수(또는 Hook이라고 부름) useParams 사용하면 
   // 사용자가 입력 및 접속한 상세페이지 URL 주소 (URL 파라미터 문법(path="/detail/:id") 사용한 경우) 
   // 중 URL 파라미터 자리 (:id) 값을 가져올 수 있다.
@@ -283,11 +282,19 @@ function Detail(props) {
 function YellowBox() {
 
   useEffect(()=>{
+    // 노란 박스 컴포넌트 객체 'yellowBox' 가져오기
+    const yellowBox = document.getElementById('yellowBox');
+
     // 여기적은 코드는 컴포넌트 로드(전문용어로 mount) & 업데이트 (전문용어로 update) 마다 실행됨
     // TODO : Detail 페이지 방문 후 2초 후에 노란 박스 컴포넌트가 사라지게 할 수 있도록 
     //        자바스크립트 함수 setTimeout 및 remove() 함수를 콜백함수 useEffect 호출 하도록 구현 (2024.10.08 jbh)
     // 참고 URL - https://hianna.tistory.com/484
-    setTimeout(()=>{ document.getElementById('yellowBox').remove() }, 2000);
+    // 자바스크립트 null 체크 참고 URL - https://mycodings.fly.dev/blog/2022-12-19-howto-javascript-null-check
+    // setTimeout(()=>{ yellowBox.remove() }, 2000);
+    // 연산자 "===" 사용 방식 
+    // setTimeout(()=>{ if( false === (yellowBox === null) && false === (yellowBox === undefined) ) yellowBox.remove() }, 2000);
+    // 메서드 "Object.is(value1, value2)" 사용 방식
+    setTimeout(()=>{ if( false === Object.is(yellowBox,null) && false === Object.is(yellowBox === undefined) ) yellowBox.remove() }, 2000);
   });
 
   return (
