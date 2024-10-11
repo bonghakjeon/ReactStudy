@@ -182,6 +182,7 @@ function Detail(props) {
         {/* (팁) 동적인 UI 어떻게 만든다고 했습니까  */}
         {/* 참고 URL - https://velog.io/@jaewoneee/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%97%90%EC%84%9C-setTimeout-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0 */}
         <YellowBox />
+        <ColorBox id='blueBox' background='blue' />
         <button onClick={()=>{ setCount(count+1) }}>useEffect 버튼</button>
         {/* <YellowBtn bg='blue'>버튼</YellowBtn> */}
         {/* <YellowBtn bg='orange'>버튼</YellowBtn> */}
@@ -279,15 +280,14 @@ function Detail(props) {
 /// <summary>
 /// 노란 박스 컴포넌트
 /// </summary>
-function YellowBox() {
-
+function YellowBox(props) {
   useEffect(()=>{
     // 노란 박스 컴포넌트 객체 'yellowBox' 가져오기
     const yellowBox = document.getElementById('yellowBox');
 
     // 여기적은 코드는 컴포넌트 로드(전문용어로 mount) & 업데이트 (전문용어로 update) 마다 실행됨
     // TODO : Detail 페이지 방문 후 2초 후에 노란 박스 컴포넌트가 사라지게 할 수 있도록 
-    //        자바스크립트 함수 setTimeout 및 remove() 함수를 콜백함수 useEffect 호출 하도록 구현 (2024.10.08 jbh)
+    //        자바스크립트 함수 setTimeout 및 remove() 함수를 콜백함수 useEffect 사용하여 해당 함수들 호출 하도록 구현 (2024.10.08 jbh)
     // 참고 URL - https://hianna.tistory.com/484
     // 자바스크립트 null 체크 참고 URL - https://mycodings.fly.dev/blog/2022-12-19-howto-javascript-null-check
     // setTimeout(()=>{ yellowBox.remove() }, 2000);
@@ -301,6 +301,29 @@ function YellowBox() {
     <div id='yellowBox' style={{background : 'yellow' }}>노란 박스</div>
   )
 } 
+
+/// <summary>
+/// 다용도 색상 박스 컴포넌트
+/// </summary>
+function ColorBox(props) {
+  useEffect(()=>{
+    // 다용도 색상 박스 컴포넌트 객체 가져오기
+    const colorBox = document.getElementById(props.id);
+
+    // 여기적은 코드는 컴포넌트 로드(전문용어로 mount) & 업데이트 (전문용어로 update) 마다 실행됨
+    // TODO : Detail 페이지 방문 후 3초 후에 다용도 색상 박스 컴포넌트가 사라지게 할 수 있도록 
+    //        자바스크립트 함수 setTimeout 및 remove() 함수를 콜백함수 useEffect 사용하여 해당 함수들 호출 하도록 구현 (2024.10.11 jbh)
+    // 참고 URL - https://hianna.tistory.com/484
+    // 자바스크립트 null 체크 참고 URL - https://mycodings.fly.dev/blog/2022-12-19-howto-javascript-null-check
+    
+    // 3초후 코드 실행
+    setTimeout(()=>{ if(false === Object.is(colorBox, null) && false === Object.is(colorBox, undefined)) colorBox.remove() }, 3000);
+  });
+
+  return (
+    <div id={props.id} style={{background : props.background}}>다용도 색상 박스</div>
+  )
+}
 
 
 export default Detail;   // 키워드 export default Detail; 사용하면 변수 컴포넌트 Detail 단 하나만 Detail.js 파일 뿐만 아니라 다른 소스 파일 (예) App.js 에서도 사용 할 수 있도록 내보내기 가능
