@@ -1,7 +1,9 @@
+import React from "react";
 import { useParams, userParams } from 'react-router-dom'
 import styled from 'styled-components'  // Detail.js 자바스크립트 파일(Detail 컴포넌트)안에서만 CSS 적용할 수 있도록 'styled-components' 라이브러리에서 styled 가져오기
 import { useState, useEffect } from 'react';
 import { isVisible } from '@testing-library/user-event/dist/utils';
+import { Alert } from "react-bootstrap";
 
 // styled-components 
 // 특장점
@@ -93,32 +95,149 @@ let YellowBtn = styled.button`
 // 다른 컴포넌트 생성 후 변수 let NewBtn에 할당 가능하다.
 // let NewBtn = styled.button(YellowBtn)``;
 
+// (예전 방식) 컴포넌트 Detail2 클래스 방식 구현 예시 
+class Detail2 extends React.Component {
+  componentDidMount() {
+    // 컴포넌트 mount시 여기 코드 실행됨 (웹브라우저 페이지에 컴포넌트 장착 또는 생성)
+  }
+  componentDidUpdate() {
+    // 컴포넌트 update시 여기 코드 실행됨 (웹브라우저 페이지에 컴포넌트 html 코드 재랜더링)
+  }
+  componentWillUnmount() {
+    // 컴포넌트 unmount시 여기 코드 실행됨. (웹브라우저 페이지에 컴포넌트 삭제 직전)
+  }
+}
+// (예전 방식) 컴포넌트 Detail2 사용 방법 
+<Detail2></Detail2>
 
 /// <summary>
 /// 상세페이지 컴포넌트
 /// </summary>
 function Detail(props) {
-  // 콜백함수 useEffect 구현
+  let [ alert, setAlert ] = useState(true)
+
+
+
+  // 컴포넌트 LifeCycle (예) 상세페이지 컴포넌트 Detail LifeCycle
+  // 컴포넌트는 아래 3가지와 같은 인생주기를 겪는다.
+  // 1. 컴포넌트가 웹브라우저 페이지 상에 html 랜더링 된다. (페이지에 장착되기도 하고(mount))
+  // 2. 컴포넌트 로직 안에서 useState 함수 사용하여 값을 조작하면 웹브라우저 페이지 상에 html 재랜더링 된다. (페이지가 가끔 업데이트도 되고(update))
+  // 3. 컴포넌트가 필요 없어지면 웹브라우저 페이지 상에 제거 된다. (unmount)
+
+  // 이러한 컴포넌트의 LifeCycle을 알아야 하는 이유는
+  // 위와 같은 3가지 인생주기에 중간중간 간섭이 가능하다.
+  // 여기서 말하는 간섭이랑 중간중간 코드(자바스크립트 + html) 
+  // 실행이 가능하다는 의미이다.
+  // 1번 mount 될 때, 코드 실행할 수 있도록 실행할 코드 작성
+  // 2번 update 될 때, 코드 실행할 수 있도록 실행할 코드 작성
+  // 3번 unmount 될 때, 코드 실행할 수 있도록 실행할 코드 작성 
+  
+  // 콜백함수 LifeCycle Hook(뜻 - 갈고리) 
+  // useEffect 구현
   // 컴포넌트 Detail가 mount & update시 
   // 아래 콜백함수 useEffect에서 구현한 코드 실행
   // 콜백함수 useEffect 안에 적은 코드는 return 문 안에 존재하는 
   // html 코드를 렌더링 이후에 동작함
-  // 콜백함수 useEffect 용어 정리
-  // 함수안에 이것저것 코드짤 때 함수의 핵심기능 외에 쓸데없는 기능들을 
-  // 프로그래밍 용어로 side effect라고 부른다.
-  // 그래서 콜백함수 useEffect도 거기서 따온건데
+  // 콜백함수 LifeCycle Hook(뜻 - 갈고리) useEffect 용어 정리
+  // side effect 
+  // -함수안에 이것저것 코드짤 때 함수의 핵심기능 외에 쓸데없는 기능들을 
+  // 프로그래밍 용어로 side effect 라고 부른다.
+
+  // 그래서 콜백함수 LifeCycle Hook(뜻 - 갈고리) useEffect도 거기서 따온건데
   // 컴포넌트의 핵심 기능은 html 렌더링이라 
   // 그거 외의 쓸데없는 기능들은 useEffect 안에 적으라는 소리입니다. 
   // 오래걸리는 반복연산, 서버에서 데이터가져오는 작업, 타이머다는거 
   // 이런건 useEffect 안에 많이 적습니다.
+  // 콜백함수 LifeCycle Hook(뜻 - 갈고리) 
+  // useEffect 실행시점 
+  // 1. 상세페이지 컴포넌트 Detail 안에 존재하는 html 코드를 웹브라우저 페이지에서 랜더링 진행
+  // 2. 1번의 html 코드 재랜더링 완료 되고 나서 
+  //    콜백함수 LifeCycle Hook(뜻 - 갈고리) useEffect 가 나중에 실행된다. 
   useEffect(()=>{
-    // 여기적은 코드는 컴포넌트 로드(전문용어로 mount) & 업데이트 (전문용어로 update) 마다 실행됨
+    // 여기적은 코드는 side effect 기능을 하는 코드 보관함 이라고 생각하면 된다.
+    // side effect란?
+    // 함수안에 이것저것 코드짤 때 함수의 핵심기능 외에 쓸데없는 기능들을 
+    // 프로그래밍 용어로 side effect 라고 부른다.
+
+    // 여기적은 코드는 컴포넌트 로드(전문용어로 mount) & 업데이트 (전문용어로 update) 마다 
+    // return문 안에 존재하는 html 코드 랜더링 완료 후 실행됨
     // console.log('안녕') 실행시 웹브라우저 콘솔창에서 '안녕' 2번 출력되는 이유?
     // index.js -> <React.StrictMode>라는 태그가 있으면 '안녕' 2번 출력됨.
     // 디버깅용으로 편하라고 2번 출력해주는데 싫으면 <React.StrictMode>라는 태그 제거(또는 주석)하면 됨.
-    console.log('안녕')
-  });
+    // useEffect 안에 적는 코드 유형은 아래 3가지와 같다.
+    // 1. 시간이 오래 걸리는 어려운 작업(연산)
+    // 2. 서버에서 데이터 가져오는 작업
+    // 3. 타이머 장착하는거
+    // console.log('안녕')
 
+    // for(var i = 0; i < 10000; i++) {
+    //   console.log(1);
+    // }
+
+    // 타이머 객체 a
+    let a = setTimeout(()=>{ setAlert(false) }, 2000)
+    return ()=>{
+      // clean up function 예제 코드
+      // (참고1) clean up function에는 타이머제거, socket 연결요청제거, ajax요청 중단 이런 코드를 많이 작성합니다.
+      // (참고2) 컴포넌트 unmount 시에도 clean up function 안에 있던게 1회 실행됩니다.
+      clearTimeout(a)
+    }
+  }, []);
+
+
+  // clean up function 예제 코드 2
+  // useEffect(()=>{
+  //   // 그 다음 실행됨
+  //   return ()=>{
+  //     // 여기있는게 먼저실행됨
+  //   }
+  // }, )
+
+  // useEffect 사용 예제
+  // 1. 컴포넌트 재렌더링마다 코드 실행 가능
+  // useEffect(()=>{ 실행할코드 })
+
+  // 2. 이러면 컴포넌트 mount시 (로드시) 1회만 실행 가능
+  // useEffect(()=>{ 실행할코드 }, [])
+
+  // 3. 이러면 useEffect 안의 코드 실행 전에 return () => {} 코드가 항상 먼저 실행  
+  // useEffect(()=>{
+  //   return ()=>{
+  //     실행할코드
+  //   }
+  // })
+
+  // 4. 이러면 컴포넌트 unmount시  return () => {} 코드가 1회 실행
+  // useEffect(()=>{
+  //   return ()=>{
+  //     실행할코드
+  //   }
+  // }, [])
+
+  // 5. 이러면 state1이 변경될 때만 코드 실행 
+  // useEffect(()=>{
+  //   실행할코드
+  // }, [state1])
+
+  // 콜백함수 LifeCycle Hook(뜻 - 갈고리) useEffect
+  // 밖에 아래처럼 console.log('안녕') 구현하면
+  // 아래 코드 console.log('안녕') 도 같이 실행되고 나서
+  // 상세페이지 컴포넌트 Detail의 html 코드 재랜더링 작업을 진행한다.
+  // console.log('안녕')
+
+  // 콜백함수 LifeCycle Hook(뜻 - 갈고리) useEffect
+  // 밖에 아래처럼 for(var i = 0; i < 10000; i++) 구현하면 
+  // 아래 코드 for(var i = 0; i < 10000; i++) 도 같이 실행되고 나서
+  // 상세페이지 컴포넌트 Detail의 html 코드 재랜더링 작업을 진행한다.
+  // for(var i = 0; i < 10000; i++) {
+  //   console.log(1);
+  // }
+
+
+
+  // 상세페이지 컴포넌트 Detail html 코드 재랜더링(update) 해보기 위해서 
+  // 아래와 같은 useState 함수 사용해서 
+  // state "count", state 변경함수 "setCount" 구현
   let [count, setCount] = useState(0)
 
   // 아래처럼 함수(또는 Hook이라고 부름) useParams 사용하면 
@@ -151,6 +270,7 @@ function Detail(props) {
   let 찾은상품2 = props.shoes.find((shoesObj) => shoesObj.id == id);
   let 찾은상품2아이디 = Number(찾은상품2.id);
 
+  const [ num, setNum ] = useState(0);
   
 
   // TODO : 아래 주석친 테스트 코드 필요시 참고 (2024.09.20 jbh)
@@ -182,7 +302,36 @@ function Detail(props) {
         {/* (팁) 동적인 UI 어떻게 만든다고 했습니까  */}
         {/* 참고 URL - https://velog.io/@jaewoneee/%EB%A6%AC%EC%95%A1%ED%8A%B8-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%97%90%EC%84%9C-setTimeout-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0 */}
         <YellowBox />
-        <ColorBox id='blueBox' background='blue' />
+        {/* <ColorBox id='blueBox' background='blue' /> */}
+        {/* <SaleBox id='saleBox'/> */}
+        {/* <div className="alert alert-warning">
+          2초이내 구매시 할인
+        </div> */}
+        {
+          alert == true
+          ? <div className="alert alert-warning">
+              2초이내 구매시 할인
+          </div>
+          : null
+        }
+        <input value={num}
+               onChange={e => setNum(e.target.value)} />
+        {
+          // TODO : 자바스크립트 문법 함수 isNaN 사용하여 변수 num에 입력받은 문자열이
+          //        숫자가 아닌 경우 체크하기 (2024.10.21 jbh)
+          // 참고 URL - https://hianna.tistory.com/385
+          // TODO : 자바스크립트 문법 함수 Alert 사용하여 변수 num에 입력받은 문자열이
+          //        숫자가 아닌 경우 Alert 메시지 출력하기 (2024.10.21 jbh)
+          // 참고 URL - https://velog.io/@jaehooo13/React-alert-%EC%B0%BD-%EB%9D%84%EC%9A%B0%EA%B8%B0
+          true === isNaN(num) ? <div>그러지마세요</div> : null
+        }
+                   
+        
+        {/* 아래 "useEffect 버튼" 클릭시  */}
+        {/* 상세페이지 컴포넌트 Detail의 html 코드 재랜더링(update) 되고나서  */}
+        {/* 콜백함수 LifeCycle Hook(뜻 - 갈고리) useEffect 실행됨. */}
+        {/* state "count"에 저장된 값 웹브라우저 페이지 출력 */}
+        {count} 
         <button onClick={()=>{ setCount(count+1) }}>useEffect 버튼</button>
         {/* <YellowBtn bg='blue'>버튼</YellowBtn> */}
         {/* <YellowBtn bg='orange'>버튼</YellowBtn> */}
@@ -316,12 +465,40 @@ function ColorBox(props) {
     // 참고 URL - https://hianna.tistory.com/484
     // 자바스크립트 null 체크 참고 URL - https://mycodings.fly.dev/blog/2022-12-19-howto-javascript-null-check
     
+    // setTimeout 함수(타이머 기능) 사용해서
     // 3초후 코드 실행
     setTimeout(()=>{ if(false === Object.is(colorBox, null) && false === Object.is(colorBox, undefined)) colorBox.remove() }, 3000);
   });
 
   return (
     <div id={props.id} style={{background : props.background}}>다용도 색상 박스</div>
+  )
+}
+
+/// <summary>
+/// 2초 이내 구매시 할인 컴포넌트
+/// </summary>
+function SaleBox(props) {
+  useEffect(()=>{
+    // 2초 이내 구매시 할인 객체 가져오기
+    const SaleBox = document.getElementById(props.id);
+
+    // 여기적은 코드는 컴포넌트 로드(전문용어로 mount) & 업데이트 (전문용어로 update) 마다 실행됨
+    // TODO : Detail 페이지 방문 후 3초 후에 다용도 색상 박스 컴포넌트가 사라지게 할 수 있도록 
+    //        자바스크립트 함수 setTimeout 및 remove() 함수를 콜백함수 useEffect 사용하여 해당 함수들 호출 하도록 구현 (2024.10.11 jbh)
+    // 참고 URL - https://hianna.tistory.com/484
+    // 자바스크립트 null 체크 참고 URL - https://mycodings.fly.dev/blog/2022-12-19-howto-javascript-null-check
+    
+
+    // setTimeout 함수(타이머 기능) 사용해서
+    // 2초후 코드 실행
+    setTimeout(()=>{ if(false === Object.is(SaleBox, null) && false === Object.is(SaleBox, undefined)) SaleBox.remove()}, 2000);
+  });
+
+  return(
+    <div id={props.id} className="alert alert-warning">
+         2초이내 구매시 할인
+    </div>
   )
 }
 
