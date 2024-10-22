@@ -114,9 +114,9 @@ class Detail2 extends React.Component {
 /// 상세페이지 컴포넌트
 /// </summary>
 function Detail(props) {
-  let [ alert, setAlert ] = useState(true)
-
-
+  let [ Alert, setAlert ] = useState(true)
+  let [ validator, setValidator ] = useState(true)
+  const [ inputData, setInputData ] = useState(0);
 
   // 컴포넌트 LifeCycle (예) 상세페이지 컴포넌트 Detail LifeCycle
   // 컴포넌트는 아래 3가지와 같은 인생주기를 겪는다.
@@ -174,24 +174,33 @@ function Detail(props) {
     //   console.log(1);
     // }
 
-    // 타이머 객체 a
+    // 타이머 객체 a 생성
     let a = setTimeout(()=>{ setAlert(false) }, 2000)
+
     return ()=>{
       // clean up function 예제 코드
       // (참고1) clean up function에는 타이머제거, socket 연결요청제거, ajax요청 중단 이런 코드를 많이 작성합니다.
       // (참고2) 컴포넌트 unmount 시에도 clean up function 안에 있던게 1회 실행됩니다.
-      clearTimeout(a)
+      clearTimeout(a)   // 타이머 객체 a 제거 
     }
   }, []);
 
-
-  // clean up function 예제 코드 2
-  // useEffect(()=>{
-  //   // 그 다음 실행됨
-  //   return ()=>{
-  //     // 여기있는게 먼저실행됨
-  //   }
-  // }, )
+  useEffect(()=>{
+    return ()=>{
+      // TODO : 자바스크립트 문법 함수 isNaN 사용하여 변수 inputData에 입력받은 문자열이
+      //        숫자가 아닌 경우 체크하기 (2024.10.21 jbh)
+      // 참고 URL - https://hianna.tistory.com/385
+      // TODO : 자바스크립트 문법 함수 alert 사용하여 변수 inputData에 입력받은 문자열이
+      //        숫자가 아닌 경우 alert 메시지 출력하기 (2024.10.21 jbh)
+      // 참고 URL - https://velog.io/@jaehooo13/React-alert-%EC%B0%BD-%EB%9D%84%EC%9A%B0%EA%B8%B0
+      // 참고 2 URL - https://blog.naver.com/hmw53/60202212314    
+      if(true === isNaN(inputData)) 
+      {
+        alert("그러지마세요");
+        setInputData(0)
+      }
+    }
+  }, [inputData])
 
   // useEffect 사용 예제
   // 1. 컴포넌트 재렌더링마다 코드 실행 가능
@@ -207,7 +216,7 @@ function Detail(props) {
   //   }
   // })
 
-  // 4. 이러면 컴포넌트 unmount시  return () => {} 코드가 1회 실행
+  // 4. 이러면 컴포넌트 unmount시 return () => {} 코드가 1회 실행
   // useEffect(()=>{
   //   return ()=>{
   //     실행할코드
@@ -270,7 +279,6 @@ function Detail(props) {
   let 찾은상품2 = props.shoes.find((shoesObj) => shoesObj.id == id);
   let 찾은상품2아이디 = Number(찾은상품2.id);
 
-  const [ num, setNum ] = useState(0);
   
 
   // TODO : 아래 주석친 테스트 코드 필요시 참고 (2024.09.20 jbh)
@@ -308,23 +316,28 @@ function Detail(props) {
           2초이내 구매시 할인
         </div> */}
         {
-          alert == true
+          Alert == true
           ? <div className="alert alert-warning">
               2초이내 구매시 할인
           </div>
           : null
         }
-        <input value={num}
-               onChange={e => setNum(e.target.value)} />
-        {
-          // TODO : 자바스크립트 문법 함수 isNaN 사용하여 변수 num에 입력받은 문자열이
+        <input value={inputData}
+               onChange={e => setInputData(e.target.value)} />
+        {/* {
+          // TODO : 자바스크립트 문법 함수 isNaN 사용하여 변수 inputData에 입력받은 문자열이
           //        숫자가 아닌 경우 체크하기 (2024.10.21 jbh)
           // 참고 URL - https://hianna.tistory.com/385
-          // TODO : 자바스크립트 문법 함수 Alert 사용하여 변수 num에 입력받은 문자열이
-          //        숫자가 아닌 경우 Alert 메시지 출력하기 (2024.10.21 jbh)
+          // TODO : 자바스크립트 문법 함수 alert 사용하여 변수 inputData에 입력받은 문자열이
+          //        숫자가 아닌 경우 alert 메시지 출력하기 (2024.10.21 jbh)
           // 참고 URL - https://velog.io/@jaehooo13/React-alert-%EC%B0%BD-%EB%9D%84%EC%9A%B0%EA%B8%B0
-          true === isNaN(num) ? <div>그러지마세요</div> : null
-        }
+          // true === isNaN(inputData) ? <div>그러지마세요</div> : null
+          false === validator 
+          ? <div className="alert alert-warning">
+              그러지마세요
+          </div>
+          : null
+        } */}
                    
         
         {/* 아래 "useEffect 버튼" 클릭시  */}
