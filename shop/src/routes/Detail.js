@@ -116,7 +116,7 @@ class Detail2 extends React.Component {
 function Detail(props) {
   let [ Alert, setAlert ] = useState(true)
   let [ validator, setValidator ] = useState(true)
-  const [ inputData, setInputData ] = useState(0);
+  let [ inputData, setInputData ] = useState(0);
 
   // 컴포넌트 LifeCycle (예) 상세페이지 컴포넌트 Detail LifeCycle
   // 컴포넌트는 아래 3가지와 같은 인생주기를 겪는다.
@@ -174,35 +174,37 @@ function Detail(props) {
     //   console.log(1);
     // }
 
-    // 타이머 객체 a 생성
+    // 2. 타이머 객체 a 생성
     let a = setTimeout(()=>{ setAlert(false) }, 2000)
 
     return ()=>{
       // clean up function 예제 코드
       // (참고1) clean up function에는 타이머제거, socket 연결요청제거, ajax요청 중단 이런 코드를 많이 작성합니다.
       // (참고2) 컴포넌트 unmount 시에도 clean up function 안에 있던게 1회 실행됩니다.
-      clearTimeout(a)   // 타이머 객체 a 제거 
+      clearTimeout(a)   // 1. 타이머 객체 a 제거 
     }
   }, []);
 
   useEffect(()=>{
-    return ()=>{
-      // TODO : 자바스크립트 문법 함수 isNaN 사용하여 변수 inputData에 입력받은 문자열이
-      //        숫자가 아닌 경우 체크하기 (2024.10.21 jbh)
-      // 참고 URL - https://hianna.tistory.com/385
-      // TODO : 자바스크립트 문법 함수 alert 사용하여 변수 inputData에 입력받은 문자열이
-      //        숫자가 아닌 경우 alert 메시지 출력하기 (2024.10.21 jbh)
-      // 참고 URL - https://velog.io/@jaehooo13/React-alert-%EC%B0%BD-%EB%9D%84%EC%9A%B0%EA%B8%B0
-      // 참고 2 URL - https://blog.naver.com/hmw53/60202212314    
-      if(true === isNaN(inputData)) 
-      {
+    // TODO : 자바스크립트 문법 함수 isNaN 사용하여 변수 inputData에 입력받은 문자열이
+    //        숫자가 아닌 경우 체크하기 (2024.10.21 jbh)
+    // 참고 URL - https://hianna.tistory.com/385
+    // TODO : 자바스크립트 문법 함수 alert 사용하여 변수 inputData에 입력받은 문자열이
+    //        숫자가 아닌 경우 alert 메시지 출력하기 (2024.10.21 jbh)
+    // 참고 URL - https://velog.io/@jaehooo13/React-alert-%EC%B0%BD-%EB%9D%84%EC%9A%B0%EA%B8%B0
+    // 참고 2 URL - https://blog.naver.com/hmw53/60202212314    
+    if(true === isNaN(inputData)) 
+    {
         alert("그러지마세요");
         setInputData(0)
-      }
     }
+    return ()=>{ }
   }, [inputData])
 
   // useEffect 사용 예제
+  // []에 있는 count라는 변수가 변할 때만 useEffect 안의 코드 실행
+  // useEffect(()=>{ 실행할코드 }, [count])
+
   // 1. 컴포넌트 재렌더링마다 코드 실행 가능
   // useEffect(()=>{ 실행할코드 })
 
@@ -211,15 +213,17 @@ function Detail(props) {
 
   // 3. 이러면 useEffect 안의 코드 실행 전에 return () => {} 코드가 항상 먼저 실행  
   // useEffect(()=>{
+  //   실행할코드2(그 다음 실행됨) 
   //   return ()=>{
-  //     실행할코드
+  //     실행할코드1(여기있는게 먼저실행됨)
   //   }
   // })
 
   // 4. 이러면 컴포넌트 unmount시 return () => {} 코드가 1회 실행
   // useEffect(()=>{
+  //   실행할코드2(그 다음 실행됨)
   //   return ()=>{
-  //     실행할코드
+  //     실행할코드1(여기있는게 먼저실행됨)
   //   }
   // }, [])
 
@@ -322,6 +326,7 @@ function Detail(props) {
           </div>
           : null
         }
+        
         <input value={inputData}
                onChange={e => setInputData(e.target.value)} />
         {/* {
