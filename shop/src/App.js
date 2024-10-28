@@ -58,6 +58,8 @@ import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 
 import Detail from './routes/Detail.js'   // Detail.js라는 파일에 존재하는 상세페이지 컴포넌트 "Detail"을 "Detail"로 가져오기(import)
 
+import axios from 'axios'
+
 function App() {
   // let [ 상품데이터, 상품데이터변경 ] = useState([{ id : 0, title : "White and Black", content : "Born in France", price : 120000 }, 
   //                                              { id : 1, title : "Red Knit", content : "Born in Seoul", price : 110000 }, 
@@ -102,6 +104,7 @@ function App() {
     // 원본 array나 object 객체에 저장된 데이터를 변경 없이 유지해서 
     // 필요할 때 해당 원본 array나 object 객체에 저장된 데이터를 다시 불러와서 사용하기 위해서이다.
     let copy = [...shoes];
+    
 
     // TODO : 자바스크립트 함수 sort 사용하여 title 순서대로 오름차순 정렬 (2024.09.20 jbh)
     // 참고 URL - https://codingeverybody.kr/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EB%B0%B0%EC%97%B4-sort-%ED%95%A8%EC%88%98/
@@ -134,6 +137,20 @@ function App() {
         <Container>
           <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
           <Nav className="me-auto">
+            <Button onClick={()=>{
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+                   .then((결과)=>{ 
+                       // TODO : 자바스크립트 some() 함수 사용해서 상품목록 배열 변수 shoes에 결과.data와 동일한 데이터가 존재하지 않는 경우에만 데이터 추가 로직 구현 예정 (2024.10.29 jbh)
+                       // 참고 URL - https://hianna.tistory.com/415
+                       ----- console.log(결과.data)
+                       ----- 결과.map (
+                        ----- shoes.some()
+                       ----- )
+                       ----- setShoes.push(...결과.data);
+                   })
+                   .catch(()=>{ console.log('실패함')})
+            }}>버튼</Button>
+
             {/* 함수 navigate(1) 사용시 앞으로 가기 버튼 기능 */}
             <Nav.Link onClick={() => { navigate(1) }}>앞으로 한페이지 이동</Nav.Link>
 
