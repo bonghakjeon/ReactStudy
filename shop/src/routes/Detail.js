@@ -116,7 +116,8 @@ class Detail2 extends React.Component {
 function Detail(props) {
   let [ Alert, setAlert ] = useState(true)
   let [ validator, setValidator ] = useState(true)
-  let [ inputData, setInputData ] = useState(0);
+  let [ num, setNum ] = useState('')
+
 
   // 컴포넌트 LifeCycle (예) 상세페이지 컴포넌트 Detail LifeCycle
   // 컴포넌트는 아래 3가지와 같은 인생주기를 겪는다.
@@ -176,14 +177,26 @@ function Detail(props) {
 
     // 2. 타이머 객체 a 생성
     let a = setTimeout(()=>{ setAlert(false) }, 2000)
+    // console.log(2)
 
     return ()=>{
+      // console.log(1)
       // clean up function 예제 코드
       // (참고1) clean up function에는 타이머제거, socket 연결요청제거, ajax요청 중단 이런 코드를 많이 작성합니다.
       // (참고2) 컴포넌트 unmount 시에도 clean up function 안에 있던게 1회 실행됩니다.
       clearTimeout(a)   // 1. 타이머 객체 a 제거 
     }
   }, []);
+
+  useEffect(()=>{
+    let b = setTimeout(()=>{ setAlert(false) }, 2000)
+    console.log(2)
+
+    return ()=>{
+      console.log(1)
+      clearTimeout(b)
+    }
+  })
 
   useEffect(()=>{
     // TODO : 자바스크립트 문법 함수 isNaN 사용하여 변수 inputData에 입력받은 문자열이
@@ -193,25 +206,28 @@ function Detail(props) {
     //        숫자가 아닌 경우 alert 메시지 출력하기 (2024.10.21 jbh)
     // 참고 URL - https://velog.io/@jaehooo13/React-alert-%EC%B0%BD-%EB%9D%84%EC%9A%B0%EA%B8%B0
     // 참고 2 URL - https://blog.naver.com/hmw53/60202212314    
-    if(true === isNaN(inputData)) 
+    if(true === isNaN(num)) 
     {
         alert("그러지마세요");
-        setInputData(0)
     }
     return ()=>{ }
-  }, [inputData])
+  }, [num])
+
 
   // useEffect 사용 예제
   // []에 있는 count라는 변수가 변할 때만 useEffect 안의 코드 실행
   // useEffect(()=>{ 실행할코드 }, [count])
 
-  // 1. 컴포넌트 재렌더링마다 코드 실행 가능
+  // 1. 컴포넌트 재렌더링(mount, update)마다 코드 실행 가능
   // useEffect(()=>{ 실행할코드 })
 
   // 2. 이러면 컴포넌트 mount시 (로드시) 1회만 실행 가능
   // useEffect(()=>{ 실행할코드 }, [])
 
-  // 3. 이러면 useEffect 안의 코드 실행 전에 return () => {} 코드가 항상 먼저 실행  
+  // 3. 이러면 useEffect 안의 코드 실행 전에 clean up function (return () => {}) 코드가 항상 먼저 실행  
+  // clean up function (return () => {}) 코드는
+  // 컴포넌트 로드(mount)시 실행 안되고 
+  // 컴포넌트 삭제(unmount)시 실행됨
   // useEffect(()=>{
   //   실행할코드2(그 다음 실행됨) 
   //   return ()=>{
@@ -219,7 +235,10 @@ function Detail(props) {
   //   }
   // })
 
-  // 4. 이러면 컴포넌트 unmount시 return () => {} 코드가 1회 실행
+  // 4. 이러면 컴포넌트 unmount시 clean up function (return () => {}) 코드가 1회 실행
+  // clean up function (return () => {}) 코드는
+  // 컴포넌트 로드(mount)시 실행 안되고 
+  // 컴포넌트 삭제(unmount)시 실행됨
   // useEffect(()=>{
   //   실행할코드2(그 다음 실행됨)
   //   return ()=>{
@@ -320,6 +339,7 @@ function Detail(props) {
           2초이내 구매시 할인
         </div> */}
         {
+          // 3항 연산자 활용
           Alert == true
           ? <div className="alert alert-warning">
               2초이내 구매시 할인
@@ -327,8 +347,7 @@ function Detail(props) {
           : null
         }
         
-        <input value={inputData}
-               onChange={e => setInputData(e.target.value)} />
+        <input onChange={ (e) => { setNum(e.target.value) } }/>
         {/* {
           // TODO : 자바스크립트 문법 함수 isNaN 사용하여 변수 inputData에 입력받은 문자열이
           //        숫자가 아닌 경우 체크하기 (2024.10.21 jbh)

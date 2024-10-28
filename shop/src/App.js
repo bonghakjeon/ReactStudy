@@ -18,6 +18,8 @@
 
 // 24강 - Lifecycle과 useEffect 1
 
+// 25강 - Lifecycle과 useEffect 2
+
 // Bootstrap 웹 사이트 
 // Getting Started -> introduction (태그 <link> 사용해서 css 버전 적용 방법 포함)
 // 참고 URL - https://react-bootstrap.netlify.app/docs/getting-started/introduction
