@@ -142,18 +142,27 @@ function App() {
                    .then((결과)=>{ 
                        // TODO : 자바스크립트 some() 함수 사용해서 상품목록 배열 변수 shoes에 결과.data와 동일한 데이터가 존재하지 않는 경우에만 데이터 추가 로직 구현 예정 (2024.10.29 jbh)
                        // 참고 URL - https://hianna.tistory.com/415
-                       ----- console.log(결과.data)
-                       ----- 결과.map (
-                       ----- shoes.some()
-                       ----- )
-                       ----- setShoes.push(...결과.data);
+                       // console.log(결과.data)
+                       // console.log(결과.data)
+                       // 결과.map (
+                       // shoes.some()
+                       // )
+                       // setShoes.push(...결과.data);
 
                        // TODO : useState 변수 "setShoes" 사용해서 리스트 객체 shoes에 웹서버 Get 요청해서 받아온 데이터(결과.data) 추가 (2024.10.30 jbh)
                        // 참고 URL - https://velog.io/@summer_luna_0/reactuseState%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%EB%B0%B0%EC%97%B4%EC%97%90-%EA%B0%92-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0.-a.k.a-TODOLIST
-                       setShoes(shoes => [...shoes, 결과.data]);
+                      //  결과.map((i)=>{
+                      //   setShoes(shoes => [...shoes, 결과[i].data]);
+                      //  })
                    })
                    .catch(()=>{ console.log('실패함')})
             }}>버튼</Button>
+
+            <button onClick={()=>{
+              axios.get('https://codingapple1.github.io/shop/data2.json')
+                   .then((결과)=>{ console.log(결과.data) })
+                   .catch(()=>{ console.log('실패함') })
+            }}>버튼</button>
 
             {/* 함수 navigate(1) 사용시 앞으로 가기 버튼 기능 */}
             <Nav.Link onClick={() => { navigate(1) }}>앞으로 한페이지 이동</Nav.Link>
