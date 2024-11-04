@@ -20,6 +20,8 @@
 
 // 25강 - Lifecycle과 useEffect 2
 
+// 26강 - 리액트에서 서버와 통신하려면 ajax 1
+
 // Bootstrap 웹 사이트 
 // Getting Started -> introduction (태그 <link> 사용해서 css 버전 적용 방법 포함)
 // 참고 URL - https://react-bootstrap.netlify.app/docs/getting-started/introduction
@@ -34,7 +36,7 @@
 // 참고 URL - https://react-bootstrap.netlify.app/docs/getting-started/introduction  -->
 
 import { Button, Navbar, Container, Nav } from 'react-bootstrap'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // import data from './data.js'; // data.js라는 파일에 존재하는 변수(data - json 데이터 형식 리스트)를 App.js 에서 가져와서 쓰고 싶을 때, 키워드 import data from './data.js'; 사용 
 // data.js라는 파일에 존재하는 변수 여러 개(data - json 데이터 형식 리스트 / name1 / name2)를 App.js 에서 가져와서 쓰고 싶을 때, 키워드 import { data, name1, name2 } from './data.js'; 사용 
 import { data, name1, name2 } from './data.js'
@@ -58,7 +60,7 @@ import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 
 import Detail from './routes/Detail.js'   // Detail.js라는 파일에 존재하는 상세페이지 컴포넌트 "Detail"을 "Detail"로 가져오기(import)
 
-import axios from 'axios'
+import axios from 'axios' // 웹서버와 웹클라이언트가 Http GET/POSE 통신 하기 위해 axios 라이브러리 import 처리 
 
 function App() {
   // let [ 상품데이터, 상품데이터변경 ] = useState([{ id : 0, title : "White and Black", content : "Born in France", price : 120000 }, 
@@ -137,32 +139,11 @@ function App() {
         <Container>
           <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
           <Nav className="me-auto">
-            <Button onClick={()=>{
-              axios.get('https://codingapple1.github.io/shop/data2.json')
-                   .then((결과)=>{ 
-                       // TODO : 자바스크립트 some() 함수 사용해서 상품목록 배열 변수 shoes에 결과.data와 동일한 데이터가 존재하지 않는 경우에만 데이터 추가 로직 구현 예정 (2024.10.29 jbh)
-                       // 참고 URL - https://hianna.tistory.com/415
-                       // console.log(결과.data)
-                       // console.log(결과.data)
-                       // 결과.map (
-                       // shoes.some()
-                       // )
-                       // setShoes.push(...결과.data);
-
-                       // TODO : useState 변수 "setShoes" 사용해서 리스트 객체 shoes에 웹서버 Get 요청해서 받아온 데이터(결과.data) 추가 (2024.10.30 jbh)
-                       // 참고 URL - https://velog.io/@summer_luna_0/reactuseState%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%EB%B0%B0%EC%97%B4%EC%97%90-%EA%B0%92-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0.-a.k.a-TODOLIST
-                      //  결과.map((i)=>{
-                      //   setShoes(shoes => [...shoes, 결과[i].data]);
-                      //  })
-                   })
-                   .catch(()=>{ console.log('실패함')})
-            }}>버튼</Button>
-
-            <button onClick={()=>{
+            {/* <button onClick={()=>{
               axios.get('https://codingapple1.github.io/shop/data2.json')
                    .then((결과)=>{ console.log(결과.data) })
                    .catch(()=>{ console.log('실패함') })
-            }}>버튼</button>
+            }}>버튼</button> */}
 
             {/* 함수 navigate(1) 사용시 앞으로 가기 버튼 기능 */}
             <Nav.Link onClick={() => { navigate(1) }}>앞으로 한페이지 이동</Nav.Link>
@@ -237,9 +218,43 @@ function App() {
                                           // )
                                           return <Card shoes={shoes[i]} i={i}></Card>                                        
                                         })
+
+                                        // // 함수 arrow 사용해서 List형 state "shoes"에 존재하는 요소 갯수만큼 반복문 진행 
+                                        // shoes.map((title, i) => {
+                                        //   // return (
+                                        //   //   <Card shoes={shoes[i]} i={i}></Card>
+                                        //   // )
+                                        //   return <Card shoes={shoes[i]} i={i}></Card>                                        
+                                        // })
                                       }
                                       </div>
-                                    </div> 
+                                    </div>
+                                    {/* 웹서버와 웹클라이언트가 통신하기 위한 방법 */}
+                                    {/* 1. Http - GET(웹클라이언트가 데이터를 웹서버에서 가져올 때) / Http - POST(웹클라이언트가 데이터를 웹서버로 보낼 때) */}
+                                    {/* 2. 통신하기 위해 웹서버 개발자에서 어떤자료(URL)을 물어봐서 확인하고 해야 어떤자료(URL) 입력해서 요청해야함. */}
+                                    {/* 웹클라이언트가 웹서버로 Http - GET 요청 하는 방법  */}
+                                    {/* 웹브라우저에 어떤자료(URL) 입력 및 엔터 -> 브라우저 새로고침 처리 -> 데이터를 웹서버로에서 가져올 수 있다. */}
+                                    <button onClick={()=>{
+                                      axios.get('https://codingapple1.github.io/shop/data2.json')
+                                           .then((결과)=>{ 
+                                              // TODO : 자바스크립트 some() 함수 사용해서 상품목록 배열 변수 shoes에 결과.data와 동일한 데이터가 존재하지 않는 경우에만 데이터 추가 로직 구현 예정 (2024.10.29 jbh)
+                                              // 참고 URL - https://hianna.tistory.com/415
+                                              console.log(결과.data)
+                                              // console.log(결과.data)
+                                              // 결과.map (
+                                              // shoes.some()
+                                              // )
+                                              // setShoes.push(...결과.data);
+                                              // setShoes(shoes => [...shoes, 결과.data]);
+
+                                              // TODO : useState 변수 "setShoes" 사용해서 리스트 객체 shoes에 웹서버 Get 요청해서 받아온 데이터(결과.data) 추가 (2024.10.30 jbh)
+                                              // 참고 URL - https://velog.io/@summer_luna_0/reactuseState%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%EB%B0%B0%EC%97%B4%EC%97%90-%EA%B0%92-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0.-a.k.a-TODOLIST
+                                              //  결과.map((i)=>{
+                                              //   setShoes(shoes => [...shoes, 결과[i].data]);
+                                              //  })
+                                            })
+                                            .catch(()=>{ console.log('실패함')})
+                                      }}>버튼</button> 
                                   </>
                                 } />
         {/* 상세페이지 path="/detail"  */}       
