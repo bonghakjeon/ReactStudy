@@ -67,7 +67,8 @@ function App() {
   //                                              { id : 1, title : "Red Knit", content : "Born in Seoul", price : 110000 }, 
   //                                              { id : 2, title : "Grey Yordan", content : "Born in the States", price : 130000}]);
 
-  let [ shoes, setShoes ] = useState(data);
+  let [ shoes, setShoes ] = useState(data);  // 상품목록 데이터 state 변수 
+  let [ count, setCount ] = useState(0)  // 상품목록 데이터 추가 버튼 클릭시 버튼 추가한 횟수 state 변수 
 
   // 페이지 이동 기능(버튼) 만들기 위해 컴포넌트 훅(Hook) useNavigate() 사용 
   // 컴포넌트 훅(Hook) useNavigate()의 리턴값은 페이지 이동 도와주는 함수이다.
@@ -235,26 +236,50 @@ function App() {
                                     {/* 웹클라이언트가 웹서버로 Http - GET 요청 하는 방법  */}
                                     {/* 웹브라우저에 어떤자료(URL) 입력 및 엔터 -> 브라우저 새로고침 처리 -> 데이터를 웹서버로에서 가져올 수 있다. */}
                                     <button onClick={()=>{
+                                      setCount(count+1)
                                       axios.get('https://codingapple1.github.io/shop/data2.json')
                                            .then((결과)=>{ 
                                               // TODO : 자바스크립트 some() 함수 사용해서 상품목록 배열 변수 shoes에 결과.data와 동일한 데이터가 존재하지 않는 경우에만 데이터 추가 로직 구현 예정 (2024.10.29 jbh)
                                               // 참고 URL - https://hianna.tistory.com/415
                                               console.log(결과.data)
-                                              // console.log(결과.data)
-                                              // 결과.map (
-                                              // shoes.some()
-                                              // )
-                                              // setShoes.push(...결과.data);
-                                              // setShoes(shoes => [...shoes, 결과.data]);
 
-                                              // TODO : useState 변수 "setShoes" 사용해서 리스트 객체 shoes에 웹서버 Get 요청해서 받아온 데이터(결과.data) 추가 (2024.10.30 jbh)
-                                              // 참고 URL - https://velog.io/@summer_luna_0/reactuseState%EC%82%AC%EC%9A%A9%ED%95%B4%EC%84%9C-%EB%B0%B0%EC%97%B4%EC%97%90-%EA%B0%92-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0.-a.k.a-TODOLIST
-                                              //  결과.map((i)=>{
-                                              //   setShoes(shoes => [...shoes, 결과[i].data]);
-                                              //  })
+                                              // TODO : 자바스크립트 spread 문법(전개연산자) 사용하여 상품목록 state 변수 shoes에 결과.data 추가 (2024.11.06 jbh)
+                                              // 참고 URL - https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-Array-%EB%A9%94%EC%86%8C%EB%93%9C-%E2%9C%8F%EF%B8%8F-%EC%A0%95%EB%A6%AC
+                                              let copy = [...shoes, ...결과.data]
+                                              setShoes(copy)
                                             })
                                             .catch(()=>{ console.log('실패함')})
-                                      }}>버튼</button> 
+                                      }}>Http - GET 버튼</button> 
+
+                                      {/* Http - POST(웹클라이언트가 데이터를 웹서버로 보낼 때) 요청 방식 예제 */}
+                                      <button onClick={()=>{
+                                        axios.post('URL', { name : 'kim' })
+                                             .then( /* Http - POST 요청 완료시 특정 코드 실행 */ )
+                                             .catch(()=>{ console.log('실패함') })
+                                      }}>Http - POST 버튼</button>
+
+                                      {/* Http - GET(웹클라이언트가 데이터를 웹서버에서 가져올 때) 방식 예제 2 */}
+                                      {/* Promise.all - 동시에 AJAX 요청(Http - GET) 여러개 날리는 방식 */}
+                                      <button onClick={()=>{
+                                        Promise.all( [axios.get('URL1')
+                                                           .then( /* Http - GET 요청('URL1') 완료시 특정 코드 실행 */ )
+                                                           .catch(()=>{ console.log('실패함') }), 
+                                                      axios.get('URL2')
+                                                           .then( /* Http - GET 요청('URL2') 완료시 특정 코드 실행 */ )
+                                                           .catch(()=>{ console.log('실패함') })] )
+                                      }}>
+                                       동시에 AJAX 요청(Http - GET) 버튼
+                                      </button>
+
+                                      {/* Http - GET(웹클라이언트가 데이터를 웹서버에서 가져올 때) 방식 예제 3 */}
+                                      {/* 자바스크립트 문법 fetch 사용하는 방식 */}
+                                      <button onClick={()=>{
+                                        fetch('URL').then(결과 => 결과.json())   // JSON -> object/array 수동 타입 변환 작업 (axios.get 함수는 axios 라이브러리 자체가 JSON -> object/array 변환작업을 자동 처리해줌)
+                                                    .then((결과) => { console.log(결과) } /* Http - GET 요청('URL') 완료시 특정 코드 실행 */ )
+                                                    .catch(()=>{ console.log('실패함') })
+                                      }}>
+                                      자바스크립트 문법 fetch(Http - GET) 버튼
+                                      </button>
                                   </>
                                 } />
         {/* 상세페이지 path="/detail"  */}       
