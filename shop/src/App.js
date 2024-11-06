@@ -251,35 +251,31 @@ function App() {
                                             .catch(()=>{ console.log('실패함')})
                                       }}>Http - GET 버튼</button> 
 
-                                      {/* Http - POST(웹클라이언트가 데이터를 웹서버로 보낼 때) 요청 방식 예제 */}
-                                      <button onClick={()=>{
-                                        axios.post('URL', { name : 'kim' })
-                                             .then( /* Http - POST 요청 완료시 특정 코드 실행 */ )
-                                             .catch(()=>{ console.log('실패함') })
-                                      }}>Http - POST 버튼</button>
+                                    {/* Http - POST(웹클라이언트가 데이터를 웹서버로 보낼 때) 요청 방식 예제 */}
+                                    <button onClick={()=>{
+                                      axios.post('URL', { name : 'kim' })
+                                            .then( /* Http - POST 요청 완료시 특정 코드 실행 */ )
+                                            .catch(()=>{ console.log('실패함') })
+                                    }}>Http - POST 버튼</button>
 
-                                      {/* Http - GET(웹클라이언트가 데이터를 웹서버에서 가져올 때) 방식 예제 2 */}
-                                      {/* Promise.all - 동시에 AJAX 요청(Http - GET) 여러개 날리는 방식 */}
-                                      <button onClick={()=>{
-                                        Promise.all( [axios.get('URL1')
-                                                           .then( /* Http - GET 요청('URL1') 완료시 특정 코드 실행 */ )
-                                                           .catch(()=>{ console.log('실패함') }), 
-                                                      axios.get('URL2')
-                                                           .then( /* Http - GET 요청('URL2') 완료시 특정 코드 실행 */ )
-                                                           .catch(()=>{ console.log('실패함') })] )
-                                      }}>
-                                       동시에 AJAX 요청(Http - GET) 버튼
-                                      </button>
+                                    {/* Http - GET(웹클라이언트가 데이터를 웹서버에서 가져올 때) 방식 예제 2 */}
+                                    {/* Promise.all - 동시에 AJAX 요청(Http - GET) 여러개 날리는 방식 */}
+                                    <button onClick={()=>{
+                                      Promise.all( [axios.get('URL1')
+                                                          .then( /* Http - GET 요청('URL1') 완료시 특정 코드 실행 */ )
+                                                          .catch(()=>{ console.log('실패함') }), 
+                                                    axios.get('URL2')
+                                                         .then( /* Http - GET 요청('URL2') 완료시 특정 코드 실행 */ )
+                                                         .catch(()=>{ console.log('실패함') })] )
+                                    }}>동시에 AJAX 요청(Http - GET) 버튼</button>
 
-                                      {/* Http - GET(웹클라이언트가 데이터를 웹서버에서 가져올 때) 방식 예제 3 */}
-                                      {/* 자바스크립트 문법 fetch 사용하는 방식 */}
-                                      <button onClick={()=>{
-                                        fetch('URL').then(결과 => 결과.json())   // JSON -> object/array 수동 타입 변환 작업 (axios.get 함수는 axios 라이브러리 자체가 JSON -> object/array 변환작업을 자동 처리해줌)
-                                                    .then((결과) => { console.log(결과) } /* Http - GET 요청('URL') 완료시 특정 코드 실행 */ )
-                                                    .catch(()=>{ console.log('실패함') })
-                                      }}>
-                                      자바스크립트 문법 fetch(Http - GET) 버튼
-                                      </button>
+                                    {/* Http - GET(웹클라이언트가 데이터를 웹서버에서 가져올 때) 방식 예제 3 */}
+                                    {/* 자바스크립트 문법 fetch 사용하는 방식 */}
+                                    <button onClick={()=>{
+                                      fetch('URL').then(결과 => 결과.json())   // JSON -> object/array 수동 타입 변환 작업 (axios.get 함수는 axios 라이브러리 자체가 JSON -> object/array 변환작업을 자동 처리해줌)
+                                                  .then((결과) => { console.log(결과) } /* Http - GET 요청('URL') 완료시 특정 코드 실행 */ )
+                                                  .catch(()=>{ console.log('실패함') })
+                                    }}>자바스크립트 문법 fetch(Http - GET) 버튼</button>
                                   </>
                                 } />
         {/* 상세페이지 path="/detail"  */}       
