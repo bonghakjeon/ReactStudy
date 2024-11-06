@@ -212,6 +212,9 @@ function App() {
                                         //   )
                                         // })
 
+                                        // TODO : React if절 조건부 렌더링 사용해서 shoes.Count 값이 1 이상인 경우만 html 화면에 상품목록 데이터 출력되도록 로직 구현 예정 (2024.11.07 jbh)
+                                        // 참고 URL - https://ko.legacy.reactjs.org/docs/conditional-rendering.html
+                                        // 참고 2 URL - https://codingapple.com/unit/react-if-else-patterns-enum-switch-case/
                                         // 함수 arrow 사용해서 List형 state "shoes"에 존재하는 요소 갯수만큼 반복문 진행 
                                         shoes.map((title, i) => {
                                           // return (
@@ -266,7 +269,7 @@ function App() {
                                                           .catch(()=>{ console.log('실패함') }), 
                                                     axios.get('URL2')
                                                          .then( /* Http - GET 요청('URL2') 완료시 특정 코드 실행 */ )
-                                                         .catch(()=>{ console.log('실패함') })] )
+                                                        .catch(()=>{ console.log('실패함') })] )
                                     }}>동시에 AJAX 요청(Http - GET) 버튼</button>
 
                                     {/* Http - GET(웹클라이언트가 데이터를 웹서버에서 가져올 때) 방식 예제 3 */}
