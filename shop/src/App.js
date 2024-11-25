@@ -22,6 +22,8 @@
 
 // 26강 - 리액트에서 서버와 통신하려면 ajax 1
 
+// 27강 - 리액트에서 서버와 통신하려면 ajax 2 : post, fetch
+
 // Bootstrap 웹 사이트 
 // Getting Started -> introduction (태그 <link> 사용해서 css 버전 적용 방법 포함)
 // 참고 URL - https://react-bootstrap.netlify.app/docs/getting-started/introduction
@@ -68,7 +70,9 @@ function App() {
   //                                              { id : 2, title : "Grey Yordan", content : "Born in the States", price : 130000}]);
 
   let [ shoes, setShoes ] = useState(data);  // 상품목록 데이터 state 변수 
-  let [ count, setCount ] = useState(0)  // 상품목록 데이터 추가 버튼 클릭시 버튼 추가한 횟수 state 변수 
+  let [ count, setCount ] = useState(1)  // 상품목록 데이터 추가 버튼 클릭시 버튼 추가한 횟수 state 변수 
+  let [ isDisable, setIsDisable ] = useState(true)   // 상품목록 데이터 추가 버튼 활성화/비활성화 여부 
+  let [ loading, setLoading ] = useState(false)   // 로딩중입니다 화면 출력 여부 
 
   // 페이지 이동 기능(버튼) 만들기 위해 컴포넌트 훅(Hook) useNavigate() 사용 
   // 컴포넌트 훅(Hook) useNavigate()의 리턴값은 페이지 이동 도와주는 함수이다.
@@ -238,6 +242,50 @@ function App() {
                                     {/* 2. 통신하기 위해 웹서버 개발자에서 어떤자료(URL)을 물어봐서 확인하고 해야 어떤자료(URL) 입력해서 요청해야함. */}
                                     {/* 웹클라이언트가 웹서버로 Http - GET 요청 하는 방법  */}
                                     {/* 웹브라우저에 어떤자료(URL) 입력 및 엔터 -> 브라우저 새로고침 처리 -> 데이터를 웹서버로에서 가져올 수 있다. */}
+                                    <button isDisabled={isDisable}
+                                            onClick={()=>{
+                                      setLoading(true);   // 로딩중 UI 띄우기~
+                                      if(count == 1) {
+                                        axios.get('https://codingapple1.github.io/shop/data2.json')
+                                             .then((결과)=>{
+                                               // console.log(결과.data)
+                                               // console.log(shoes)
+                                               // 결과.data는 json 데이터 이다. (axios 라이브러리가 JSON -> object/array 변환작업을 자동으로 해줌.)
+                                               let copy = [...shoes, ...결과.data]  // 복사본 객체 copy 생성 및 spread 문법(...) 사용해서 값 할당하기 
+                                               setShoes(copy);  // 복사본 객체 copy에 할당된 데이터를 state 변수 shoes에 할당하기 
+                                             })  
+                                             .catch(()=>{ console.log('실패함') })
+                                             .finally(()=>{ setLoading(false); /* 로딩중 UI 숨기기~ */})
+                                      }
+                                      else if(count == 2){
+                                        axios.get('https://codingapple1.github.io/shop/data3.json')
+                                             .then((결과)=>{
+                                               // console.log(결과.data)
+                                               // console.log(shoes)
+                                               // 결과.data는 json 데이터 이다. (axios 라이브러리가 JSON -> object/array 변환작업을 자동으로 해줌.)
+                                               let copy = [...shoes, ...결과.data]  // 복사본 객체 copy 생성 및 spread 문법(...) 사용해서 값 할당하기 
+                                               setShoes(copy);  // 복사본 객체 copy에 할당된 데이터를 state 변수 shoes에 할당하기 
+                                             })  
+                                             .catch(()=>{ console.log('실패함') })
+                                             .finally(()=>{ setLoading(false); })
+                                      }
+                                      else if(count == 3) {
+                                        alert('상품이 더이상 존재하지 않습니다.');
+                                        // TODO : 상품목록 추가 버튼 "더보기" 3번 클릭시 버튼 비활성화 처리 되도록 구현 (2024.11.25 jbh)
+                                        // 참고 URL - https://velog.io/@heelieben/React-%EB%B2%84%ED%8A%BC-%ED%99%9C%EC%84%B1%EB%B9%84%ED%99%9C%EC%84%B1%ED%99%94-%EC%9D%B4%EC%8A%88-feat.-%EB%A6%AC%EB%A0%8C%EB%8D%94%EB%A7%81
+                                        setIsDisable(false);
+                                        setLoading(false);
+                                      }
+                                      setCount(count+1)  // 상품목록 데이터 추가 버튼 클릭시 버튼 클릭한 횟수 1증가 
+
+                                      Promise.all([ axios.get('/url1'), axios.get('/url2') ])
+                                      
+                                    }}>더보기</button>
+
+                                    {
+                                      loading == true ? <Loading/> : null
+                                    }
+
                                     <button onClick={()=>{
                                       setCount(count+1)
                                       axios.get('https://codingapple1.github.io/shop/data2.json')
@@ -248,7 +296,7 @@ function App() {
 
                                               // TODO : 자바스크립트 spread 문법(전개연산자) 사용하여 상품목록 state 변수 shoes에 결과.data 추가 (2024.11.06 jbh)
                                               // 참고 URL - https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-Array-%EB%A9%94%EC%86%8C%EB%93%9C-%E2%9C%8F%EF%B8%8F-%EC%A0%95%EB%A6%AC
-                                              let copy = [...shoes, ...결과.data]
+                                              let copy = [...shoes, ...결과.data]   // 결과.data는 json 데이터 이다. (axios 라이브러리가 JSON -> object/array 변환작업을 자동으로 해줌.)
                                               setShoes(copy)
                                             })
                                             .catch(()=>{ console.log('실패함')})
@@ -257,8 +305,8 @@ function App() {
                                     {/* Http - POST(웹클라이언트가 데이터를 웹서버로 보낼 때) 요청 방식 예제 */}
                                     <button onClick={()=>{
                                       axios.post('URL', { name : 'kim' })
-                                            .then( /* Http - POST 요청 완료시 특정 코드 실행 */ )
-                                            .catch(()=>{ console.log('실패함') })
+                                           .then( /* Http - POST 요청 완료시 특정 코드 실행 */ )
+                                           .catch(()=>{ console.log('실패함') })
                                     }}>Http - POST 버튼</button>
 
                                     {/* Http - GET(웹클라이언트가 데이터를 웹서버에서 가져올 때) 방식 예제 2 */}
@@ -269,13 +317,17 @@ function App() {
                                                           .catch(()=>{ console.log('실패함') }), 
                                                     axios.get('URL2')
                                                          .then( /* Http - GET 요청('URL2') 완료시 특정 코드 실행 */ )
-                                                        .catch(()=>{ console.log('실패함') })] )
+                                                         .catch(()=>{ console.log('실패함') })] )
+                                             .then((결과)=>{ console.log(결과.data) /* 위의 2개의 get 요청이 모두 성공한 경우 실행 */})
+                                             .catch(()=>{ console.log('실패함') })
                                     }}>동시에 AJAX 요청(Http - GET) 버튼</button>
 
                                     {/* Http - GET(웹클라이언트가 데이터를 웹서버에서 가져올 때) 방식 예제 3 */}
                                     {/* 자바스크립트 문법 fetch 사용하는 방식 */}
                                     <button onClick={()=>{
-                                      fetch('URL').then(결과 => 결과.json())   // JSON -> object/array 수동 타입 변환 작업 (axios.get 함수는 axios 라이브러리 자체가 JSON -> object/array 변환작업을 자동 처리해줌)
+                                      // 자바스크립트 문법 fetch 사용시 결과.json() 함수 별도로 호출해서 JSON -> object/array 수동 타입 변환 작업 진행 
+                                      // (반면 axios 라이브러리 axios.get 함수는 axios 라이브러리 자체가 JSON -> object/array 변환작업을 자동 처리해 줌.)
+                                      fetch('URL').then(결과 => 결과.json())   
                                                   .then((결과) => { console.log(결과) } /* Http - GET 요청('URL') 완료시 특정 코드 실행 */ )
                                                   .catch(()=>{ console.log('실패함') })
                                     }}>자바스크립트 문법 fetch(Http - GET) 버튼</button>
@@ -435,6 +487,17 @@ function Card(props) {
       <img src={'https://codingapple1.github.io/shop/shoes' + (props.i + 1) + '.jpg'} width="80%" />
       <h5>{props.shoes.title}</h5>
       <p>{props.shoes.price}</p>
+    </div>
+  )
+}
+
+/// <summary>
+/// 로딩 중입니다 컴포넌트
+/// </summary>
+function Loading() {
+  return (
+    <div>
+      <p>로딩 중입니다</p>
     </div>
   )
 }
