@@ -283,6 +283,8 @@ function App() {
                                     }}>더보기</button>
 
                                     {
+                                      // TODO : React 사용해서 로딩 중입니다. 화면 구현 (2024.11.25 jbh)
+                                      // 참고 URL - https://velog.io/@eenaree/loading-progress-bar
                                       loading == true ? <Loading/> : null
                                     }
 
