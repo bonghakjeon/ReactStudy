@@ -4,6 +4,7 @@ import styled from 'styled-components'  // Detail.js 자바스크립트 파일(D
 import { useState, useEffect } from 'react';
 import { isVisible } from '@testing-library/user-event/dist/utils';
 import { Alert } from "react-bootstrap";
+import { Navbar, Nav } from 'react-bootstrap'
 
 // styled-components 
 // 특장점
@@ -325,8 +326,27 @@ function Detail(props) {
 
   // console.log(id)
 
+  let [탭, 탭변경] = useState(0)   // 탭 UI의 상태(0, 1, 2) - 0번 내용이 보이거나 / 1번 내용이 보이거나 / 2번 내용이 보이거나 
+
   return (
     <div className="container">
+        <Nav variant="tabs"  defaultActiveKey="link0">
+          <Nav.Item>
+            <Nav.Link onClick={()=>{ 탭변경(0) }} eventKey="link0">버튼0</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={()=>{ 탭변경(1) }} eventKey="link1">버튼1</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={()=>{ 탭변경(2) }} eventKey="link2">버튼2</Nav.Link>
+          </Nav.Item>
+        </Nav>
+        {/* <div>내용0</div> */}
+        {/* <div>내용1</div> */}
+        {/* <div>내용2</div> */}
+
+        <TabContent 탭={탭}/>
+
         {/* 오늘의 숙제 : */}
         {/* Detail 페이지 안에 노란 박스 하나 만들고 */}
         {/* Detail 페이지 방문 후 2초 후에 박스가 사라지게 해보십시오. */}
@@ -455,6 +475,39 @@ function Detail(props) {
       </div>
     </div> 
   )
+}
+
+/// <summary>
+/// (예시1) 탭 UI 컴포넌트
+/// </summary>
+// function TabContent(props) {
+//   // if 조건절 사용하여 props.탭에 저장된 값에 따라 탭 UI 출력
+//   // if(props.탭 === 0){
+//   //   return <div>내용0</div>
+//   // }
+//   // if(props.탭 === 1){
+//   //   return <div>내용1</div>
+//   // }
+//   // if(props.탭 === 2){
+//   //   return <div>내용2</div>
+//   // }
+
+//   // props.탭에 저장된 값에 따라 탭 UI 출력
+//   // return <div>내용{props.탭}</div>
+
+//   // if 조건절 사용하지 않고 array 형식 사용하여 props.탭에 저장된 값에 따라 탭 UI 출력
+//   return [ <div>내용0</div>, <div>내용1</div>, <div>내용2</div> ][props.탭]
+// }
+
+/// <summary>
+/// (예시2) 탭 UI 컴포넌트
+/// props 쉽게 쓰고 싶으면
+/// </summary>
+function TabContent({탭}) {
+  // 자식컴포넌트 TabContent에서 props라고 파라미터를 하나만 작명하는게 아니라
+  // 파라미터 여러 개 작명하면 (예) { state1이름, state2이름 ... } 
+  // props.탭이라고 쓸 필요 없이 탭에 저장된 값에 따라 탭 UI 출력 가능 
+  return [ <div>내용0</div>, <div>내용1</div>, <div>내용2</div> ][탭]
 }
 
 {/* 오늘의 숙제 : */}
